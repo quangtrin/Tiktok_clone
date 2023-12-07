@@ -1,8 +1,13 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faUserFriends, faPlus, faInbox, fa7,faUser } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 function BottomNavbar() {
+  const navigate = useNavigate()
+  const handleClickCreate = () =>{
+    navigate("\create")
+  } 
   return (
       <div className="bottom-navbar">
         <div className="nav-item">
@@ -13,7 +18,7 @@ function BottomNavbar() {
           <FontAwesomeIcon icon={faUserFriends} className="icon" />
           <span className="item-name">Friends</span>
         </div>
-        <div className="nav-item">
+        <div className="nav-item" onClick={handleClickCreate}>
           <FontAwesomeIcon icon={faPlus} className="icon plus" />
           <span className="item-name">Create</span>
         </div>
