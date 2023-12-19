@@ -11,7 +11,7 @@ export default function FooterLeft(props) {
       <div className="footer-left">
         <div className="text">
           <h3>@{username}</h3>
-          <p>{description}</p>
+          <p className="description">{description}</p>
           <div className="ticker">
             <FontAwesomeIcon icon={faMusic} style={{ width: '30px' }} />
             {/* eslint-disable-next-line jsx-a11y/no-distracting-elements */}

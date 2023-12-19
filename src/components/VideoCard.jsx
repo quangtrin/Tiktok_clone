@@ -33,7 +33,7 @@ const VideoCard = (props) => {
         }}
         loop
         src={url}
-        muted={true}
+        muted={false}
       ></video>
       <div className="bottom-controls">
         <div className="footer-left">

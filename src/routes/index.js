@@ -10,6 +10,7 @@ import Upload from '~/pages/Upload';
 import Search from '~/pages/Search';
 import Live from '~/pages/Live';
 import Create from '~/pages/Create';
+import AuthenticationForm from '~/pages/Login';
 
 const publicRoutes = [
     { path: Config.routes.home, component: Home },
@@ -18,7 +19,8 @@ const publicRoutes = [
     { path: Config.routes.upload, component: Upload, layout: HeaderOnly },
     { path: Config.routes.search, component: Search, layout: null },
     { path: Config.routes.live, component: Live},
-    { path: Config.routes.create, component: Create}
+    { path: Config.routes.create, component: Create},
+    { path: Config.routes.authentication, component: AuthenticationForm}
 ];
 
 const privateRoutes = [];
