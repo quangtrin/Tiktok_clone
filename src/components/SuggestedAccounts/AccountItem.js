@@ -10,12 +10,12 @@ import AccountPreview from './AccountPreview';
 
 const cx = classNames.bind(styles);
 
-function AccountItem() {
+function AccountItem({ account }) {
     const renderPreview = (props) => {
         return (
             <div tabIndex="-1" {...props}>
                 <PopperWrapper>
-                    <AccountPreview></AccountPreview>
+                    <AccountPreview account={account}></AccountPreview>
                 </PopperWrapper>
             </div>
         );
@@ -27,12 +27,12 @@ function AccountItem() {
                 <div className={cx('account-item')}>
                     <img
                         className={cx('avatar')}
-                        src="https://scontent.fhan5-10.fna.fbcdn.net/v/t39.30808-6/320224553_1228047001257770_2675935145000246173_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=qkx1xlngUu8AX8tYftU&_nc_oc=AQlD6zRZRb2bs12ehE80ERjNAN_H3RA_XDwR1j7UnX2zXnuKjy7-gbs-jesXqzynoHw&_nc_ht=scontent.fhan5-10.fna&oh=00_AfAcfxGo1-6PqnScZMAuCZJHz8nAcIGhV_faqnus_72b3g&oe=63BB0C1C"
+                        src="https://variety.com/wp-content/uploads/2021/04/Avatar.jpg"
                         alt=""
                     />
                     <div className={cx('item-info')}>
                         <p className={cx('nickname')}>
-                            <strong>ninhlon</strong>
+                            <strong>{account.followedUser.user_name}</strong>
                             <FontAwesomeIcon className={cx('check')} icon={faCheckCircle} />
                         </p>
                         <p className={cx('name')}>Nguyen Pham Thai Ninh</p>

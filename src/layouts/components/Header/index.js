@@ -86,7 +86,14 @@ function Header() {
         },
         ...MENU_ITEM,
         {
-            icon: <FontAwesomeIcon icon={faSignOut} />,
+            icon: (
+                <FontAwesomeIcon
+                    icon={faSignOut}
+                    onClick={() => {
+                        localStorage.clear();
+                    }}
+                />
+            ),
             title: 'Log out',
             to: '/authentication',
             separate: true,
