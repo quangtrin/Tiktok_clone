@@ -10,12 +10,12 @@ import AccountPreview from './AccountPreview';
 
 const cx = classNames.bind(styles);
 
-function AccountItem({ account }) {
+function AccountItem({ account, setIsUpdate }) {
     const renderPreview = (props) => {
         return (
             <div tabIndex="-1" {...props}>
                 <PopperWrapper>
-                    <AccountPreview account={account}></AccountPreview>
+                    <AccountPreview account={account} setIsUpdate={setIsUpdate}></AccountPreview>
                 </PopperWrapper>
             </div>
         );

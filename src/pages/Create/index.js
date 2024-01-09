@@ -1,22 +1,9 @@
-import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
-import React from 'react';
-import {
-    Button,
-    Checkbox,
-    Col,
-    ColorPicker,
-    Form,
-    Input,
-    Radio,
-    Rate,
-    Row,
-    Select,
-    Slider,
-    Space,
-    Switch,
-    Upload,
-} from 'antd';
-const { Option } = Select;
+import { InboxOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
+import config from '~/config';
+import { Button, Form, Input, Select, Space, Upload } from 'antd';
+import Swal from 'sweetalert2';
+import axios from 'axios';
 const formItemLayout = {
     labelCol: {
         span: 6,
@@ -32,15 +19,46 @@ const normFile = (e) => {
     }
     return e?.fileList;
 };
-const onFinish = (values) => {
-    console.log('Received values of form: ', values);
-};
+
 function Create() {
+    const [loading, setLoading] = useState(false);
+    const onFinish = async (values) => {
+        setLoading(true);
+        const tokenSession = localStorage.getItem('token');
+        const formData = new FormData();
+        formData.append('video', values.dragger[0].originFileObj);
+        formData.append('description', values.description);
+        formData.append('song', 'default');
+        try {
+            const res = await axios.post(`${config.baseUrl}/api/video/upload`, formData, {
+                headers: {
+                    Authorization: `Bearer ${tokenSession}`,
+                },
+            });
+            if (res.status === 200) {
+                Swal.fire({
+                    title: 'Upload successfully!',
+                    text: 'Upload successfully!',
+                    icon: 'success',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '/';
+                    }
+                });
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        setLoading(false)
+    };
     return (
         <Form
             name="validate_other"
             {...formItemLayout}
             onFinish={onFinish}
+            onSubmit={(e) => {
+                e.preventDefault();
+            }}
             initialValues={{
                 'input-number': 3,
                 'checkbox-group': ['A', 'B'],
@@ -76,10 +94,6 @@ function Create() {
             <Form.Item label="Description" name="description">
                 <Input />
             </Form.Item>
-            <Form.Item label="Key">
-                <Select mode="tags" style={{ width: '100%' }} placeholder="Enter key" />
-            </Form.Item>
-
             <Form.Item
                 wrapperCol={{
                     span: 12,
@@ -87,7 +101,7 @@ function Create() {
                 }}
             >
                 <Space>
-                    <Button type="primary" htmlType="submit">
+                    <Button type="primary" htmlType="submit" loading={loading}>
                         Submit
                     </Button>
                     <Button htmlType="reset">reset</Button>

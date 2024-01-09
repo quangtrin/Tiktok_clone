@@ -10,7 +10,7 @@ import baseUrl from '~/config/variableGlobal';
 
 const cx = classNames.bind(styles);
 
-function AccountPreview({ account }) {
+function AccountPreview({ account, setIsUpdate }) {
     const tokenSession = localStorage.getItem('token');
     const [isFollow, setIsFollow] = useState(true);
     const onClickFollow = async () => {
@@ -20,6 +20,7 @@ function AccountPreview({ account }) {
         } catch (error) {}
     };
     const onClickUnfollow = async () => {
+        setIsUpdate(true);
         try {
             await axios.delete(`${baseUrl}/api/follow/${account.followedUser.id}`, {
                 headers: {
@@ -29,6 +30,7 @@ function AccountPreview({ account }) {
         } catch (error) {
             console.log(error);
         }
+        setIsUpdate(false)
     };
     return (
         <div className={cx('wrapper')}>

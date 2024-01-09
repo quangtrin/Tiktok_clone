@@ -12,7 +12,7 @@ import './FooterRight.css';
 import axios from 'axios';
 import baseUrl from '~/config/variableGlobal';
 
-function FooterRight({ profilePic, video }) {
+function FooterRight({ profilePic, video, setOpenComment, openComment, followingUsers }) {
     const userCurrentId = localStorage.getItem('userId');
     const tokenSession = localStorage.getItem('token');
     const [liked, setLiked] = useState(
@@ -20,13 +20,24 @@ function FooterRight({ profilePic, video }) {
     );
     const [countLike, setCountLike] = useState(0);
     const [saved, setSaved] = useState(false);
-    const [userAddIcon, setUserAddIcon] = useState(faCirclePlus);
+    const findCreatorId = followingUsers.find((user) => {
+        return Number(user.followedUser.id) === Number(video.creator_id);
+    });
+    const [userAddIcon, setUserAddIcon] = useState(
+        findCreatorId ? faCircleCheck : video.creator_id == userCurrentId ? faCircleCheck : faCirclePlus,
+    );
 
-    const handleUserAddClick = () => {
-        setUserAddIcon(faCircleCheck);
-        setTimeout(() => {
-            setUserAddIcon(null);
-        }, 3000); // Change the delay time (in milliseconds) as needed
+    const handleUserAddClick = async () => {
+        try {
+            await axios.post(`${baseUrl}/api/follow/${video.creator_id}`,{}, {
+                headers: {
+                    Authorization: `Bearer ${tokenSession}`,
+                },
+            });
+            setUserAddIcon(faCircleCheck);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     // Function to convert likes count to a number
@@ -86,6 +97,10 @@ function FooterRight({ profilePic, video }) {
         setLiked((prevLiked) => !prevLiked);
     };
 
+    const handleCommentIconClick = () => {
+        setOpenComment(!openComment);
+    };
+
     return (
         <div className="footer-right">
             <div className="sidebar-icon">
@@ -98,12 +113,11 @@ function FooterRight({ profilePic, video }) {
                         style={{ width: '45px', height: '45px', color: '#616161' }}
                     />
                 ) : null}
-                {/* The user add icon */}
                 <FontAwesomeIcon
                     icon={userAddIcon}
                     className="useradd"
                     style={{ width: '15px', height: '15px', color: '#FF0000' }}
-                    onClick={handleUserAddClick}
+                    onClick={userAddIcon === faCirclePlus ? handleUserAddClick : null}
                 />
             </div>
             <div className="sidebar-icon">
@@ -118,7 +132,11 @@ function FooterRight({ profilePic, video }) {
             </div>
             <div className="sidebar-icon">
                 {/* The comment icon */}
-                <FontAwesomeIcon icon={faCommentDots} style={{ width: '35px', height: '35px', color: 'white' }} />
+                <FontAwesomeIcon
+                    icon={faCommentDots}
+                    style={{ width: '35px', height: '35px', color: 'white' }}
+                    onClick={handleCommentIconClick}
+                />
                 {/* Displaying the number of comments */}
                 <p>{video.Comments.length}</p>
             </div>

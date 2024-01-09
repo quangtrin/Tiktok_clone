@@ -12,16 +12,66 @@ import { Input, Avatar, Button } from 'antd';
 const cx = classNames.bind(styles);
 
 function Home() {
+    const tokenSession = localStorage.getItem('token');
+    const [videos, setVideos] = useState([]);
+    const [videoCurrent, setVideoCurrent] = useState();
+    const [openComment, setOpenComment] = useState(false);
+    const [commentCurrentVideo, setCommnetCurrentVideo] = useState([]);
+    const [content, setContent] = useState();
+    const [followingUsers, setFollowingUsers] = useState([]);
+    const videoRefs = useRef([]);
+    const textInput = useRef();
+
     const getVideos = async () => {
         const response = await axios.get(`${config.baseUrl}/api/video`);
         setVideos(response.data.videos);
     };
 
-    const [videos, setVideos] = useState([]);
-    const videoRefs = useRef([]);
+    const getDataFollowingUser = async () => {
+        try {
+            const res = await axios.get(`${config.baseUrl}/api/follow/followed`, {
+                headers: {
+                    Authorization: `Bearer ${tokenSession}`,
+                },
+            });
+            setFollowingUsers(res.data.followedUsers);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handleOnChangeComment = (event) => {
+        setContent(event.target.value);
+    };
+
+    const handleSubmitComment = async () => {
+        if (videoCurrent && content && content !== '') {
+            try {
+                const response = await axios.post(
+                    `${config.baseUrl}/api/comment`,
+                    {
+                        videoId: videoCurrent.id,
+                        content,
+                    },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${tokenSession}`,
+                        },
+                    },
+                );
+                const newComment = [response.data.newComment, ...videoCurrent.Comments];
+                videoCurrent.Comments.splice(0, 0, response.data.newComment);
+                setCommnetCurrentVideo(newComment);
+                setContent('');
+            } catch (error) {}
+        }
+    };
 
     useEffect(() => {
         getVideos();
+    }, []);
+    useEffect(() => {
+        getDataFollowingUser();
     }, []);
 
     useEffect(() => {
@@ -36,6 +86,9 @@ function Home() {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
                     const videoElement = entry.target;
+                    const video = videos.filter((video) => video.id == videoElement.id)[0];
+                    setVideoCurrent(video);
+                    setCommnetCurrentVideo(video.Comments);
                     videoElement.play();
                 } else {
                     const videoElement = entry.target;
@@ -66,7 +119,6 @@ function Home() {
         <>
             <div className="container">
                 <TopNavbar className="top-navbar" />
-                {/* Here we map over the videos array and create VideoCard components */}
                 {videos.map((video, index) => (
                     <VideoCard
                         key={index}
@@ -74,24 +126,29 @@ function Home() {
                         profilePic={'https://variety.com/wp-content/uploads/2021/04/Avatar.jpg'}
                         setVideoRef={handleVideoRef(index)}
                         autoplay={index === 0}
+                        setOpenComment={setOpenComment}
+                        openComment={openComment}
+                        followingUsers={followingUsers}
                     />
                 ))}
                 <BottomNavbar className="bottom-navbar" />
             </div>
-            <div className={cx('comment-layout')}>
-                <CommentCustom>
-                    <CommentCustom />
-                </CommentCustom>
-                <div style={{ display: 'flex' }}>
-                    <div style={{ width: '20%' }}>
+            <div className={cx('comment-layout')} style={!openComment ? { display: 'none' } : {}}>
+                <div style={{ display: 'flex', marginBottom: '10px' }}>
+                    <div style={{ width: '15%' }}>
                         <Avatar src="https://variety.com/wp-content/uploads/2021/04/Avatar.jpg" alt="Han Solo" />
                     </div>
-                    <Input />
+                    <Input onChange={handleOnChangeComment} value={content} onPressEnter={handleSubmitComment}/>
+                    <div style={{ textAlign: 'right' }}>
+                        <Button type="primary" onClick={handleSubmitComment} style={{ marginLeft: '10px' }}>
+                            Enter
+                        </Button>
+                    </div>
                 </div>
-                <div style={{ textAlign: 'right' }}>
-                    <Button type="primary" style={{ marginTop: '10px' }}>
-                        Enter
-                    </Button>
+                <div className={cx('content')}>
+                    {commentCurrentVideo?.map((comment, index) => {
+                        return <CommentCustom key={index} comment={comment} />;
+                    })}
                 </div>
             </div>
         </>

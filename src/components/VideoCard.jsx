@@ -5,18 +5,13 @@ import './VideoCard.css';
 
 const VideoCard = (props) => {
     const {
-        url,
-        username,
-        description,
-        song,
-        likes,
-        shares,
-        comments,
-        saves,
         profilePic,
         setVideoRef,
         autoplay,
         video,
+        setOpenComment,
+        openComment,
+        followingUsers
     } = props;
     const videoRef = useRef(null);
 
@@ -37,9 +32,9 @@ const VideoCard = (props) => {
     return (
         <>
             <div className="video">
-                {/* The video element */}
                 <video
                     className="player"
+                    id={video.id}
                     onClick={onVideoPress}
                     ref={(ref) => {
                         videoRef.current = ref;
@@ -61,12 +56,11 @@ const VideoCard = (props) => {
                     <div className="footer-right">
                         {/* The right part of the container */}
                         <FooterRight
-                            likes={likes}
-                            shares={shares}
-                            comments={comments}
-                            saves={saves}
                             profilePic={profilePic}
                             video={video}
+                            setOpenComment={setOpenComment}
+                            openComment={openComment}
+                            followingUsers={followingUsers}
                         />
                     </div>
                 </div>

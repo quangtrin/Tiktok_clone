@@ -11,6 +11,7 @@ const cx = classNames.bind(styles);
 function SuggestedAccounts({ label }) {
     const [followingUsers, setFollowingUsers] = useState([]);
     const tokenSession = localStorage.getItem('token');
+    const [isUpdate, setIsUpdate] = useState(false);
     const getDataFollowingUser = async () => {
         try {
             const res = await axios.get(`${baseUrl}/api/follow/followed`, {
@@ -35,12 +36,12 @@ function SuggestedAccounts({ label }) {
     };
     useEffect(() => {
         getDataFollowingUser();
-    }, []);
+    }, [isUpdate]);
     return (
         <div className={cx('wrapper')}>
             <p className={cx('label')}>{label}</p>
-            {followingUsers?.map((value) => (
-                <AccountItem account={value} />
+            {followingUsers?.map((value, index) => (
+                <AccountItem key={index} account={value} setIsUpdate={setIsUpdate}/>
             ))}
             <p className={cx('more-btn')}>See all</p>
         </div>
