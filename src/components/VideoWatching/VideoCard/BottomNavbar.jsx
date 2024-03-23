@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 function BottomNavbar() {
   const navigate = useNavigate()
   const handleClickCreate = () =>{
-    navigate("\create")
+    navigate("/create")
   } 
   return (
       <div className="bottom-navbar">

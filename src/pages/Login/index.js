@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import Swal from 'sweetalert2';
 import classNames from 'classnames/bind';
 import styles from './Login.module.scss';
-import config from '~/config';
 import { useNavigate } from 'react-router-dom';
+import { login, register } from '~/services/authService';
 
 const cx = classNames.bind(styles);
 
@@ -17,33 +16,27 @@ const LoginComponent = ({ setIsLoginScreen }) => {
         setIsLoginScreen(false);
     };
     const handleLoginClick = async (event) => {
-        if (username !== '' && password !== '')
-            try {
-                event.preventDefault();
-                const response = await axios.post(`${config.baseUrl}/api/user/login`, {
-                    email: username,
-                    password: password,
+        if (username !== '' && password !== '') {
+            event.preventDefault();
+            const status = await login(username, password);
+            if (status === 201) {
+                Swal.fire({
+                    title: 'Login successfully!',
+                    text: 'Login successfully!',
+                    icon: 'success',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        navigate('/');
+                    }
                 });
-                localStorage.setItem('token', response.data.token);
-                localStorage.setItem('userId', response.data.userId);
-                if (response.status === 201) {
-                    Swal.fire({
-                        title: 'Login successfully!',
-                        text: 'Login successfully!',
-                        icon: 'success',
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            navigate('/');
-                        }
-                    });
-                }
-            } catch (error) {
+            } else {
                 Swal.fire({
                     title: 'Login failed!',
                     text: 'Account or password incorrect!',
                     icon: 'error',
                 });
             }
+        }
     };
     useEffect(() => {
         localStorage.clear();
@@ -124,30 +117,20 @@ const RegisterComponent = ({ setIsLoginScreen }) => {
             alert('Password must match. ');
             return;
         }
-        if (email !== '' && username !== '' && password !== '' && confirmPassword !== '')
-            try {
-                event.preventDefault();
-                const response = await axios.post(`${config.baseUrl}/api/user`, {
-                    email: email,
-                    name: username,
-                    password: password,
-                    isAdmin: false,
-                });
-                if (response.statusText === 'Created') {
-                    Swal.fire({
-                        title: 'Sign up Successfully!',
-                        text: 'Sign up Successfully!',
-                        icon: 'success',
-                    });
+        if (email !== '' && username !== '' && password !== '' && confirmPassword !== '') event.preventDefault();
+        const status = await register(email, username, password, false);
+
+        if (status === 200) {
+            Swal.fire({
+                title: 'Sign up Successfully!',
+                text: 'Sign up Successfully!',
+                icon: 'success',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    setIsLoginScreen(true);
                 }
-            } catch (error) {
-                Swal.fire({
-                    title: 'Sign up failed!',
-                    text: error.response.data.message,
-                    icon: 'error',
-                });
-                console.error('Error during login API call:', error);
-            }
+            });
+        }
     };
 
     useEffect(() => {

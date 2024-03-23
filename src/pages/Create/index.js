@@ -1,9 +1,9 @@
 import { InboxOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
-import config from '~/config';
-import { Button, Form, Input, Select, Space, Upload } from 'antd';
+import { Button, Form, Input, Space, Upload } from 'antd';
 import Swal from 'sweetalert2';
-import axios from 'axios';
+import { createVideo } from '~/services/videoService';
+import { useNavigate } from 'react-router-dom';
 const formItemLayout = {
     labelCol: {
         span: 6,
@@ -13,7 +13,6 @@ const formItemLayout = {
     },
 };
 const normFile = (e) => {
-    console.log('Upload event:', e);
     if (Array.isArray(e)) {
         return e;
     }
@@ -21,35 +20,23 @@ const normFile = (e) => {
 };
 
 function Create() {
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const onFinish = async (values) => {
         setLoading(true);
-        const tokenSession = localStorage.getItem('token');
-        const formData = new FormData();
-        formData.append('video', values.dragger[0].originFileObj);
-        formData.append('description', values.description);
-        formData.append('song', 'default');
-        try {
-            const res = await axios.post(`${config.baseUrl}/api/video/upload`, formData, {
-                headers: {
-                    Authorization: `Bearer ${tokenSession}`,
-                },
+        const status = await createVideo(values.dragger[0].originFileObj, values.description, 'default');
+        if (status === 200) {
+            Swal.fire({
+                title: 'Upload successfully!',
+                text: 'Upload successfully!',
+                icon: 'success',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate('/');
+                }
             });
-            if (res.status === 200) {
-                Swal.fire({
-                    title: 'Upload successfully!',
-                    text: 'Upload successfully!',
-                    icon: 'success',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = '/';
-                    }
-                });
-            }
-        } catch (error) {
-            console.log(error);
         }
-        setLoading(false)
+        setLoading(false);
     };
     return (
         <Form
@@ -67,6 +54,7 @@ function Create() {
             }}
             style={{
                 maxWidth: 600,
+                margin: 'auto',
             }}
         >
             <Form.Item label="Dragger">

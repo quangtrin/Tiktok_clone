@@ -1,0 +1,17 @@
+#CardFollow{
+    :where(.css-dev-only-do-not-override-2q8sxy).ant-card-bordered{
+        border-color: var(--border-color);
+    }
+    :where(.css-dev-only-do-not-override-2q8sxy).ant-card .ant-card-meta-detail >div:not(:last-child){
+        text-align: start;
+    }
+    :where(.css-dev-only-do-not-override-2q8sxy).ant-card .ant-card-meta-description{
+        text-align: start;
+    }
+    :where(.css-dev-only-do-not-override-2q8sxy).ant-card .ant-card-body{
+        padding: 15px;
+    }
+    :where(.css-dev-only-do-not-override-2q8sxy).ant-card .ant-card-meta-avatar{
+        padding-inline-end: 25px;
+    }
+}

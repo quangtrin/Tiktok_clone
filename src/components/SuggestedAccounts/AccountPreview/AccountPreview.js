@@ -5,13 +5,12 @@ import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import styles from './AccountPreview.module.scss';
 import Button from '~/components/Button';
 import { useState } from 'react';
-import axios from 'axios';
-import baseUrl from '~/config/variableGlobal';
+import { unFollow } from '~/services/followService';
+import { removeFollow } from '~/redux/userCurrentSlice';
 
 const cx = classNames.bind(styles);
 
 function AccountPreview({ account, setIsUpdate }) {
-    const tokenSession = localStorage.getItem('token');
     const [isFollow, setIsFollow] = useState(true);
     const onClickFollow = async () => {
         try {
@@ -21,15 +20,8 @@ function AccountPreview({ account, setIsUpdate }) {
     };
     const onClickUnfollow = async () => {
         setIsUpdate(true);
-        try {
-            await axios.delete(`${baseUrl}/api/follow/${account.followedUser.id}`, {
-                headers: {
-                    Authorization: `Bearer ${tokenSession}`,
-                },
-            });
-        } catch (error) {
-            console.log(error);
-        }
+        await unFollow(account.id);
+        removeFollow(account.id);
         setIsUpdate(false)
     };
     return (
@@ -51,7 +43,7 @@ function AccountPreview({ account, setIsUpdate }) {
 
             <div className={cx('body')}>
                 <p className={cx('nickname')}>
-                    <strong>{account.followedUser.user_name}</strong>
+                    <strong>{account.user_name}</strong>
                     <FontAwesomeIcon className={cx('check')} icon={faCheckCircle} />
                 </p>
                 <p className={cx('name')}>Nguyen Pham Thai Ninh</p>

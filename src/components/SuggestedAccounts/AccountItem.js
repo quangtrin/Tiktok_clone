@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames/bind';
@@ -32,7 +31,7 @@ function AccountItem({ account, setIsUpdate }) {
                     />
                     <div className={cx('item-info')}>
                         <p className={cx('nickname')}>
-                            <strong>{account.followedUser.user_name}</strong>
+                            <strong>{account.user_name}</strong>
                             <FontAwesomeIcon className={cx('check')} icon={faCheckCircle} />
                         </p>
                         <p className={cx('name')}>Nguyen Pham Thai Ninh</p>

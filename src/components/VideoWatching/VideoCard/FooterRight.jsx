@@ -9,35 +9,31 @@ import {
     faShare,
 } from '@fortawesome/free-solid-svg-icons';
 import './FooterRight.css';
-import axios from 'axios';
-import baseUrl from '~/config/variableGlobal';
+import { follow } from '~/services/followService';
+import { like, unLike } from '~/services/likeService';
+import { addFollow } from '~/redux/userCurrentSlice';
+import { useDispatch } from 'react-redux';
 
 function FooterRight({ profilePic, video, setOpenComment, openComment, followingUsers }) {
     const userCurrentId = localStorage.getItem('userId');
-    const tokenSession = localStorage.getItem('token');
+    const dispatch = useDispatch();
     const [liked, setLiked] = useState(
         video.Likes.filter((value) => value.user_id == userCurrentId && value.video_id == video.id).length !== 0,
     );
     const [countLike, setCountLike] = useState(0);
     const [saved, setSaved] = useState(false);
     const findCreatorId = followingUsers.find((user) => {
-        return Number(user.followedUser.id) === Number(video.creator_id);
+        // console.log(`${user.followingUser.id} - ${video.creator_id} => ${user.followingUser.id == video.creator_id}`);
+        return user.id == video.creator_id;
     });
     const [userAddIcon, setUserAddIcon] = useState(
         findCreatorId ? faCircleCheck : video.creator_id == userCurrentId ? faCircleCheck : faCirclePlus,
     );
 
     const handleUserAddClick = async () => {
-        try {
-            await axios.post(`${baseUrl}/api/follow/${video.creator_id}`,{}, {
-                headers: {
-                    Authorization: `Bearer ${tokenSession}`,
-                },
-            });
-            setUserAddIcon(faCircleCheck);
-        } catch (error) {
-            console.log(error);
-        }
+        await follow(video.creator_id);
+        dispatch(addFollow(video.Creator));
+        setUserAddIcon(faCircleCheck);
     };
 
     // Function to convert likes count to a number
@@ -59,31 +55,10 @@ function FooterRight({ profilePic, video, setOpenComment, openComment, following
         return count;
     };
     const likeAction = async () => {
-        try {
-            await axios.post(
-                `${baseUrl}/api/like`,
-                { video_id: video.id },
-                {
-                    headers: {
-                        Authorization: `Bearer ${tokenSession}`,
-                    },
-                },
-            );
-        } catch (error) {
-            console.log(error);
-        }
+        await like(video.id);
     };
     const unLikeAction = async () => {
-        try {
-            await axios.delete(`${baseUrl}/api/like`, {
-                headers: {
-                    Authorization: `Bearer ${tokenSession}`,
-                },
-                data: { video_id: video.id },
-            });
-        } catch (error) {
-            console.log(error);
-        }
+        unLike(video.id);
     };
     // NEED REFACTER
     const handleLikeClick = async () => {

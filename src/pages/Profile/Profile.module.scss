@@ -1,0 +1,47 @@
+.profile-layout{
+    padding: 20px 0px 20px 40px;
+    text-align: start;
+}
+.avatar-name-layout{
+    display: flex;
+    width: 100%;
+    align-content: flex-start;
+    flex-wrap: wrap;
+}
+.name{
+    font-size: 24px;
+    font-weight: 800;
+}
+.nickname{
+    font-size: 20px;
+}
+.icons-layout{
+    display: flex;
+    margin-left: 40%;
+}
+.follow-profile-layout{
+    display: flex;
+    margin-top: 15px;
+}
+.text-layout{
+    display: flex;
+    font-size: 16px;
+    margin-right: 15px;
+}
+.bold-text{
+    font-weight: bold;
+    margin-right: 5px;
+}
+.description-profile{
+    margin-top: 10px;
+    font-size: 16px;
+    text-align: justify;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+}
+.tabbar-layout{
+    margin-top: 10px;
+}
