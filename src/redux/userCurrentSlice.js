@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
+    information: {},
     listFollowingUser: [],
     listFollowedUser: [],
 };
@@ -9,6 +10,9 @@ export const userCurrentSlice = createSlice({
     name: 'user_current',
     initialState,
     reducers: {
+        updateInformation: (state, action) => {
+            if (action.payload) state.information = action.payload;
+        },
         updateTokenSession: (state, action) => {
             state.tokenSession = action.payload;
         },
@@ -27,14 +31,21 @@ export const userCurrentSlice = createSlice({
         },
         removeFollow: (state, action) => {
             state.listFollowingUser = state.listFollowingUser.filter(
-                (user) => user.id === action.payload.following_user_id,
+                (user) => user.id !== action.payload,
             );
         },
     },
 });
 
-// const followingUserFormat = 
+// const followingUserFormat =
 
-export const { updateTokenSession, updateListFollowingUser, updateListFollowedUser, addFollow, removeFollow } = userCurrentSlice.actions;
+export const {
+    updateTokenSession,
+    updateListFollowingUser,
+    updateListFollowedUser,
+    addFollow,
+    removeFollow,
+    updateInformation,
+} = userCurrentSlice.actions;
 
 export default userCurrentSlice.reducer;

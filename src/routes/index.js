@@ -12,6 +12,7 @@ import Live from '~/pages/Live';
 import Create from '~/pages/Create';
 import AuthenticationForm from '~/pages/Login';
 import UserVideo from '~/pages/UserVideo';
+import EditProfile from '~/pages/EditProfile';
 
 const publicRoutes = [
     { path: Config.routes.home, component: Home },
@@ -22,7 +23,8 @@ const publicRoutes = [
     { path: Config.routes.search, component: Search, layout: null },
     { path: Config.routes.live, component: Live},
     { path: Config.routes.create, component: Create},
-    { path: Config.routes.authentication, component: AuthenticationForm}
+    { path: Config.routes.authentication, component: AuthenticationForm},
+    { path: Config.routes.editProfile, component: EditProfile}
 ];
 
 const privateRoutes = [];

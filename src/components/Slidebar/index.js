@@ -11,10 +11,12 @@ import {
     LiveIcon,
 } from '~/components/Icons';
 import SuggestedAccounts from '../SuggestedAccounts/SuggestedAccounts';
+import { useSelector } from 'react-redux'
 
 const cx = classNames.bind(styles);
 
 function Sidebar() {
+    const currentUser = useSelector((state) => state.user_current.information);
     return (
         <aside className={cx('wrapper')}>
             <Menu>
@@ -38,8 +40,7 @@ function Sidebar() {
                 ></MenuItem>
             </Menu>
 
-            {/* <SuggestedAccounts label="Suggested accounts" /> */}
-            <SuggestedAccounts label="Following accounts" />
+           { currentUser.id ? <SuggestedAccounts label="Following accounts" /> : null}
         </aside>
     );
 }

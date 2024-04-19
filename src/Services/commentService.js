@@ -1,11 +1,10 @@
 import axios from 'axios';
 import config from '~/config';
 
-const tokenSession = localStorage.getItem('token');
-
 const getComments = () => {};
 
 const postComments = async (videoId, content, commentParentId) => {
+    const tokenSession = localStorage.getItem('token');
     try {
         const response = await axios.post(
             `${config.baseUrl}/api/comment`,

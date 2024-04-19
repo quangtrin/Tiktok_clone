@@ -1,9 +1,8 @@
 import axios from 'axios';
 import config from '~/config';
 
-const tokenSession = localStorage.getItem('token');
-
 const unFollow = async (followingUserId) => {
+    const tokenSession = localStorage.getItem('token');
     try {
         await axios.delete(`${config.baseUrl}/api/follow/${followingUserId}`, {
             headers: {
@@ -16,6 +15,7 @@ const unFollow = async (followingUserId) => {
 };
 
 const follow = async (followingUserId) => {
+    const tokenSession = localStorage.getItem('token');
     try {
         await axios.post(
             `${config.baseUrl}/api/follow/${followingUserId}`,

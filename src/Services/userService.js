@@ -1,44 +1,26 @@
 import axios from 'axios';
 import config from '~/config';
 
-const tokenSession = localStorage.getItem('token');
-
 const getFollowingOfCurrentUser = async () => {
+    const tokenSession = localStorage.getItem('token');
+
     const res = await axios.get(`${config.baseUrl}/api/follow/following/current`, {
         headers: {
             Authorization: `Bearer ${tokenSession}`,
         },
     });
-
-    const followingCustom = await Promise.all(
-        await res.data.currentUser.followed_user.map(async (user) => {
-            const getFollower = await getFollowerUser(user.id);
-            return {
-                ...user,
-                followedUserCount: getFollower.length,
-            };
-        }),
-    );
-    return followingCustom;
+    return res.data.currentUser.followed_user;
 };
 
 const getFollowerOfCurrentUser = async () => {
+    const tokenSession = localStorage.getItem('token');
+
     const res = await axios.get(`${config.baseUrl}/api/follow/follower/current`, {
         headers: {
             Authorization: `Bearer ${tokenSession}`,
         },
     });
-
-    const followerCustom = await Promise.all(
-        await res.data.currentUser.follower_user.map(async (user) => {
-            const getFollower = await getFollowerUser(user.id);
-            return {
-                ...user,
-                followedUserCount: getFollower.length,
-            };
-        }),
-    );
-    return followerCustom;
+    return res.data.currentUser.follower_user;
 };
 
 const getFollowingUser = async (followedUserId) => {
@@ -64,7 +46,7 @@ const getFollowerUser = async (followingUserId) => {
 const getUserById = async (userId) => {
     let user = {};
     try {
-        const res = await axios.get(`${config.baseUrl}/api/user/${userId}`);
+        const res = await axios.get(`${config.baseUrl}/api/user/index/${userId}`);
         user = res.data.user;
     } catch (error) {
         console.log(error);
@@ -72,4 +54,47 @@ const getUserById = async (userId) => {
     return user;
 };
 
-export { getFollowerOfCurrentUser, getFollowingOfCurrentUser, getFollowingUser, getFollowerUser, getUserById };
+const getCurrentUser = async () => {
+    const tokenSession = localStorage.getItem('token');
+    try {
+        const res = await axios.get(`${config.baseUrl}/api/user/current`, {
+            headers: {
+                Authorization: `Bearer ${tokenSession}`,
+            },
+        });
+        return res.data.currentUser;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+const updateCurrentUser = async (userName, gender, description, birthday, avatar) => {
+    const tokenSession = localStorage.getItem('token');
+    try {
+        const formData = new FormData();
+        const avatarTop = avatar?.pop();
+        formData.append('avatar', avatarTop?.originFileObj);
+        formData.append('description', description);
+        formData.append('gender', gender);
+        formData.append('userName', userName);
+        formData.append('birthday', birthday);
+        const res = await axios.post(`${config.baseUrl}/api/user/current`, formData, {
+            headers: {
+                Authorization: `Bearer ${tokenSession}`,
+            },
+        });
+        return res.status;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export {
+    getFollowerOfCurrentUser,
+    getFollowingOfCurrentUser,
+    getFollowingUser,
+    getFollowerUser,
+    getUserById,
+    getCurrentUser,
+    updateCurrentUser,
+};

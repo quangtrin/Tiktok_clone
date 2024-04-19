@@ -11,46 +11,47 @@ import VideoUploaded from './VideoUploaded';
 import { useParams } from 'react-router-dom';
 import { getFollowerUser, getFollowingUser, getUserById } from '~/services/userService';
 import { getListVideosByCreatorId } from '~/services/videoService';
-import { follow, unFollow } from '~/services/followService';
+import { FaEdit } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import ButtonFollow from '~/components/Button/ButtonFollow';
 
 const cx = classNames.bind(styles);
 
 function Profile() {
+    const navigate = useNavigate();
     const [isFollow, setIsFollow] = useState(true);
     const [user, setUser] = useState();
-    const onClickFollow = async(event) => {
-        event.stopPropagation();
-        await follow(user.id);
-        setIsFollow(true);
-    }
-    const onClickUnfollow = async (event) => {
-        event.stopPropagation();
-        await unFollow(user.id);
-        setIsFollow(false);
-    }
     const { id } = useParams();
+    const userCurrentId = localStorage.getItem('userId');
     const getUser = async () => {
         let userProfile = await getUserById(id);
         const follower = await getFollowerUser(userProfile.id);
+
+        setIsFollow(
+            follower.findIndex((user) => {
+                return user.id == userCurrentId;
+            }) !== -1,
+        );
         const following = await getFollowingUser(userProfile.id);
         const videoCreated = await getListVideosByCreatorId(userProfile.id);
         userProfile = {
             ...userProfile,
             follower,
             following,
-            videoCreated
-        }
-        setUser(userProfile)
+            videoCreated,
+        };
+
+        setUser(userProfile);
     };
 
     useEffect(() => {
         getUser();
-    }, []);
+    }, [id]);
     const itemsTabbar = [
         {
             key: 'video',
             label: 'Video',
-            children: user ? <VideoUploaded  videos={user.videoCreated}/> : null,
+            children: user ? <VideoUploaded videos={user.videoCreated} /> : null,
         },
         {
             key: 'video liked',
@@ -62,31 +63,35 @@ function Profile() {
         user && (
             <div className={cx('profile-layout')} id="#Profile">
                 <div className={cx('avatar-name-layout')}>
-                    <Avatar
-                        style={{ borderColor: 'var(--border-color)' }}
-                        size={100}
-                        src="https://api.dicebear.com/7.x/miniavs/svg?seed=1"
-                    />
-                    <div style={{ marginLeft: '20px' }}>
+                    <Avatar style={{ borderColor: 'var(--border-color)' }} size={100} src={user.avatar} />
+                    <div style={{ marginLeft: '2rem' }}>
                         <div className={cx('name')}>{user.user_name}</div>
-                        <div className={cx('nickname')}>User.1</div>
+                        <div className={cx('nickname')}>
+                            <b>ID: </b>
+                            {user.name_id}
+                        </div>
                         <div>
-                            {isFollow ? (
-                                <Button className={cx('unfollow-btn')} outline onClick={onClickUnfollow}>
-                                    Unfollow
+                            {userCurrentId == id ? (
+                                <Button
+                                    className={cx('unfollow-btn')}
+                                    leftIcon={<FaEdit />}
+                                    outline
+                                    onClick={() => {
+                                        navigate('/edit_profile');
+                                    }}
+                                >
+                                    Edit profile
                                 </Button>
                             ) : (
-                                <Button className={cx('follow-btn')} primary onClick={onClickFollow}>
-                                    Follow
-                                </Button>
+                                <ButtonFollow isFollow={isFollow} user={user} setIsFollow={setIsFollow}/>
                             )}
                         </div>
                     </div>
                     <div className={cx('icons-layout')}>
                         <div>
-                            <FaShare style={{ fontSize: '25px' }} />
+                            <FaShare style={{ fontSize: '2.5rem' }} />
                         </div>
-                        <div style={{ fontSize: '25px', marginLeft: '50%' }}>
+                        <div style={{ fontSize: '2.5rem', marginLeft: '50%' }}>
                             <BsThreeDots />
                         </div>
                     </div>
@@ -105,12 +110,9 @@ function Profile() {
                         <div className={cx('normal-text')}>Like</div>
                     </div>
                 </div>
-                <Tooltip title="hello">
+                <Tooltip title={user.description} placement='bottom' overlayInnerStyle={{width: '50rem'}}>
                     <div className={cx('description-profile')}>
-                        The entire Font Awesome styling toolkit is available when using React, but the syntax is
-                        different from our general web-use documentation. Below you’ll find the syntax for adding
-                        styling with React, with links to the general documentation which has descriptions and examples
-                        for each styling tool.
+                        {user.description}
                     </div>
                 </Tooltip>
                 <TabbarCustomAntd items={itemsTabbar} size={'large'} />

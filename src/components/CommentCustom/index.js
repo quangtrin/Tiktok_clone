@@ -8,9 +8,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { changeReplyCurrent } from '~/redux/commentSlice';
 import { addCommentChild } from '~/redux/commentSlice';
 import { postComments } from '~/services/commentService';
+import { useNavigate } from 'react-router-dom';
 
 const CommentCustom = ({ children, comment }) => {
     const dispatch = useDispatch();
+    const navigation = useNavigate();
     const [likes, setLikes] = useState(0);
     const [dislikes, setDislikes] = useState(0);
     const [content, setContent] = useState('');
@@ -54,7 +56,7 @@ const CommentCustom = ({ children, comment }) => {
     const handleSubmitComment = async () => {
         if (comment) {
             try {
-                const commentParentId = comment.comment_parent_id || comment.id
+                const commentParentId = comment.comment_parent_id || comment.id;
                 const newComment = await postComments(comment.video_id, content, commentParentId);
                 dispatch(addCommentChild(newComment));
                 setContent('');
@@ -66,10 +68,21 @@ const CommentCustom = ({ children, comment }) => {
         <div className="comment">
             <Comment
                 actions={actions}
-                author={<a>{comment.User.user_name}</a>}
+                author={
+                    <a
+                        onClick={() => {
+                            navigation(`/user/@${comment.User.id}`);
+                        }}
+                    >
+                        {comment.User.user_name}
+                    </a>
+                }
                 avatar={
                     <Avatar
-                        src="https://variety.com/wp-content/uploads/2021/04/Avatar.jpg"
+                        onClick={() => {
+                            navigation(`/user/@${comment.User.id}`);
+                        }}
+                        src={comment.User.avatar}
                         alt={comment.User.user_name}
                     />
                 }
@@ -82,10 +95,15 @@ const CommentCustom = ({ children, comment }) => {
             >
                 {children}
                 {replyCurrentId == comment.id && (
-                    <div style={{ display: 'flex', marginBottom: '10px' }}>
-                        <Input onChange={handleOnChangeComment} value={content} onPressEnter={handleSubmitComment} autoFocus/>
+                    <div style={{ display: 'flex', marginBottom: '1rem' }}>
+                        <Input
+                            onChange={handleOnChangeComment}
+                            value={content}
+                            onPressEnter={handleSubmitComment}
+                            autoFocus
+                        />
                         <div style={{ textAlign: 'right' }}>
-                            <Button type="primary" onClick={handleSubmitComment} style={{ marginLeft: '10px' }}>
+                            <Button type="primary" onClick={handleSubmitComment} style={{ marginLeft: '1em' }}>
                                 Enter
                             </Button>
                         </div>

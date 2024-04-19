@@ -1,5 +1,5 @@
 .menu-list {
-    width: 224px;
+    width: 22.4rem;
 
     .menu-item {
         margin-left: 0;
@@ -7,7 +7,7 @@
 }
 
 .menu-popper {
-    padding-bottom: 8px;
+    padding-bottom: 0.8rem;
 }
 
 .menu-body {
@@ -18,7 +18,7 @@
     width: 100%;
     justify-content: flex-start;
     border-radius: 0;
-    padding: 11px 16px;
+    padding: 1.1rem 1.6rem;
     line-height: 1.8rem;
     font-weight: 600;
 
@@ -27,19 +27,19 @@
     }
 
     &.separate {
-        border-top: 1px solid rgba(22, 24, 35, 0.12);
+        border-top: 0.1rem solid rgba(22, 24, 35, 0.12);
     }
 }
 
 .header {
     flex-shrink: 0;
     position: relative;
-    height: 50px;
-    margin-top: -8px;
+    height: 5rem;
+    margin-top: -0.8rem;
 }
 
 .back-btn {
-    width: 50px;
+    width: 5rem;
     height: 100%;
     background-color: transparent;
     cursor: pointer;

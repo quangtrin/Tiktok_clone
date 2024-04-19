@@ -1,8 +1,6 @@
-import axios from "axios";
-import config from "~/config";
-import Swal from 'sweetalert2';
+import axios from 'axios';
+import config from '~/config';
 
-const tokenSession = localStorage.getItem('token');
 const getListVideos = async () => {
     try {
         const response = await axios.get(`${config.baseUrl}/api/video`);
@@ -10,7 +8,7 @@ const getListVideos = async () => {
     } catch (error) {
         console.log(error);
     }
-}
+};
 
 const getListVideosByCreatorId = async (creatorId) => {
     try {
@@ -19,11 +17,10 @@ const getListVideosByCreatorId = async (creatorId) => {
     } catch (error) {
         console.log(error);
     }
-}
-
-
+};
 
 const createVideo = async (video, description, song) => {
+    const tokenSession = localStorage.getItem('token');
     try {
         const formData = new FormData();
         formData.append('video', video);
@@ -38,6 +35,6 @@ const createVideo = async (video, description, song) => {
     } catch (error) {
         console.log(error);
     }
-}
+};
 
 export { getListVideos, createVideo, getListVideosByCreatorId };

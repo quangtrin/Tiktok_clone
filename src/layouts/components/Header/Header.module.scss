@@ -1,8 +1,8 @@
 .wrapper {
-    --search-border-radius: 92px;
-    --search-height: 46px;
-    --search-top-spacer: 9px;
-    --search-button-width: 52px;
+    --search-border-radius: 9.2rem;
+    --search-height: 4.6rem;
+    --search-top-spacer: 0.9rem;
+    --search-button-width: 5.2rem;
 
     position: fixed;
     top: 0;
@@ -10,7 +10,7 @@
     width: 100%;
     z-index: 10;
     height: var(--default-layout-header-height);
-    box-shadow: 0 1px 1px rgb(0 0 0 / 12%);
+    box-shadow: 0 0.1rem 0.1rem rgb(0 0 0 / 12%);
     display: flex;
     background-color: white;
     justify-content: center;
@@ -41,39 +41,39 @@
     background-color: transparent;
     position: relative;
     display: flex;
-    padding: 4px 10px;
+    padding: 0.4rem 1rem;
     cursor: pointer;
 }
 
 .badge {
     position: absolute;
-    top: -3px;
-    right: 0px;
-    padding: 0px 6px;
+    top: -0.3rem;
+    right: 0;
+    padding: 0 0.6rem;
     height: 2rem;
     line-height: 2rem;
-    border-radius: 10px;
+    border-radius: 1rem;
     font-size: 1.4rem;
     font-weight: 600;
     font-family: var(--font-family);
     background-color: var(--primary);
-    color: var(--while);
+    color: var(--white);
 }
 
 .user-avatar {
-    width: 32px;
-    height: 32px;
+    width: 3.2rem;
+    height: 3.2rem;
     object-fit: cover;
     border-radius: 50%;
-    margin-left: 14px;
+    margin-left: 1.4rem;
     cursor: pointer;
 }
 
 .more-btn {
     font-size: 2rem;
-    margin-left: 28px;
+    margin-left: 2.8rem;
     background-color: transparent;
-    padding: 4px 8px;
+    padding: 0.4rem 0.8rem;
     cursor: pointer;
 }
 

@@ -9,14 +9,14 @@ const VideoUploaded = ({ videos }) => {
         <div className={cx('video-uploaded-layout')}>
             <Row gutter={[16, 16]}>
                 {videos.map((video) => (
-                    <Col>
+                    <Col key={video.id}>
                         <CardVideo url={video.url} />
                     </Col>
                 ))}
             </Row>
         </div>
     ) : (
-        <div style={{ fontSize: '16px', fontWeight: '600', textAlign: 'center', color: 'var(--text-tab-color)' }}>
+        <div style={{ fontSize: '1.6rem', fontWeight: '600', textAlign: 'center', color: 'var(--text-tab-color)' }}>
             Haven't uploaded a video yet
         </div>
     );

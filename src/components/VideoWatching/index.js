@@ -19,6 +19,7 @@ const WatchingVideo = ({videos}) => {
     const [followingUsers, setFollowingUsers] = useState([]);
 
     const listCommentCurrent = useSelector((state) => state.comment.listCommentCurrent);
+    const currentUser = useSelector((state) => state.user_current.information);
     const videoRefs = useRef([]);
 
     const handleOnChangeComment = (event) => {
@@ -83,7 +84,7 @@ const WatchingVideo = ({videos}) => {
                     <VideoCard
                         key={index}
                         video={video}
-                        profilePic={'https://variety.com/wp-content/uploads/2021/04/Avatar.jpg'}
+                        profilePic={video.Creator.avatar}
                         setVideoRef={handleVideoRef(index)}
                         autoplay={index === 0}
                         setOpenComment={setOpenComment}
@@ -94,13 +95,13 @@ const WatchingVideo = ({videos}) => {
                 <BottomNavbar className="bottom-navbar" />
             </div>
             <div className={cx('comment-layout')} style={!openComment ? { display: 'none' } : {}}>
-                <div style={{ display: 'flex', marginBottom: '10px' }}>
+                <div style={{ display: 'flex', marginBottom: '1rem' }}>
                     <div style={{ width: '15%' }}>
-                        <Avatar src="https://variety.com/wp-content/uploads/2021/04/Avatar.jpg" alt="Han Solo" />
+                        <Avatar src={currentUser.avatar} alt="Han Solo" />
                     </div>
                     <Input onChange={handleOnChangeComment} value={content} onPressEnter={handleSubmitComment} />
                     <div style={{ textAlign: 'right' }}>
-                        <Button type="primary" onClick={handleSubmitComment} style={{ marginLeft: '10px' }}>
+                        <Button type="primary" onClick={handleSubmitComment} style={{ marginLeft: '1rem' }}>
                             Enter
                         </Button>
                     </div>

@@ -2,18 +2,18 @@ import axios from 'axios';
 import config from '~/config';
 import Swal from 'sweetalert2';
 
-
 const login = async (username, password) => {
     try {
         const response = await axios.post(`${config.baseUrl}/api/user/login`, {
             email: username,
             password: password,
         });
+        console.log(response.data.token);
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('userId', response.data.userId);
-        return response.status;
+        localStorage.setItem('userId', response.data.user.id);
+        return response.data.user;
     } catch (error) {
-        return error;
+        return undefined;
     }
 };
 

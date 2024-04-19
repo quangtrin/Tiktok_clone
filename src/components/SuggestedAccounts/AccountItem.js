@@ -5,39 +5,38 @@ import Tippy from '@tippyjs/react/headless';
 
 import { Wrapper as PopperWrapper } from '~/components/Propper';
 import styles from './SuggestedAccounts.module.scss';
-import AccountPreview from './AccountPreview';
+import ButtonFollow from '../Button/ButtonFollow';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
 function AccountItem({ account, setIsUpdate }) {
-    const renderPreview = (props) => {
-        return (
-            <div tabIndex="-1" {...props}>
-                <PopperWrapper>
-                    <AccountPreview account={account} setIsUpdate={setIsUpdate}></AccountPreview>
-                </PopperWrapper>
-            </div>
-        );
-    };
+    const navigation = useNavigate();
+    const [isFollow, setIsFollow] = useState(true);
 
     return (
         <div>
-            <Tippy offset={[-20, 0]} interactive delay={[800, 0]} render={renderPreview} placement="bottom">
-                <div className={cx('account-item')}>
-                    <img
-                        className={cx('avatar')}
-                        src="https://variety.com/wp-content/uploads/2021/04/Avatar.jpg"
-                        alt=""
-                    />
-                    <div className={cx('item-info')}>
-                        <p className={cx('nickname')}>
-                            <strong>{account.user_name}</strong>
-                            <FontAwesomeIcon className={cx('check')} icon={faCheckCircle} />
-                        </p>
-                        <p className={cx('name')}>Nguyen Pham Thai Ninh</p>
-                    </div>
+            <div
+                className={cx('account-item')}
+                onClick={() => {
+                    navigation(`/user/@${account.id}`);
+                }}
+            >
+                <img className={cx('avatar')} src={account.avatar} alt="" />
+                <div className={cx('item-info')}>
+                    <p className={cx('nickname')}>
+                        <strong>{account.user_name}</strong>
+                        <FontAwesomeIcon className={cx('check')} icon={faCheckCircle} />
+                    </p>
+                    <p className={cx('name')}>
+                        <b>ID:</b> {account.name_id}
+                    </p>
                 </div>
-            </Tippy>
+                <div>
+                    <ButtonFollow user={account} isFollow={isFollow} setIsFollow={setIsFollow} />
+                </div>
+            </div>
         </div>
     );
 }

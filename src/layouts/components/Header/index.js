@@ -22,6 +22,10 @@ import Menu from '~/components/Propper/Menu';
 import styles from './Header.module.scss';
 import Search from '../Search';
 import config from '~/config';
+import { useSelector, useDispatch } from 'react-redux';
+import { getCurrentUser } from '~/services/userService';
+import { updateInformation } from '~/redux/userCurrentSlice';
+import { useEffect } from 'react';
 
 const cx = classNames.bind(styles);
 const MENU_ITEM = [
@@ -56,7 +60,9 @@ const MENU_ITEM = [
 ];
 
 function Header() {
-    const currentUser = true;
+    const dispatch = useDispatch();
+    const currentUser = useSelector((state) => state.user_current.information);
+    const userCurrentId = localStorage.getItem('userId');
 
     const handleMenuChange = (menuItem) => {
         switch (menuItem.type) {
@@ -68,11 +74,19 @@ function Header() {
         }
     };
 
+    const fetchData = async () => {
+        console.log(!currentUser.id && userCurrentId);
+        if (!currentUser.id && userCurrentId) {
+            console.log(123);
+            dispatch(updateInformation(await getCurrentUser()));
+        }
+    };
+
     const userMenu = [
         {
             icon: <FontAwesomeIcon icon={faUser} />,
             title: 'View profile',
-            to: '/@Lon',
+            to: `/user/@${currentUser.id}`,
         },
         {
             icon: <FontAwesomeIcon icon={faCoins} />,
@@ -100,6 +114,10 @@ function Header() {
         },
     ];
 
+    useEffect(() => {
+        fetchData();
+    }, []);
+
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
@@ -112,7 +130,7 @@ function Header() {
                 <Search />
 
                 <div className={cx('actions')}>
-                    {currentUser ? (
+                    {currentUser.id ? (
                         <>
                             <Tippy delay={[0, 50]} content="Upload video" placement="bottom">
                                 <button className={cx('action-btn')}>
@@ -134,15 +152,17 @@ function Header() {
                     ) : (
                         <>
                             <Button text>Upload</Button>
-                            <Button primary>Log In</Button>
+                            <Button primary to={'/authentication'}>
+                                Log In
+                            </Button>
                         </>
                     )}
-                    <Menu items={currentUser ? userMenu : MENU_ITEM} onChange={handleMenuChange}>
-                        {currentUser ? (
+                    <Menu items={currentUser.id ? userMenu : MENU_ITEM} onChange={handleMenuChange}>
+                        {currentUser.id ? (
                             <Image
                                 className={cx('user-avatar')}
-                                src="https://scontent.fhan5-9.fna.fbcdn.net/v/t39.30808-6/312652980_1550867168689725_7603757127194005346_n.jpg?stp=dst-jpg_p843x403&_nc_cat=109&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=NJgtCUK52dIAX_4aJbx&_nc_ht=scontent.fhan5-9.fna&oh=00_AfDD6soU188J51zNDA2xULw8YrSz0dgfdUW-vheHR6zI4Q&oe=63A83E8C"
-                                alt="Nguyen Van A"
+                                src={currentUser.avatar}
+                                alt={currentUser.user_name}
                                 fallback=""
                             />
                         ) : (

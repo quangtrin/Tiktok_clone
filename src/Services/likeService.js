@@ -1,9 +1,8 @@
 import axios from 'axios';
 import config from '~/config';
 
-const tokenSession = localStorage.getItem('token');
-
 const like = async (videoId) => {
+    const tokenSession = localStorage.getItem('token');
     try {
         await axios.post(
             `${config.baseUrl}/api/like`,
@@ -20,6 +19,7 @@ const like = async (videoId) => {
 };
 
 const unLike = async (videoId) => {
+    const tokenSession = localStorage.getItem('token');
     try {
         await axios.delete(`${config.baseUrl}/api/like`, {
             headers: {

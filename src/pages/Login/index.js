@@ -4,10 +4,13 @@ import classNames from 'classnames/bind';
 import styles from './Login.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { login, register } from '~/services/authService';
+import { useDispatch } from 'react-redux';
+import { updateInformation } from '~/redux/userCurrentSlice';
 
 const cx = classNames.bind(styles);
 
 const LoginComponent = ({ setIsLoginScreen }) => {
+    const dispatch = useDispatch();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
@@ -18,14 +21,15 @@ const LoginComponent = ({ setIsLoginScreen }) => {
     const handleLoginClick = async (event) => {
         if (username !== '' && password !== '') {
             event.preventDefault();
-            const status = await login(username, password);
-            if (status === 201) {
+            const user = await login(username, password);
+            if (user) {
                 Swal.fire({
                     title: 'Login successfully!',
                     text: 'Login successfully!',
                     icon: 'success',
                 }).then((result) => {
                     if (result.isConfirmed) {
+                        dispatch(updateInformation(user));
                         navigate('/');
                     }
                 });
@@ -85,7 +89,7 @@ const LoginComponent = ({ setIsLoginScreen }) => {
                         </span>
                         <p className={cx('font-text')}>━━━━━━━ Others ━━━━━━━</p>
                         <div className={cx('social-container')}>
-                            <button style={{ marginBottom: '10px' }} className={cx('button')}>
+                            <button style={{ marginBottom: '1rem' }} className={cx('button')}>
                                 Log in with Facebook
                             </button>
                             <button className={cx('button')}>Log in with Google</button>

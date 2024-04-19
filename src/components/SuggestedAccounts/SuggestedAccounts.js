@@ -27,10 +27,11 @@ function SuggestedAccounts({ label }) {
     return (
         <div className={cx('wrapper')}>
             <p className={cx('label')}>{label}</p>
-            {listFollowingUser?.map((value, index) => (
-                <AccountItem key={index} account={value} setIsUpdate={setIsUpdate}/>
+            <div className={cx('list-account')}>
+            {listFollowingUser?.map((value) => (
+                <AccountItem key={value.id} account={value} setIsUpdate={setIsUpdate}/>
             ))}
-            <p className={cx('more-btn')}>See all</p>
+            </div>
         </div>
     );
 }

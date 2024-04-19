@@ -1,29 +1,42 @@
 .wrapper {
-    border-top: 1px solid #e3e3e4;
+    border-top: 0.1rem solid #e3e3e4;
+}
+
+.list-account {
+    max-height: 44.5rem;
+    overflow: scroll;
+    padding-right: 1rem;
 }
 
 .label {
-    font-size: 1.4rem;
+    font-size: 1.8rem;
     font-weight: 600;
-    padding: 8px;
+    padding: 0.8rem;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--primary);
+    color: var(--white);
+    margin: 1rem 0;
+    border-radius: 0.5rem;
 }
 
 .account-item {
     display: flex;
-    padding: 8px;
+    padding: 1.8rem;
     cursor: pointer;
+    border-bottom: 1px solid var(--border-color);
+    align-items: center;
 }
 
 .avatar {
-    width: 32px;
-    height: 32px;
+    width: 3.2rem;
+    height: 3.2rem;
     border-radius: 50%;
     object-fit: cover;
 }
 
 .item-info {
     flex: 1;
-    margin-left: 12px;
+    margin-left: 1.2rem;
 }
 
 .nickname {
@@ -34,7 +47,7 @@
 }
 
 .check {
-    margin-left: 4px;
+    margin-left: 0.4rem;
     font-size: 1.4rem;
     color: #20d5ec;
 }
@@ -42,10 +55,11 @@
 .name {
     font-size: 1.2rem;
     opacity: #161823bf;
+    margin-top: 1rem;
 }
 
 .more-btn {
-    padding: 8px;
+    padding: 0.8rem;
     font-size: 1.4rem;
     font-weight: 700;
     color: #fe2c55;

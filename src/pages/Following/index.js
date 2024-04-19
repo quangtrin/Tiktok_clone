@@ -11,6 +11,7 @@ const cx = classNames.bind(styles);
 function Following() {
     const dispatch = useDispatch();
     const listFollowingUser = useSelector((state) => state.user_current.listFollowingUser);
+    const currentUser = useSelector((state) => state.user_current.information);
     const getDataFollowingUser = async () => {
         try {
             const followingUsers = await getFollowingOfCurrentUser();
@@ -28,7 +29,7 @@ function Following() {
             <Row gutter={16}>
                 {listFollowingUser.map((user) => {
                     return (
-                        <Col>
+                        <Col key={user.id}>
                             <CardFollow user={user} />
                         </Col>
                     );

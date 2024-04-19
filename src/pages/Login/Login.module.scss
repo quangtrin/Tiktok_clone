@@ -8,49 +8,49 @@
   flex-direction: column;
   font-family: 'Montserrat', sans-serif;
   height: 100vh;
-  margin: -20px 0 50px;
+  margin: -2rem 0 5rem;
 }
 
 .font-text {
-  font-size: 14px;
+  font-size: 1.4rem;
   font-weight: 100;
-  line-height: 20px;
-  letter-spacing: 0.5px;
-  margin: 20px 0 30px;
+  line-height: 2rem;
+  letter-spacing: 0.05rem;
+  margin: 2rem 0 3rem;
 }
 
 .span {
-  font-size: 12px;
+  font-size: 1.2rem;
 }
 
 a.register-link {
   color: #00f !important; /* Màu xanh cho phần "Đăng ký" */
-  margin-left: 50px;
+  margin-left: 5rem;
   cursor: pointer;
   color: #333;
-  font-size: 14px;
+  font-size: 1.4rem;
   text-decoration: none;
-  margin: 15px 0;
+  margin: 1.5rem 0;
 }
 
 a.login-link {
   color: blue !important; /* Matching the login link color */
   cursor: pointer;
   color: #333;
-  font-size: 14px;
+  font-size: 1.4rem;
   text-decoration: none;
-  margin: 15px 0;
+  margin: 1.5rem 0;
 }
 
 .button {
-  border-radius: 20px;
-  border: 1px solid #FF4B2B;
+  border-radius: 2rem;
+  border: 0.1rem solid #FF4B2B;
   background-color: #FF4B2B;
   color: #FFFFFF;
-  font-size: 14px; /* Adjust the font size */
+  font-size: 1.4rem; /* Adjust the font size */
   font-weight: bold;
-  padding: 10px 10px; /* Adjust the padding as needed */
-  letter-spacing: 1px;
+  padding: 1rem 1rem; /* Adjust the padding as needed */
+  letter-spacing: 0.1rem;
   text-transform: uppercase;
   transition: transform 80ms ease-in;
   cursor: pointer;
@@ -62,7 +62,7 @@ a.login-link {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 0 50px;
+  padding: 0 5rem;
   height: 100%;
   text-align: center;
 }
@@ -70,20 +70,20 @@ a.login-link {
 .input {
   background-color: #eee;
   border: none;
-  padding: 12px 15px;
-  margin: 8px 0;
+  padding: 1.2rem 1.5rem;
+  margin: 0.8rem 0;
   width: 100%;
 }
 
 .container {
   background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  border-radius: 1rem;
+  box-shadow: 0 1.4rem 2.8rem rgba(0, 0, 0, 0.25), 0 1rem 1rem rgba(0, 0, 0, 0.22);
   position: relative;
   overflow: hidden;
-  width: 768px;
+  width: 76.8rem;
   max-width: 100%;
-  min-height: 480px;
+  min-height: 48rem;
 }
 
 .form-container {
@@ -132,7 +132,7 @@ a.login-link {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 0 40px;
+  padding: 0 4rem;
   text-align: center;
   top: 0;
   height: 100%;
@@ -149,70 +149,70 @@ a.login-link {
 }
 
 .social-container a {
-  border: 1px solid #DDDDDD;
+  border: 0.1rem solid #DDDDDD;
   border-radius: 50%;
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  margin: 0 5px;
-  height: 40px;
-  width: 40px;
+  margin: 0 0.5rem;
+  height: 4rem;
+  width: 4rem;
 }
 
 .loginForm {
   display: flex;
   align-items: center;
-  margin-bottom: 30px;
-  margin-top: 5px;
+  margin-bottom: 3rem;
+  margin-top: 0.5rem;
 }
 
 .remember-me {
   display: flex;
   align-items: center;
-  margin: 10px 0;
-  width: 200px;
+  margin: 1rem 0;
+  width: 20rem;
 }
 
 .remember-me input {
-  margin-right: 5px;
+  margin-right: 0.5rem;
   width: 20%;
 }
 
 .remember-me label {
   display: inline-block;
   vertical-align: middle; /* Thêm thuộc tính này */
-  margin-right: 10px; /* Adjust as needed for spacing */
-  font-size: 12px;
+  margin-right: 1rem; /* Adjust as needed for spacing */
+  font-size: 1.2rem;
 }
 
 .app-logo {
   display: flex;
   align-items: center;
   max-width: 100%;
-  height: 100px;
+  height: 10rem;
   background-color: #DDDDDD;
 }
 
 .app-logo img {
-  max-width: 100px;
-  margin-left: 20px;
+  max-width: 10rem;
+  margin-left: 2rem;
 }
 
 .radio-group {
   display: flex;
   justify-content: space-between;
-  margin: 10px 0;
+  margin: 1rem 0;
   width: 100%;
 }
 
 .radio-group label {
   display: flex;
   align-items: center;
-  margin-right: 20px; /* Adjust the margin as needed for spacing */
-  width: 100px;
+  margin-right: 2rem; /* Adjust the margin as needed for spacing */
+  width: 10rem;
 }
 
 .radio-group input {
-  margin-right: 5px;
+  margin-right: 0.5rem;
   width: 10%;
 }

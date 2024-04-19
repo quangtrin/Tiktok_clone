@@ -8,6 +8,7 @@ const routes = {
     live: '/live',
     create: '/create',
     authentication: '/authentication',
+    editProfile: "/edit_profile"
 };
 
 export default routes;

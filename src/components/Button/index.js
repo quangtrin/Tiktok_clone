@@ -20,6 +20,7 @@ function Button({
     leftIcon,
     rightIcon,
     onClick,
+    textColor,
     ...passProps
 }) {
     let Comp = 'button';

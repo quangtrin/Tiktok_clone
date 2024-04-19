@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faCirclePlus,
@@ -12,23 +12,22 @@ import './FooterRight.css';
 import { follow } from '~/services/followService';
 import { like, unLike } from '~/services/likeService';
 import { addFollow } from '~/redux/userCurrentSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 function FooterRight({ profilePic, video, setOpenComment, openComment, followingUsers }) {
     const userCurrentId = localStorage.getItem('userId');
     const dispatch = useDispatch();
+    const navigation = useNavigate();
+    const listFollowingUser = useSelector((state) => state.user_current.listFollowingUser);
+    const currentUser = useSelector((state) => state.user_current.information);
     const [liked, setLiked] = useState(
-        video.Likes.filter((value) => value.user_id == userCurrentId && value.video_id == video.id).length !== 0,
+        video.Likes.filter((value) => value.user_id == currentUser.id && value.video_id == video.id).length !== 0,
     );
     const [countLike, setCountLike] = useState(0);
     const [saved, setSaved] = useState(false);
-    const findCreatorId = followingUsers.find((user) => {
-        // console.log(`${user.followingUser.id} - ${video.creator_id} => ${user.followingUser.id == video.creator_id}`);
-        return user.id == video.creator_id;
-    });
-    const [userAddIcon, setUserAddIcon] = useState(
-        findCreatorId ? faCircleCheck : video.creator_id == userCurrentId ? faCircleCheck : faCirclePlus,
-    );
+
+    const [userAddIcon, setUserAddIcon] = useState(faCircleCheck);
 
     const handleUserAddClick = async () => {
         await follow(video.creator_id);
@@ -76,22 +75,34 @@ function FooterRight({ profilePic, video, setOpenComment, openComment, following
         setOpenComment(!openComment);
     };
 
+    useEffect(() => {
+        const findCreatorId = listFollowingUser.find((user) => {
+            return user.id == video.creator_id;
+        });
+        setUserAddIcon(
+            findCreatorId ? faCircleCheck : video.creator_id == currentUser.id ? faCircleCheck : faCirclePlus,
+        );
+    }, [listFollowingUser]);
+
     return (
         <div className="footer-right">
             <div className="sidebar-icon">
                 {profilePic ? (
                     // Displaying the user profile picture
                     <img
+                        onClick={() => {
+                            navigation(`/user/@${video.creator_id}`);
+                        }}
                         src={profilePic}
                         className="userprofile"
                         alt="Profile"
-                        style={{ width: '45px', height: '45px', color: '#616161' }}
+                        style={{ width: '4.5rem', height: '4.5rem', color: '#616161' }}
                     />
                 ) : null}
                 <FontAwesomeIcon
                     icon={userAddIcon}
                     className="useradd"
-                    style={{ width: '15px', height: '15px', color: '#FF0000' }}
+                    style={{ width: '1.5rem', height: '1.5rem', color: '#FF0000' }}
                     onClick={userAddIcon === faCirclePlus ? handleUserAddClick : null}
                 />
             </div>
@@ -99,7 +110,7 @@ function FooterRight({ profilePic, video, setOpenComment, openComment, following
                 {/* The heart icon for liking */}
                 <FontAwesomeIcon
                     icon={faHeart}
-                    style={{ width: '35px', height: '35px', color: liked ? '#FF0000' : 'white' }}
+                    style={{ width: '3.5rem', height: '3.5rem', color: liked ? '#FF0000' : 'white' }}
                     onClick={handleLikeClick}
                 />
                 {/* Displaying the formatted likes count */}
@@ -109,7 +120,7 @@ function FooterRight({ profilePic, video, setOpenComment, openComment, following
                 {/* The comment icon */}
                 <FontAwesomeIcon
                     icon={faCommentDots}
-                    style={{ width: '35px', height: '35px', color: 'white' }}
+                    style={{ width: '3.5rem', height: '3.5rem', color: 'white' }}
                     onClick={handleCommentIconClick}
                 />
                 {/* Displaying the number of comments */}
@@ -120,14 +131,14 @@ function FooterRight({ profilePic, video, setOpenComment, openComment, following
                     // Displaying the bookmark icon when saved
                     <FontAwesomeIcon
                         icon={faBookmark}
-                        style={{ width: '35px', height: '35px', color: '#ffc107' }}
+                        style={{ width: '3.5rem', height: '3.5rem', color: '#ffc107' }}
                         onClick={() => setSaved(false)}
                     />
                 ) : (
                     // Displaying the bookmark icon when not saved
                     <FontAwesomeIcon
                         icon={faBookmark}
-                        style={{ width: '35px', height: '35px', color: 'white' }}
+                        style={{ width: '3.5rem', height: '3.5rem', color: 'white' }}
                         onClick={() => setSaved(true)}
                     />
                 )}
@@ -136,7 +147,7 @@ function FooterRight({ profilePic, video, setOpenComment, openComment, following
             </div>
             <div className="sidebar-icon">
                 {/* The share icon */}
-                <FontAwesomeIcon icon={faShare} style={{ width: '35px', height: '35px', color: 'white' }} />
+                <FontAwesomeIcon icon={faShare} style={{ width: '3.5rem', height: '3.5rem', color: 'white' }} />
                 {/* Displaying the number of shares */}
                 <p>{2}</p>
             </div>
