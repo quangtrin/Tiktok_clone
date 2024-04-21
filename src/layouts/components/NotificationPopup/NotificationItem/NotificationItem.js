@@ -10,11 +10,9 @@ import { updateNotificationUser } from '~/services/API/notificationService';
 const cx = classNames.bind(styles);
 
 const NotificationItem = ({ notification }) => {
-    const navigate = useNavigate();
     const handleReadNotifi = async () => {
         await updateNotificationUser(notification);
-        navigate(`/user/@${notification.sender.id}`);
-        window.location.reload();
+        window.location.href = `/user/@${notification.sender.id}`;
     }
     return (
         <div className={cx('layout')} onClick={handleReadNotifi}>
