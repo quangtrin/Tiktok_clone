@@ -1,9 +1,23 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from './routes';
 import { DefaultLayout } from '~/layouts';
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
+import { io } from 'socket.io-client';
+import config from './config';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateSocket, updateUserOnline } from './redux/socketSlice';
 
 function App() {
+    const dispatch = useDispatch();
+    const currentUser = useSelector((state) => state.user_current.information);
+    useEffect(() => {
+        const socket = io(config.baseUrl);
+        dispatch(updateSocket(socket));
+        if (currentUser.id) {
+            socket.emit("add-user", currentUser);
+            dispatch(updateUserOnline(currentUser));
+        }
+    }, []);
     return (
         <Router>
             <div className="App">

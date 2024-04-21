@@ -5,7 +5,7 @@ import Button from '~/components/Button';
 import styles from "./CardFollow.module.scss"
 import classNames from 'classnames/bind';
 import { useNavigate } from 'react-router-dom';
-import { follow, unFollow } from '~/services/followService';
+import { follow, unFollow } from '~/services/API/followService';
 import {useDispatch} from 'react-redux'
 import { removeFollow } from '~/redux/userCurrentSlice';
 import ButtonFollow from '~/components/Button/ButtonFollow';

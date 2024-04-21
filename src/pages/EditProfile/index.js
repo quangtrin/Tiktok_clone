@@ -7,7 +7,7 @@ import Button from '~/components/Button';
 import { useDispatch } from 'react-redux';
 import './Library.scss';
 import { updateInformation } from '~/redux/userCurrentSlice';
-import { getCurrentUser, updateCurrentUser } from '~/services/userService';
+import { getCurrentUser, updateCurrentUser } from '~/services/API/userService';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 import { ErrorAlertDialog, SuccessAlertDialog } from '~/components/AlertDialog/AlertDialog';

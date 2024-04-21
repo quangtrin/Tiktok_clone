@@ -39,9 +39,9 @@ function Menu({ children, items = [], hideOnClick = false, onChange = defaultFn 
     return (
         <Tippy
             interactive
-            delay={[0, 700]}
             appendTo={document.body}
             placement="bottom-end"
+            delay={[0,250]}
             hideOnClick={hideOnClick}
             render={(attrs) => (
                 <div className={cx('menu-list')} tapindex="-1" {...attrs}>

@@ -9,8 +9,8 @@ import {
     faShare,
 } from '@fortawesome/free-solid-svg-icons';
 import './FooterRight.css';
-import { follow } from '~/services/followService';
-import { like, unLike } from '~/services/likeService';
+import { follow } from '~/services/API/followService';
+import { like, unLike } from '~/services/API/likeService';
 import { addFollow } from '~/redux/userCurrentSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -20,6 +20,7 @@ function FooterRight({ profilePic, video, setOpenComment, openComment, following
     const dispatch = useDispatch();
     const navigation = useNavigate();
     const listFollowingUser = useSelector((state) => state.user_current.listFollowingUser);
+    const socket = useSelector((state) => state.socket.socket);
     const currentUser = useSelector((state) => state.user_current.information);
     const [liked, setLiked] = useState(
         video.Likes.filter((value) => value.user_id == currentUser.id && value.video_id == video.id).length !== 0,
@@ -30,7 +31,7 @@ function FooterRight({ profilePic, video, setOpenComment, openComment, following
     const [userAddIcon, setUserAddIcon] = useState(faCircleCheck);
 
     const handleUserAddClick = async () => {
-        await follow(video.creator_id);
+        await follow(video.creator_id, socket);
         dispatch(addFollow(video.Creator));
         setUserAddIcon(faCircleCheck);
     };

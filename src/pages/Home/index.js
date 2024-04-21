@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './Home.module.scss';
 import '../../App.css';
 import classNames from 'classnames/bind';
-import { getListVideos } from '~/services/videoService';
+import { getListVideos } from '~/services/API/videoService';
 import WatchingVideo from '~/components/VideoWatching';
 const cx = classNames.bind(styles);
 

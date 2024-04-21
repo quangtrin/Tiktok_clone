@@ -3,7 +3,7 @@ import Swal from 'sweetalert2';
 import classNames from 'classnames/bind';
 import styles from './Login.module.scss';
 import { useNavigate } from 'react-router-dom';
-import { login, register } from '~/services/authService';
+import { login, register } from '~/services/API/authService';
 import { useDispatch } from 'react-redux';
 import { updateInformation } from '~/redux/userCurrentSlice';
 
@@ -31,6 +31,7 @@ const LoginComponent = ({ setIsLoginScreen }) => {
                     if (result.isConfirmed) {
                         dispatch(updateInformation(user));
                         navigate('/');
+                        window.location.reload();
                     }
                 });
             } else {

@@ -23,9 +23,12 @@ import styles from './Header.module.scss';
 import Search from '../Search';
 import config from '~/config';
 import { useSelector, useDispatch } from 'react-redux';
-import { getCurrentUser } from '~/services/userService';
+import { getCurrentUser, getUserById } from '~/services/API/userService';
 import { updateInformation } from '~/redux/userCurrentSlice';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { Popover } from 'antd';
+import NotificationPopup from '../NotificationPopup/NotificationPopup';
+import { getNotificationUser } from '~/services/API/notificationService';
 
 const cx = classNames.bind(styles);
 const MENU_ITEM = [
@@ -62,7 +65,10 @@ const MENU_ITEM = [
 function Header() {
     const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.user_current.information);
+    const socket = useSelector((state) => state.socket.socket);
     const userCurrentId = localStorage.getItem('userId');
+    const [notifications, setNotifications] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const handleMenuChange = (menuItem) => {
         switch (menuItem.type) {
@@ -75,11 +81,12 @@ function Header() {
     };
 
     const fetchData = async () => {
-        console.log(!currentUser.id && userCurrentId);
+        setLoading(true);
         if (!currentUser.id && userCurrentId) {
-            console.log(123);
             dispatch(updateInformation(await getCurrentUser()));
         }
+        setNotifications(await getNotificationUser());
+        setLoading(false);
     };
 
     const userMenu = [
@@ -114,66 +121,88 @@ function Header() {
         },
     ];
 
+    const handleSocket = async () => {
+        await socket.on('send-notification', async (data) => {
+            const sender = await getUserById(data.notification.sender_id);
+            const newNotifi = {
+                ...data.notification,
+                sender,
+            };
+            setNotifications((prev) => [newNotifi, ...prev]);
+        });
+    };
+
     useEffect(() => {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        if (socket) handleSocket();
+    }, [socket]);
+
     return (
-        <header className={cx('wrapper')}>
-            <div className={cx('inner')}>
-                <div className={cx('logo')}>
-                    <Link to={config.routes.home} className={cx('logo-link')}>
-                        <img src={images.logo} alt="Tiktok" />
-                    </Link>
-                </div>
+        !loading && (
+            <header className={cx('wrapper')}>
+                <div className={cx('inner')}>
+                    <div className={cx('logo')}>
+                        <Link to={config.routes.home} className={cx('logo-link')}>
+                            <img src={images.logo} alt="Tiktok" />
+                        </Link>
+                    </div>
 
-                <Search />
+                    <Search />
 
-                <div className={cx('actions')}>
-                    {currentUser.id ? (
-                        <>
-                            <Tippy delay={[0, 50]} content="Upload video" placement="bottom">
-                                <button className={cx('action-btn')}>
-                                    <UploadIcon />
-                                </button>
-                            </Tippy>
-                            <Tippy delay={[0, 50]} content="Message" placement="bottom">
-                                <button className={cx('action-btn')}>
-                                    <MessageIcon />
-                                </button>
-                            </Tippy>
-                            <Tippy delay={[0, 50]} content="Inbox" placement="bottom">
-                                <button className={cx('action-btn')}>
-                                    <InboxIcon />
-                                    <span className={cx('badge')}>12</span>
-                                </button>
-                            </Tippy>
-                        </>
-                    ) : (
-                        <>
-                            <Button text>Upload</Button>
-                            <Button primary to={'/authentication'}>
-                                Log In
-                            </Button>
-                        </>
-                    )}
-                    <Menu items={currentUser.id ? userMenu : MENU_ITEM} onChange={handleMenuChange}>
+                    <div className={cx('actions')}>
                         {currentUser.id ? (
-                            <Image
-                                className={cx('user-avatar')}
-                                src={currentUser.avatar}
-                                alt={currentUser.user_name}
-                                fallback=""
-                            />
+                            <>
+                                <Tippy delay={[0, 50]} content="Upload video" placement="bottom">
+                                    <button className={cx('action-btn')}>
+                                        <UploadIcon />
+                                    </button>
+                                </Tippy>
+                                <Tippy delay={[0, 50]} content="Message" placement="bottom">
+                                    <button className={cx('action-btn')}>
+                                        <MessageIcon />
+                                    </button>
+                                </Tippy>
+                                <Popover
+                                    content={<NotificationPopup notifications={notifications} />}
+                                    trigger={'click'}
+                                >
+                                    <button className={cx('action-btn')}>
+                                        <InboxIcon />
+                                        <span className={cx('badge')}>
+                                            {notifications.filter((notifi) => !notifi.read).length}
+                                        </span>
+                                    </button>
+                                </Popover>
+                            </>
                         ) : (
-                            <button className={cx('more-btn')}>
-                                <FontAwesomeIcon icon={faEllipsisVertical} />
-                            </button>
+                            <>
+                                <Button text>Upload</Button>
+                                <Button primary to={'/authentication'}>
+                                    Log In
+                                </Button>
+                            </>
                         )}
-                    </Menu>
+                        <Menu items={currentUser.id ? userMenu : MENU_ITEM} onChange={handleMenuChange}>
+                            {currentUser.id ? (
+                                <Image
+                                    className={cx('user-avatar')}
+                                    src={currentUser.avatar}
+                                    alt={currentUser.user_name}
+                                    fallback=""
+                                />
+                            ) : (
+                                <button className={cx('more-btn')}>
+                                    <FontAwesomeIcon icon={faEllipsisVertical} />
+                                </button>
+                            )}
+                        </Menu>
+                    </div>
                 </div>
-            </div>
-        </header>
+            </header>
+        )
     );
 }
 

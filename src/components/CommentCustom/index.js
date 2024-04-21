@@ -7,7 +7,7 @@ import './Library.scss';
 import { useSelector, useDispatch } from 'react-redux';
 import { changeReplyCurrent } from '~/redux/commentSlice';
 import { addCommentChild } from '~/redux/commentSlice';
-import { postComments } from '~/services/commentService';
+import { postComments } from '~/services/API/commentService';
 import { useNavigate } from 'react-router-dom';
 
 const CommentCustom = ({ children, comment }) => {

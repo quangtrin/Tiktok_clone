@@ -5,7 +5,7 @@ import AccountItem from './AccountItem';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateListFollowingUser } from '~/redux/userCurrentSlice';
-import { getFollowingOfCurrentUser } from '~/services/userService';
+import { getFollowingOfCurrentUser } from '~/services/API/userService';
 
 const cx = classNames.bind(styles);
 

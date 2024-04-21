@@ -2,7 +2,7 @@ import { InboxOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 import { Button, Form, Input, Space, Upload } from 'antd';
 import Swal from 'sweetalert2';
-import { createVideo } from '~/services/videoService';
+import { createVideo } from '~/services/API/videoService';
 import { useNavigate } from 'react-router-dom';
 const formItemLayout = {
     labelCol: {

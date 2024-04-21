@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { postComments } from '~/services/commentService';
+import { postComments } from '~/services/API/commentService';
 import { addComment, updateListCommentCurrent } from '~/redux/commentSlice';
 import TopNavbar from './VideoCard/TopNavbar';
 import VideoCard from './VideoCard/VideoCard';

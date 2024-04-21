@@ -5,7 +5,7 @@ import classNames from 'classnames/bind';
 import styles from './Following.module.scss';
 import { Col, Row } from 'antd';
 import { updateListFollowingUser } from '~/redux/userCurrentSlice';
-import { getFollowingOfCurrentUser } from '~/services/userService';
+import { getFollowingOfCurrentUser } from '~/services/API/userService';
 
 const cx = classNames.bind(styles);
 function Following() {

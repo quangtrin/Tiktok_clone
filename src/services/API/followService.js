@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from '~/config';
+import { followNotification } from './notificationService';
 
 const unFollow = async (followingUserId) => {
     const tokenSession = localStorage.getItem('token');
@@ -14,7 +15,7 @@ const unFollow = async (followingUserId) => {
     }
 };
 
-const follow = async (followingUserId) => {
+const follow = async (followingUserId, socket) => {
     const tokenSession = localStorage.getItem('token');
     try {
         await axios.post(
@@ -26,6 +27,7 @@ const follow = async (followingUserId) => {
                 },
             },
         );
+        await followNotification(followingUserId, socket);
     } catch (error) {
         console.log(error);
     }

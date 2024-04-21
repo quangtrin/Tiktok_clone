@@ -4,6 +4,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import commentSlice from './commentSlice';
 import userCurrentSlice from './userCurrentSlice';
+import socketSlice from "./socketSlice";
 
 // export const store = configureStore({
 //     reducer: {
@@ -14,12 +15,13 @@ import userCurrentSlice from './userCurrentSlice';
 const rootReducer = combineReducers({
     comment: commentSlice,
     user_current: userCurrentSlice,
+    socket: socketSlice
 });
 
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['comment', 'user_current'],
+    whitelist: ['comment', 'user_current', 'socket'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
