@@ -9,9 +9,9 @@ import './Library.scss';
 import { updateInformation } from '~/redux/userCurrentSlice';
 import { getCurrentUser, updateCurrentUser } from '~/services/API/userService';
 import dayjs from 'dayjs';
-import { useNavigate } from 'react-router-dom';
 import { ErrorAlertDialog, SuccessAlertDialog } from '~/components/AlertDialog/AlertDialog';
 import { LoadingOutlined } from '@ant-design/icons';
+import "./Library.scss"
 const { TextArea } = Input;
 
 const cx = classNames.bind(styles);
@@ -23,7 +23,6 @@ const normFile = (e) => {
 };
 
 const EditProfile = () => {
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const [form] = Form.useForm();
     const [image, setImage] = useState('');
@@ -35,21 +34,6 @@ const EditProfile = () => {
         setImage(URL.createObjectURL(file));
     };
 
-    const getCurrentUserData = async () => {
-        setLoading(true);
-        const currentUser = await getCurrentUser();
-        dispatch(updateInformation(currentUser));
-        setImage(currentUser.avatar);
-        form.setFieldValue('name', currentUser.user_name);
-        form.setFieldValue('description', currentUser.description);
-        form.setFieldValue('gender', currentUser.gender);
-        form.setFieldValue('id', currentUser.name_id);
-        if(currentUser.birthday){
-            const birthdayConvert = dayjs(currentUser.birthday).format('DD/MM/YYYY');
-            form.setFieldValue('birthday', dayjs(birthdayConvert, 'DD/MM/YYYY'));
-        }
-        setLoading(false);
-    };
 
     const onFinish = async (values) => {
         setLoadingButton(true);
@@ -68,8 +52,24 @@ const EditProfile = () => {
     };
 
     useEffect(() => {
+        const getCurrentUserData = async () => {
+            setLoading(true);
+            const currentUser = await getCurrentUser();
+            dispatch(updateInformation(currentUser));
+            setImage(currentUser.avatar);
+            form.setFieldValue('name', currentUser.user_name);
+            form.setFieldValue('description', currentUser.description);
+            form.setFieldValue('gender', currentUser.gender);
+            form.setFieldValue('id', currentUser.name_id);
+            if(currentUser.birthday){
+                const birthdayConvert = dayjs(currentUser.birthday).format('DD/MM/YYYY');
+                form.setFieldValue('birthday', dayjs(birthdayConvert, 'DD/MM/YYYY'));
+            }
+            setLoading(false);
+        };
+
         getCurrentUserData();
-    }, []);
+    }, [dispatch, form]);
 
     return loading ? (
         <Spin />
@@ -134,7 +134,7 @@ const EditProfile = () => {
                 </Form.Item>
                 <Form.Item
                     wrapperCol={{
-                        offset: 8,
+                        offset: 14,
                     }}
                 >
                     <Button primary>

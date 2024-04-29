@@ -23,8 +23,7 @@ import styles from './Header.module.scss';
 import Search from '../Search';
 import config from '~/config';
 import { useSelector, useDispatch } from 'react-redux';
-import { getCurrentUser, getUserById } from '~/services/API/userService';
-import { updateInformation } from '~/redux/userCurrentSlice';
+import { getUserById } from '~/services/API/userService';
 import { useEffect, useState } from 'react';
 import { Popover } from 'antd';
 import NotificationPopup from '../NotificationPopup/NotificationPopup';
@@ -63,10 +62,8 @@ const MENU_ITEM = [
 ];
 
 function Header() {
-    const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.user_current.information);
     const socket = useSelector((state) => state.socket.socket);
-    const userCurrentId = localStorage.getItem('userId');
     const [notifications, setNotifications] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -78,15 +75,6 @@ function Header() {
             default:
                 break;
         }
-    };
-
-    const fetchData = async () => {
-        setLoading(true);
-        if (!currentUser.id && userCurrentId) {
-            dispatch(updateInformation(await getCurrentUser()));
-        }
-        setNotifications(await getNotificationUser());
-        setLoading(false);
     };
 
     const userMenu = [
@@ -110,9 +98,6 @@ function Header() {
             icon: (
                 <FontAwesomeIcon
                     icon={faSignOut}
-                    onClick={() => {
-                        localStorage.clear();
-                    }}
                 />
             ),
             title: 'Log out',
@@ -121,22 +106,32 @@ function Header() {
         },
     ];
 
-    const handleSocket = async () => {
-        await socket.on('send-notification', async (data) => {
-            const sender = await getUserById(data.notification.sender_id);
-            const newNotifi = {
-                ...data.notification,
-                sender,
-            };
-            setNotifications((prev) => [newNotifi, ...prev]);
-        });
-    };
-
     useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            if (currentUser.id) {
+                const notifications = await getNotificationUser();
+                setNotifications(notifications);
+            }
+            setLoading(false);
+        };
+
         fetchData();
-    }, []);
+
+    }, [currentUser.id]);
 
     useEffect(() => {
+        const handleSocket = async () => {
+            await socket.on('send-notification', async (data) => {
+                const sender = await getUserById(data.notification.sender_id);
+                const newNotifi = {
+                    ...data.notification,
+                    sender,
+                };
+                setNotifications((prev) => [newNotifi, ...prev]);
+            });
+        };
+
         if (socket) handleSocket();
     }, [socket]);
 

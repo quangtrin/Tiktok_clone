@@ -11,7 +11,7 @@
     --font-family: 'ProximaNova', sans-serif;
     //Default layout
     --default-layout-header-height: 6rem;
-    --default-layout-width: 126rem;
+    --default-layout-width: 90%;
     --default-layout-horizontal-spacer: 2.4rem;
 }
 
@@ -38,10 +38,10 @@ body {
 // Scrollbar
 html *::-webkit-scrollbar {
     border-radius: 0;
-    width: 0.8em;
+    width: 0.8rem;
 }
 html *::-webkit-scrollbar-thumb {
-    border-radius: 0.4em;
+    border-radius: 0.4rem;
     background-color: rgba(22, 24, 35, 0.06);
 }
 
@@ -90,7 +90,7 @@ a {
 // Custom tippy tooltip
 body {
     .tippy-box {
-        border-radius: 0.8em;
+        border-radius: 0.8rem;
         font-weight: 600;
         font-size: 1.6rem;
         line-height: 2.2rem;
@@ -102,6 +102,36 @@ body {
     }
 
     .tippy-content {
-        padding: 0.8em 0.9em;
+        padding: 0.8rem 0.9rem;
+    }
+}
+
+// responsive size
+$mobile-width: 576px;
+$tablet-width: 905px;
+$big-tablet-width: 1024px;
+$desktop-width: 1600px;
+
+@mixin mobile {
+    @media (max-width: #{$mobile-width - 1px}) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (min-width: #{$mobile-width}) and (max-width: #{$tablet-width - 1px}) {
+        @content;
+    }
+}
+
+@mixin big-tablet {
+    @media (min-width: #{$tablet-width}) and (max-width: #{$big-tablet-width - 1px}) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media (min-width: #{$desktop-width}) {
+        @content;
     }
 }

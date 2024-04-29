@@ -1,3 +1,4 @@
+@use "../../components/GlobalStyles/GlobalStyles.scss" as *;
 .wrapper {
     display: flex;
     flex-direction: column;
@@ -10,6 +11,19 @@
     width: var(--default-layout-width);
     display: flex;
     padding: 0 var(--default-layout-horizontal-spacer);
+    @include mobile {
+        margin-top: 0;
+        padding: 0;
+    }
+
+    @include tablet {
+        margin-top: 0;
+        padding: 0;
+    }
+
+    @include big-tablet {
+        width: 100%;
+    }
 }
 
 .content {

@@ -5,7 +5,7 @@ import styles from './Login.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { login, register } from '~/services/API/authService';
 import { useDispatch } from 'react-redux';
-import { updateInformation } from '~/redux/userCurrentSlice';
+import { updateInformation, userCurrentClear } from '~/redux/userCurrentSlice';
 
 const cx = classNames.bind(styles);
 
@@ -45,7 +45,8 @@ const LoginComponent = ({ setIsLoginScreen }) => {
     };
     useEffect(() => {
         localStorage.clear();
-    }, []);
+        dispatch(userCurrentClear());
+    }, [dispatch]);
     return (
         <div>
             <div className={cx('app-logo')}>

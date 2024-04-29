@@ -12,21 +12,23 @@ function Following() {
     const dispatch = useDispatch();
     const listFollowingUser = useSelector((state) => state.user_current.listFollowingUser);
     const currentUser = useSelector((state) => state.user_current.information);
-    const getDataFollowingUser = async () => {
-        try {
-            const followingUsers = await getFollowingOfCurrentUser();
-            dispatch(updateListFollowingUser(followingUsers));
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    
     useEffect(() => {
+        const getDataFollowingUser = async () => {
+            try {
+                const followingUsers = await getFollowingOfCurrentUser();
+                dispatch(updateListFollowingUser(followingUsers));
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
         getDataFollowingUser();
-    }, []);
+    }, [dispatch, currentUser]);
 
     return (
         <div className={cx('follow_layout')}>
-            <Row gutter={16}>
+            <Row gutter={16} style={{justifyContent: "center"}}>
                 {listFollowingUser.map((user) => {
                     return (
                         <Col key={user.id}>

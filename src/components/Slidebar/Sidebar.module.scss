@@ -1,5 +1,14 @@
+@use '../../components/GlobalStyles/GlobalStyles.scss' as *;
+
 .wrapper {
     width: 32.6rem;
     padding: 2rem 0 2.6rem 0.8rem;
     margin-left: -1.8rem;
+    @include mobile {
+        display: none;
+    }
+
+    @include tablet {
+        display: none;
+    }
 }

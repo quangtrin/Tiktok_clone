@@ -1,24 +1,25 @@
 import classNames from "classnames/bind"
 import styles from "./UserVideo.module.scss"
 import React, { useEffect, useState } from 'react';
-import { getListVideos, getListVideosByCreatorId } from '~/services/API/videoService';
+import { getListVideosByCreatorId } from '~/services/API/videoService';
 import WatchingVideo from '~/components/VideoWatching';
 import { useParams } from 'react-router-dom';
 
 const cx = classNames.bind(styles)
 const UserVideo = () => {
     const [videos, setVideos] = useState([]);
-    const { id, videoId } = useParams();
+    const { id } = useParams();
 
-    const getVideos = async () => {
-        const listVideos = await getListVideosByCreatorId(id);
-        console.log(listVideos);
-        setVideos(listVideos);
-    };
+    
 
     useEffect(() => {
+        const getVideos = async () => {
+            const listVideos = await getListVideosByCreatorId(id);
+            setVideos(listVideos);
+        };
+
         getVideos();
-    }, []);
+    }, [id]);
 
     return ( videos ?
         <>

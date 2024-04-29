@@ -70,7 +70,7 @@ const WatchingVideo = ({videos}) => {
         return () => {
             observer.disconnect();
         };
-    }, [videos]);
+    }, [videos, dispatch]);
 
     // This function handles the reference of each video
     const handleVideoRef = (index) => (ref) => {

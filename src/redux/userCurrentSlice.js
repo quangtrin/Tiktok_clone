@@ -34,6 +34,11 @@ export const userCurrentSlice = createSlice({
                 (user) => user.id !== action.payload,
             );
         },
+        userCurrentClear: (state, action) => {
+            state.information = {};
+            state.listFollowingUser = [];
+            state.listFollowedUser = [];
+        }
     },
 });
 
@@ -46,6 +51,7 @@ export const {
     addFollow,
     removeFollow,
     updateInformation,
+    userCurrentClear
 } = userCurrentSlice.actions;
 
 export default userCurrentSlice.reducer;

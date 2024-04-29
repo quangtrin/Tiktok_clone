@@ -12,13 +12,12 @@ import ButtonFollow from '~/components/Button/ButtonFollow';
 
 const cx = classNames.bind(styles);
 const CardFollow = ({user}) => {
-    const dispatch = useDispatch();
     const [isFollow, setIsFollow] = useState(true)
     
     const navigate = useNavigate();
     return (
         <div id="CardFollow">
-            <Card hoverable style={{ width: 250, marginTop: 16, height: 100 }} onClick={()  => navigate(`/user/@${user.id}`)}>
+            <Card hoverable style={{ width: 230, marginTop: 16, height: 100 }} onClick={()  => navigate(`/user/@${user.id}`)}>
                 <Card.Meta
                     avatar={<Avatar size={"large"} src={user.avatar} />}
                     title={user.user_name}

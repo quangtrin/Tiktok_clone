@@ -1,9 +1,11 @@
 import { InboxOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
-import { Button, Form, Input, Space, Upload } from 'antd';
+import { Form, Input, Space, Upload } from 'antd';
 import Swal from 'sweetalert2';
 import { createVideo } from '~/services/API/videoService';
 import { useNavigate } from 'react-router-dom';
+import "./CreateVideoLibrary.scss"
+import Button from '~/components/Button';
 const formItemLayout = {
     labelCol: {
         span: 6,
@@ -39,63 +41,64 @@ function Create() {
         setLoading(false);
     };
     return (
-        <Form
-            name="validate_other"
-            {...formItemLayout}
-            onFinish={onFinish}
-            onSubmit={(e) => {
-                e.preventDefault();
-            }}
-            initialValues={{
-                'input-number': 3,
-                'checkbox-group': ['A', 'B'],
-                rate: 3.5,
-                'color-picker': null,
-            }}
-            style={{
-                maxWidth: 600,
-                margin: 'auto',
-            }}
-        >
-            <Form.Item label="Dragger">
-                <Form.Item
-                    name="dragger"
-                    valuePropName="fileList"
-                    getValueFromEvent={normFile}
-                    noStyle
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please choose your video!',
-                        },
-                    ]}
-                >
-                    <Upload.Dragger name="files" action="/upload.do">
-                        <p className="ant-upload-drag-icon">
-                            <InboxOutlined />
-                        </p>
-                        <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                        <p className="ant-upload-hint">Support for a single or bulk upload.</p>
-                    </Upload.Dragger>
-                </Form.Item>
-            </Form.Item>
-            <Form.Item label="Description" name="description">
-                <Input />
-            </Form.Item>
-            <Form.Item
-                wrapperCol={{
-                    span: 12,
-                    offset: 6,
+        <div id="Create-video">
+            <Form
+                name="validate_other"
+                {...formItemLayout}
+                onFinish={onFinish}
+                onSubmit={(e) => {
+                    e.preventDefault();
+                }}
+                initialValues={{
+                    'input-number': 3,
+                    'checkbox-group': ['A', 'B'],
+                    rate: 3.5,
+                    'color-picker': null,
+                }}
+                style={{
+                    maxWidth: 600,
+                    margin: 'auto',
                 }}
             >
-                <Space>
-                    <Button type="primary" htmlType="submit" loading={loading}>
-                        Submit
-                    </Button>
-                    <Button htmlType="reset">reset</Button>
-                </Space>
-            </Form.Item>
-        </Form>
+                <Form.Item label="Dragger">
+                    <Form.Item
+                        name="dragger"
+                        valuePropName="fileList"
+                        getValueFromEvent={normFile}
+                        noStyle
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please choose your video!',
+                            },
+                        ]}
+                    >
+                        <Upload.Dragger name="files" action="/upload.do">
+                            <p className="ant-upload-drag-icon">
+                                <InboxOutlined />
+                            </p>
+                            <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                            <p className="ant-upload-hint">Support for a single or bulk upload.</p>
+                        </Upload.Dragger>
+                    </Form.Item>
+                </Form.Item>
+                <Form.Item label="Description" name="description">
+                    <Input />
+                </Form.Item>
+                <Form.Item
+                    wrapperCol={{
+                        offset: 11,
+                    }}
+                >
+                    <Space>
+                        <Button primary htmlType="submit" loading={loading}>
+                            Submit
+                        </Button>
+                        <Button outline htmlType="reset">reset</Button>
+                    </Space>
+                </Form.Item>
+            </Form>
+        </div>
     );
 }
 export default Create;

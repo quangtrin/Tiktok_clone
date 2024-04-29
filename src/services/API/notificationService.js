@@ -3,7 +3,6 @@ import config from '~/config';
 
 const followNotification = async (followedId, socket) => {
     const tokenSession = localStorage.getItem('token');
-    const userId = localStorage.getItem('userId');
     try {
         const newNotifi = await axios.post(
             `${config.baseUrl}/api/notification/create`,

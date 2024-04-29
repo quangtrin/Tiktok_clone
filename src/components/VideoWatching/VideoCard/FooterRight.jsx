@@ -78,12 +78,12 @@ function FooterRight({ profilePic, video, setOpenComment, openComment, following
 
     useEffect(() => {
         const findCreatorId = listFollowingUser.find((user) => {
-            return user.id == video.creator_id;
+            return user.id?.toString() === video.creator_id.toString();
         });
         setUserAddIcon(
-            findCreatorId ? faCircleCheck : video.creator_id == currentUser.id ? faCircleCheck : faCirclePlus,
+            findCreatorId ? faCircleCheck : video.creator_id?.toString() === currentUser.id?.toString() ? faCircleCheck : faCirclePlus,
         );
-    }, [listFollowingUser]);
+    }, [listFollowingUser, currentUser.id, video.creator_id]);
 
     return (
         <div className="footer-right">

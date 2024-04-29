@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
-function AccountItem({ account, setIsUpdate }) {
+function AccountItem({ account }) {
     const navigation = useNavigate();
     const [isFollow, setIsFollow] = useState(true);
 

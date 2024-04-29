@@ -23,30 +23,31 @@ function Profile() {
     const [user, setUser] = useState();
     const { id } = useParams();
     const userCurrentId = localStorage.getItem('userId');
-    const getUser = async () => {
-        let userProfile = await getUserById(id);
-        const follower = await getFollowerUser(userProfile.id);
-
-        setIsFollow(
-            follower.findIndex((user) => {
-                return user.id == userCurrentId;
-            }) !== -1,
-        );
-        const following = await getFollowingUser(userProfile.id);
-        const videoCreated = await getListVideosByCreatorId(userProfile.id);
-        userProfile = {
-            ...userProfile,
-            follower,
-            following,
-            videoCreated,
-        };
-
-        setUser(userProfile);
-    };
 
     useEffect(() => {
+        const getUser = async () => {
+            let userProfile = await getUserById(id);
+            const follower = await getFollowerUser(userProfile.id);
+    
+            setIsFollow(
+                follower.findIndex((user) => {
+                    return user.id?.toString() === userCurrentId?.toString();
+                }) !== -1,
+            );
+            const following = await getFollowingUser(userProfile.id);
+            const videoCreated = await getListVideosByCreatorId(userProfile.id);
+            userProfile = {
+                ...userProfile,
+                follower,
+                following,
+                videoCreated,
+            };
+    
+            setUser(userProfile);
+        };
+
         getUser();
-    }, [id]);
+    }, [id, userCurrentId]);
     const itemsTabbar = [
         {
             key: 'video',

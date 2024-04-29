@@ -11,25 +11,29 @@ const cx = classNames.bind(styles);
 
 function SuggestedAccounts({ label }) {
     const dispatch = useDispatch();
-    const [isUpdate, setIsUpdate] = useState(false);
     const listFollowingUser = useSelector((state)=>state.user_current.listFollowingUser)
-    const getDataFollowingUser = async () => {
-        try {
-            const followingUsers = await getFollowingOfCurrentUser();
-            dispatch(updateListFollowingUser(followingUsers));
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    const currentUser = useSelector((state) => state.user_current.information);
+    
     useEffect(() => {
+        const getDataFollowingUser = async () => {
+            try {
+                if(currentUser.id){
+                    const followingUsers = await getFollowingOfCurrentUser();
+                    dispatch(updateListFollowingUser(followingUsers));
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
         getDataFollowingUser();
-    }, [isUpdate]);
+    }, [dispatch, currentUser.id]);
     return (
         <div className={cx('wrapper')}>
             <p className={cx('label')}>{label}</p>
             <div className={cx('list-account')}>
             {listFollowingUser?.map((value) => (
-                <AccountItem key={value.id} account={value} setIsUpdate={setIsUpdate}/>
+                <AccountItem key={value.id} account={value}/>
             ))}
             </div>
         </div>

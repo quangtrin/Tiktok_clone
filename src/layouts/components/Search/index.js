@@ -56,7 +56,7 @@ function Search() {
     };
 
     return (
-        <div>
+        <div style={{width: "65%", display: "flex", justifyContent: "end"}}>
             <HeadlessTippy
                 visible={showResult && searchResult.length > 0}
                 offset={[12, 8]}
