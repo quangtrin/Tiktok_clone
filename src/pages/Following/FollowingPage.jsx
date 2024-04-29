@@ -8,7 +8,7 @@ import { updateListFollowingUser } from '~/redux/userCurrentSlice';
 import { getFollowingOfCurrentUser } from '~/services/API/userService';
 
 const cx = classNames.bind(styles);
-function Following() {
+function FollowingPage() {
     const dispatch = useDispatch();
     const listFollowingUser = useSelector((state) => state.user_current.listFollowingUser);
     const currentUser = useSelector((state) => state.user_current.information);
@@ -41,4 +41,4 @@ function Following() {
     );
 }
 
-export default Following;
+export default FollowingPage;

@@ -1,1 +1,1 @@
-export {default} from './Live'
+export {default} from './LivePage'

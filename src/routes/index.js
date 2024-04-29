@@ -3,28 +3,28 @@ import Config from '~/config';
 //Layout
 import { HeaderOnly } from '~/layouts';
 
-import Home from '~/pages/Home';
-import Following from '~/pages/Following';
-import Profile from '~/pages/Profile';
-import Upload from '~/pages/Upload';
-import Search from '~/pages/Search';
-import Live from '~/pages/Live';
-import Create from '~/pages/Create';
-import AuthenticationForm from '~/pages/Login';
-import UserVideo from '~/pages/UserVideo';
-import EditProfile from '~/pages/EditProfile';
+import HomePage from '~/pages/Home/HomePage';
+import FollowingPage from '~/pages/Following/FollowingPage';
+import ProfilePage from '~/pages/Profile/ProfilePage';
+import UploadPage from '~/pages/Upload/UploadPage';
+import SearchPage from '~/pages/Search/SearchPage';
+import LivePage from '~/pages/Live';
+import CreatePage from '~/pages/Create/CreateVideoPage';
+import UserVideoPage from '~/pages/UserVideo/UserVideoPage';
+import EditProfilePage from '~/pages/EditProfile/EditProfilePage';
+import AuthPage from '~/pages/Login/AuthPage';
 
 const publicRoutes = [
-    { path: Config.routes.home, component: Home },
-    { path: Config.routes.following, component: Following },
-    { path: Config.routes.profile, component: Profile },
-    { path: Config.routes.userVideo, component: UserVideo },
-    { path: Config.routes.upload, component: Upload, layout: HeaderOnly },
-    { path: Config.routes.search, component: Search, layout: null },
-    { path: Config.routes.live, component: Live},
-    { path: Config.routes.create, component: Create},
-    { path: Config.routes.authentication, component: AuthenticationForm},
-    { path: Config.routes.editProfile, component: EditProfile}
+    { path: Config.routes.home, component: HomePage },
+    { path: Config.routes.following, component: FollowingPage },
+    { path: Config.routes.profile, component: ProfilePage },
+    { path: Config.routes.userVideo, component: UserVideoPage },
+    { path: Config.routes.upload, component: UploadPage, layout: HeaderOnly },
+    { path: Config.routes.search, component: SearchPage, layout: null },
+    { path: Config.routes.live, component: LivePage },
+    { path: Config.routes.create, component: CreatePage},
+    { path: Config.routes.authentication, component: AuthPage},
+    { path: Config.routes.editProfile, component: EditProfilePage }
 ];
 
 const privateRoutes = [];

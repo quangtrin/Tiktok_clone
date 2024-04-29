@@ -2,16 +2,16 @@ import classNames from 'classnames/bind';
 import styles from './EditProfile.module.scss';
 import { DatePicker, Form, Input, Radio, Upload, Avatar, Tooltip, Spin } from 'antd';
 import { useEffect, useState } from 'react';
-import Button from '~/components/Button';
+import Button from '~/components/Button/Button';
 // import Button from '~/components/Button';
 import { useDispatch } from 'react-redux';
-import './Library.scss';
+import './EditProfileLibrary.scss';
 import { updateInformation } from '~/redux/userCurrentSlice';
 import { getCurrentUser, updateCurrentUser } from '~/services/API/userService';
 import dayjs from 'dayjs';
 import { ErrorAlertDialog, SuccessAlertDialog } from '~/components/AlertDialog/AlertDialog';
 import { LoadingOutlined } from '@ant-design/icons';
-import "./Library.scss"
+import "./EditProfileLibrary.scss"
 const { TextArea } = Input;
 
 const cx = classNames.bind(styles);
@@ -22,7 +22,7 @@ const normFile = (e) => {
     return e?.fileList;
 };
 
-const EditProfile = () => {
+const EditProfilePage = () => {
     const dispatch = useDispatch();
     const [form] = Form.useForm();
     const [image, setImage] = useState('');
@@ -146,4 +146,4 @@ const EditProfile = () => {
     );
 };
 
-export default EditProfile;
+export default EditProfilePage;

@@ -3,7 +3,7 @@ import { Avatar, Tooltip, Input, Button } from 'antd';
 import { Comment } from '@ant-design/compatible';
 import React, { createElement, useState } from 'react';
 import dayjs from 'dayjs';
-import './Library.scss';
+import './CommentCustomLibrary.scss';
 import { useSelector, useDispatch } from 'react-redux';
 import { changeReplyCurrent } from '~/redux/commentSlice';
 import { addCommentChild } from '~/redux/commentSlice';

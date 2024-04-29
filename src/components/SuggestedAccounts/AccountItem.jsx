@@ -3,7 +3,7 @@ import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames/bind';
 import Tippy from '@tippyjs/react/headless';
 
-import { Wrapper as PopperWrapper } from '~/components/Propper';
+import { Wrapper as PopperWrapper } from '~/components/Propper/Propper';
 import styles from './SuggestedAccounts.module.scss';
 import ButtonFollow from '../Button/ButtonFollow';
 import { useState } from 'react';

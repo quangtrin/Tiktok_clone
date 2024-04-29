@@ -1,4 +1,4 @@
-import Button from '~/components/Button/index';
+import Button from '~/components/Button/Button';
 import { addFollow, removeFollow } from '~/redux/userCurrentSlice';
 import { follow, unFollow } from '~/services/API/followService';
 import { useDispatch, useSelector } from 'react-redux';

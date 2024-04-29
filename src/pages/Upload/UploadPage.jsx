@@ -1,6 +1,6 @@
 // import Header from '~/layouts/components/Header';
 
-function Upload() {
+function UploadPage() {
     return (
         <div className="">
             <h2>Upload Page</h2>
@@ -8,4 +8,4 @@ function Upload() {
     );
 }
 
-export default Upload;
+export default UploadPage;

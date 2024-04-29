@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import { createVideo } from '~/services/API/videoService';
 import { useNavigate } from 'react-router-dom';
 import "./CreateVideoLibrary.scss"
-import Button from '~/components/Button';
+import Button from '~/components/Button/Button';
 const formItemLayout = {
     labelCol: {
         span: 6,
@@ -21,7 +21,7 @@ const normFile = (e) => {
     return e?.fileList;
 };
 
-function Create() {
+function CreateVideoPage() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const onFinish = async (values) => {
@@ -101,4 +101,4 @@ function Create() {
         </div>
     );
 }
-export default Create;
+export default CreateVideoPage;

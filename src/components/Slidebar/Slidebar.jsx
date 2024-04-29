@@ -9,7 +9,7 @@ import {
     UserGroupIcon,
     LiveActiveIcon,
     LiveIcon,
-} from '~/components/Icons';
+} from '~/components/Icons/Icons';
 import SuggestedAccounts from '../SuggestedAccounts/SuggestedAccounts';
 import { useSelector } from 'react-redux'
 

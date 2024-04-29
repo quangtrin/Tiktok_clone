@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames/bind';
 import styles from './NotificationItem.module.scss';
 import { Avatar } from 'antd';
-import Button from '~/components/Button';
+import Button from '~/components/Button/Button';
 import { timeAgoOrDateTime } from '~/utils/function';
 import { useNavigate } from 'react-router-dom';
 import { updateNotificationUser } from '~/services/API/notificationService';

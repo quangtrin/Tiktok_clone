@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './VideoUploaded.moudle.scss';
-import CardVideo from './CardVideo';
+import CardVideo from './CardVideo/CardVideo';
 import { Row, Col } from 'antd';
 
 const cx = classNames.bind(styles);

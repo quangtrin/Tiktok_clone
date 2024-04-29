@@ -7,7 +7,7 @@ import VideoCard from './VideoCard/VideoCard';
 import BottomNavbar from './VideoCard/BottomNavbar';
 import classNames from 'classnames/bind';
 import { Avatar, Input, Button } from 'antd';
-import CommentCustom from '../CommentCustom';
+import CommentCustom from '../CommentCustom/CommentCustom';
 import styles from "./WatchingVideo.module.scss"
 
 const cx = classNames.bind(styles)

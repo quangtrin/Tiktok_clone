@@ -15,12 +15,12 @@ import classNames from 'classnames/bind';
 import 'tippy.js/dist/tippy.css';
 
 import images from '~/assets/images';
-import Button from '~/components/Button';
-import { InboxIcon, MessageIcon, UploadIcon } from '~/components/Icons';
-import Image from '~/components/Image';
-import Menu from '~/components/Propper/Menu';
+import Button from '~/components/Button/Button';
+import { InboxIcon, MessageIcon, UploadIcon } from '~/components/Icons/Icons';
+import Image from '~/components/Image/Image';
+import Menu from '~/components/Propper/Menu/Menu';
 import styles from './Header.module.scss';
-import Search from '../Search';
+import Search from '../Search/Search';
 import config from '~/config';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUserById } from '~/services/API/userService';

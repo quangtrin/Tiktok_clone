@@ -1,7 +1,7 @@
 import { Card, Avatar } from 'antd';
 import './Library.scss';
 import { useState } from 'react';
-import Button from '~/components/Button';
+import Button from '~/components/Button/Button';
 import styles from "./CardFollow.module.scss"
 import classNames from 'classnames/bind';
 import { useNavigate } from 'react-router-dom';

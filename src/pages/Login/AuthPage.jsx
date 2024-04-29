@@ -206,7 +206,7 @@ const RegisterComponent = ({ setIsLoginScreen }) => {
     );
 };
 
-const AuthenticationForm = () => {
+const AuthPage = () => {
     const [isLoginScreen, setIsLoginScreen] = useState(true);
 
     return (
@@ -220,4 +220,4 @@ const AuthenticationForm = () => {
     );
 };
 
-export default AuthenticationForm;
+export default AuthPage;

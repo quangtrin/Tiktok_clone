@@ -3,10 +3,10 @@ import styles from './Home.module.scss';
 import '../../App.css';
 import classNames from 'classnames/bind';
 import { getListVideos } from '~/services/API/videoService';
-import WatchingVideo from '~/components/VideoWatching';
+import WatchingVideo from '~/components/VideoWatching/VideoCard';
 const cx = classNames.bind(styles);
 
-function Home() {
+function HomePage() {
     const [videos, setVideos] = useState([]);
 
     const getVideos = async () => {
@@ -27,4 +27,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default HomePage;

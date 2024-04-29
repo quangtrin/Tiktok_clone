@@ -2,11 +2,11 @@ import classNames from "classnames/bind"
 import styles from "./UserVideo.module.scss"
 import React, { useEffect, useState } from 'react';
 import { getListVideosByCreatorId } from '~/services/API/videoService';
-import WatchingVideo from '~/components/VideoWatching';
+import WatchingVideo from '~/components/VideoWatching/VideoCard';
 import { useParams } from 'react-router-dom';
 
 const cx = classNames.bind(styles)
-const UserVideo = () => {
+const UserVideoPage = () => {
     const [videos, setVideos] = useState([]);
     const { id } = useParams();
 
@@ -30,4 +30,4 @@ const UserVideo = () => {
     );
 }
 
-export default UserVideo
+export default UserVideoPage

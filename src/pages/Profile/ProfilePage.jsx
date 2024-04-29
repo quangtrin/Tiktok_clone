@@ -1,13 +1,13 @@
 import { Avatar, Tooltip } from 'antd';
-import Button from '~/components/Button';
+import Button from '~/components/Button/Button';
 import styles from './Profile.module.scss';
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import { FaShare } from 'react-icons/fa6';
 import { BsThreeDots } from 'react-icons/bs';
-import TabbarCustomAntd from '~/components/TabbarCustomAntd';
+import TabbarCustomAntd from '~/components/TabbarCustomAntd/TabbarCustomAntd';
 import './Library.scss';
-import VideoUploaded from './VideoUploaded';
+import VideoUploaded from './VideoUploaded/VideoUploaded';
 import { useParams } from 'react-router-dom';
 import { getFollowerUser, getFollowingUser, getUserById } from '~/services/API/userService';
 import { getListVideosByCreatorId } from '~/services/API/videoService';
@@ -17,7 +17,7 @@ import ButtonFollow from '~/components/Button/ButtonFollow';
 
 const cx = classNames.bind(styles);
 
-function Profile() {
+function ProfilePage() {
     const navigate = useNavigate();
     const [isFollow, setIsFollow] = useState(true);
     const [user, setUser] = useState();
@@ -122,4 +122,4 @@ function Profile() {
     );
 }
 
-export default Profile;
+export default ProfilePage;
