@@ -16,7 +16,6 @@ export function formatDateTime(datetime) {
 
 export function timeAgoOrDateTime(datetimeString) {
     var datetime = new Date(datetimeString);
-    console.log(datetime);
     var now = new Date();
 
     var elapsed = now - datetime;

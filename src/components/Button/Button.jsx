@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import styles from './Button.module.scss';
+import { LoadingIcon } from '../Icons/Icons';
 
 const cx = classNames.bind(styles);
 
@@ -21,6 +22,7 @@ function Button({
     rightIcon,
     onClick,
     textColor,
+    loading,
     ...passProps
 }) {
     let Comp = 'button';
@@ -60,7 +62,13 @@ function Button({
     return (
         <Comp className={classes} {...props}>
             {leftIcon && <span className={cx('icon')}>{leftIcon}</span>}
-            <span className={cx('title')}>{children}</span>
+            <span className={cx('title')}>
+                {loading ? (
+                   <LoadingIcon />
+                ) : (
+                    children
+                )}
+            </span>
             {rightIcon && <span className={cx('icon')}>{rightIcon}</span>}
         </Comp>
     );
@@ -81,6 +89,7 @@ Button.propTypes = {
     leftIcon: PropTypes.node,
     rightIcon: PropTypes.node,
     onClick: PropTypes.func,
+    loading: PropTypes.bool,
 };
 
 export default Button;

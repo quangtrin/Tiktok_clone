@@ -2,7 +2,7 @@ import classNames from "classnames/bind"
 import styles from "./UserVideo.module.scss"
 import React, { useEffect, useState } from 'react';
 import { getListVideosByCreatorId } from '~/services/API/videoService';
-import WatchingVideo from '~/components/VideoWatching/VideoCard';
+import WatchingVideo from '~/components/VideoWatching/VideoWatching';
 import { useParams } from 'react-router-dom';
 
 const cx = classNames.bind(styles)

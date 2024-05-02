@@ -11,7 +11,6 @@ const VideoCard = (props) => {
         video,
         setOpenComment,
         openComment,
-        followingUsers
     } = props;
     const videoRef = useRef(null);
 
@@ -60,7 +59,6 @@ const VideoCard = (props) => {
                             video={video}
                             setOpenComment={setOpenComment}
                             openComment={openComment}
-                            followingUsers={followingUsers}
                         />
                     </div>
                 </div>

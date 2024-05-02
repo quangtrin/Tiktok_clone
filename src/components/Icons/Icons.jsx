@@ -1,3 +1,4 @@
+import { LoadingOutlined } from "@ant-design/icons"
 export const UploadIcon = ({ width = '3.2rem', height = '3.2rem', className }) => (
     <svg
         className={className}
@@ -176,3 +177,7 @@ export const LiveActiveIcon = ({ width = '3.2rem', height = '3.2rem', className 
         ></path>
     </svg>
 );
+
+export const LoadingIcon = ({size = 16, color = "white"}) => {
+    return <LoadingOutlined style={{ fontSize: size, color }} />
+}

@@ -5,10 +5,10 @@ const followNotification = async (followedId, socket) => {
     const tokenSession = localStorage.getItem('token');
     try {
         const newNotifi = await axios.post(
-            `${config.baseUrl}/api/notification/create`,
+            `${config.baseUrl}/api/notification/create/follow`,
             {
                 receiverId: followedId,
-                type: 'follow',
+                type: config.typeNoti.follow,
             },
             {
                 headers: {
@@ -19,6 +19,35 @@ const followNotification = async (followedId, socket) => {
         if (newNotifi.status === 200) {
             await socket?.emit('new-notification', {
                 notification: newNotifi.data.newNotification,
+            });
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+const commentNotification = async (commentParentId, videoId, commentId, socket) => {
+    const tokenSession = localStorage.getItem('token');
+    try {
+        if (commentParentId) {
+            const newNotifi = await axios.post(
+                `${config.baseUrl}/api/notification/create/comment`,
+                {
+                    commentParentId,
+                    commentId,
+                    videoId,
+                    type: config.typeNoti.comment,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${tokenSession}`,
+                    },
+                },
+            );
+            newNotifi.data.newNotification?.map(async (noti) => {
+                socket?.emit('new-notification', {
+                    notification: noti,
+                });
             });
         }
     } catch (error) {
@@ -56,4 +85,4 @@ const updateNotificationUser = async (notification) => {
     }
 };
 
-export { followNotification, getNotificationUser, updateNotificationUser };
+export { followNotification, getNotificationUser, updateNotificationUser, commentNotification };

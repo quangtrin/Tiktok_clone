@@ -28,11 +28,13 @@ export const commentSlice = createSlice({
         },
         addCommentChild: (state, action) => {
             state.listCommentCurrent.map((comment) => {
-                if (comment.id == action.payload.comment_parent_id) {
+                if (comment.id?.toString() === action.payload.comment_parent_id?.toString()) {
                     if (!comment.comment_child) comment.comment_child = [];
-                    comment.comment_child.push(action.payload);
+                    comment.comment_child = [action.payload, ...comment.comment_child];
                 }
+                return comment;
             });
+            state.listCommentCurrent.push(action.payload)
         },
     },
 });

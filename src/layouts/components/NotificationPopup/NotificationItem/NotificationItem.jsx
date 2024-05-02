@@ -4,16 +4,25 @@ import styles from './NotificationItem.module.scss';
 import { Avatar } from 'antd';
 import Button from '~/components/Button/Button';
 import { timeAgoOrDateTime } from '~/utils/function';
-import { useNavigate } from 'react-router-dom';
 import { updateNotificationUser } from '~/services/API/notificationService';
+import { typeNoti } from '~/config/typeNoti';
 
 const cx = classNames.bind(styles);
 
 const NotificationItem = ({ notification }) => {
     const handleReadNotifi = async () => {
         await updateNotificationUser(notification);
-        window.location.href = `/user/@${notification.sender.id}`;
-    }
+        switch (notification.type) {
+            case typeNoti.follow:
+                window.location.href = `/user/@${notification.sender.id}`;
+                break;
+            case typeNoti.comment:
+                window.location.href = `/notification?video=${notification.video_id}&comment=${notification.comment_id}`;
+                break;
+            default:
+                break;
+        }
+    };
     return (
         <div className={cx('layout')} onClick={handleReadNotifi}>
             <Avatar size={55} className={cx('avatar')} src={notification.sender.avatar} />

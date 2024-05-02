@@ -15,15 +15,20 @@ import { addFollow } from '~/redux/userCurrentSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-function FooterRight({ profilePic, video, setOpenComment, openComment, followingUsers }) {
+function FooterRight({ profilePic, video, setOpenComment, openComment }) {
     const userCurrentId = localStorage.getItem('userId');
     const dispatch = useDispatch();
     const navigation = useNavigate();
     const listFollowingUser = useSelector((state) => state.user_current.listFollowingUser);
+    const listCommentCurrent = useSelector((state) => state.comment.listCommentCurrent)
     const socket = useSelector((state) => state.socket.socket);
     const currentUser = useSelector((state) => state.user_current.information);
     const [liked, setLiked] = useState(
-        video.Likes.filter((value) => value.user_id == currentUser.id && value.video_id == video.id).length !== 0,
+        video.Likes.filter(
+            (value) =>
+                value.user_id?.toString() === currentUser.id?.toString() &&
+                value.video_id?.toString() === video.id?.toString(),
+        ).length !== 0,
     );
     const [countLike, setCountLike] = useState(0);
     const [saved, setSaved] = useState(false);
@@ -81,7 +86,11 @@ function FooterRight({ profilePic, video, setOpenComment, openComment, following
             return user.id?.toString() === video.creator_id.toString();
         });
         setUserAddIcon(
-            findCreatorId ? faCircleCheck : video.creator_id?.toString() === currentUser.id?.toString() ? faCircleCheck : faCirclePlus,
+            findCreatorId
+                ? faCircleCheck
+                : video.creator_id?.toString() === currentUser.id?.toString()
+                ? faCircleCheck
+                : faCirclePlus,
         );
     }, [listFollowingUser, currentUser.id, video.creator_id]);
 
@@ -125,7 +134,7 @@ function FooterRight({ profilePic, video, setOpenComment, openComment, following
                     onClick={handleCommentIconClick}
                 />
                 {/* Displaying the number of comments */}
-                <p>{video.Comments.length}</p>
+                <p>{listCommentCurrent.length}</p>
             </div>
             <div className="sidebar-icon">
                 {saved ? (

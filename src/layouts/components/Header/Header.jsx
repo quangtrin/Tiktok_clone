@@ -62,6 +62,7 @@ const MENU_ITEM = [
 ];
 
 function Header() {
+    const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.user_current.information);
     const socket = useSelector((state) => state.socket.socket);
     const [notifications, setNotifications] = useState([]);
@@ -133,7 +134,7 @@ function Header() {
         };
 
         if (socket) handleSocket();
-    }, [socket]);
+    }, [socket, dispatch]);
 
     return (
         !loading && (

@@ -1,13 +1,9 @@
 import { Card, Avatar } from 'antd';
 import './Library.scss';
 import { useState } from 'react';
-import Button from '~/components/Button/Button';
 import styles from "./CardFollow.module.scss"
 import classNames from 'classnames/bind';
 import { useNavigate } from 'react-router-dom';
-import { follow, unFollow } from '~/services/API/followService';
-import {useDispatch} from 'react-redux'
-import { removeFollow } from '~/redux/userCurrentSlice';
 import ButtonFollow from '~/components/Button/ButtonFollow';
 
 const cx = classNames.bind(styles);

@@ -6,22 +6,19 @@ import { io } from 'socket.io-client';
 import config from './config';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateSocket, updateUserOnline } from './redux/socketSlice';
-import { updateInformation, userCurrentClear } from './redux/userCurrentSlice';
+import { updateInformation } from './redux/userCurrentSlice';
 import { getCurrentUser } from './services/API/userService';
-import { Spin } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import { LoadingIcon } from './components/Icons/Icons';
 
 function App() {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
-    const currentUser = useSelector((state) => state.user_current.information);
-    const userIdStorage = localStorage.getItem('userId');
 
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             const start = new Date();
-            while((new Date() - start) < 3000);
+            while (new Date() - start < 3000);
 
             const socket = io(config.baseUrl);
             dispatch(updateSocket(socket));
@@ -31,27 +28,21 @@ function App() {
                 dispatch(updateInformation(currentUser));
                 socket.emit('add-user', currentUser);
                 dispatch(updateUserOnline(currentUser));
-            } 
+            }
             setLoading(false);
         };
 
         fetchData();
+
         window.addEventListener('storage', () => {
             window.location.reload();
         });
-    }, [dispatch, userIdStorage, currentUser.id]);
+    }, [dispatch]);
 
     return loading ? (
-        <Spin
-            indicator={
-                <LoadingOutlined
-                    style={{
-                        fontSize: 24,
-                    }}
-                    spin
-                />
-            }
-        />
+        <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <LoadingIcon size={100} color="var(--primary)" />
+        </div>
     ) : (
         <Router>
             <div className="App">

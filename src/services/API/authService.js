@@ -8,7 +8,6 @@ const login = async (username, password) => {
             email: username,
             password: password,
         });
-        console.log(response.data.token);
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('userId', response.data.user.id);
         return response.data.user;

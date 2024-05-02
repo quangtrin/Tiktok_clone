@@ -10,7 +10,7 @@ const VideoUploaded = ({ videos }) => {
             <Row gutter={[16, 16]}>
                 {videos.map((video) => (
                     <Col key={video.id}>
-                        <CardVideo url={video.url} />
+                        <CardVideo video={video}/>
                     </Col>
                 ))}
             </Row>
