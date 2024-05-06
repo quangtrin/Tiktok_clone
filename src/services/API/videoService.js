@@ -37,4 +37,18 @@ const createVideo = async (video, description, song) => {
     }
 };
 
-export { getListVideos, createVideo, getListVideosByCreatorId };
+const deleteVideo = async (videoId) => {
+    const tokenSession = localStorage.getItem('token');
+    try {
+        const res = await axios.delete(`${config.baseUrl}/api/video/${videoId}`, {
+            headers: {
+                Authorization: `Bearer ${tokenSession}`,
+            },
+        });
+        return res.status;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export { getListVideos, createVideo, getListVideosByCreatorId, deleteVideo };

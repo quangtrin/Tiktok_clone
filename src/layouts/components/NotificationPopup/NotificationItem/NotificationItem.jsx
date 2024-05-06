@@ -19,13 +19,16 @@ const NotificationItem = ({ notification }) => {
             case typeNoti.comment:
                 window.location.href = `/notification?video=${notification.video_id}&comment=${notification.comment_id}`;
                 break;
+            case typeNoti.likeVideo:
+                window.location.href = `/notification?video=${notification.video_id}`;
+                break;
             default:
                 break;
         }
     };
     return (
         <div className={cx('layout')} onClick={handleReadNotifi}>
-            <Avatar size={55} className={cx('avatar')} src={notification.sender.avatar} />
+            <Avatar style={{height: "5.5rem", width: "5.5rem"}} className={cx('avatar')} src={notification.sender.avatar} />
             <div>
                 <div
                     className={cx('content')}

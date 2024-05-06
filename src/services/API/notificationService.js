@@ -55,6 +55,32 @@ const commentNotification = async (commentParentId, videoId, commentId, socket) 
     }
 };
 
+const likeVideoNotification = async (videoId, socket) => {
+    const tokenSession = localStorage.getItem('token');
+    try {
+        if (videoId) {
+            const newNotifi = await axios.post(
+                `${config.baseUrl}/api/notification/create/likeVideo`,
+                {
+                    videoId,
+                    type: config.typeNoti.likeVideo,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${tokenSession}`,
+                    },
+                },
+            );
+
+            await socket?.emit('new-notification', {
+                notification: newNotifi.data.newNotification,
+            });
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 const getNotificationUser = async () => {
     const tokenSession = localStorage.getItem('token');
     const res = await axios.get(`${config.baseUrl}/api/notification/user`, {
@@ -85,4 +111,4 @@ const updateNotificationUser = async (notification) => {
     }
 };
 
-export { followNotification, getNotificationUser, updateNotificationUser, commentNotification };
+export { followNotification, getNotificationUser, updateNotificationUser, commentNotification, likeVideoNotification };

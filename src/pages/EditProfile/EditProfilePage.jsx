@@ -84,7 +84,7 @@ const EditProfilePage = () => {
                 }}
                 layout="horizontal"
                 style={{
-                    maxWidth: 600,
+                    maxWidth: "600rem",
                     margin: 'auto',
                 }}
                 onSubmit={(e) => {
@@ -101,7 +101,6 @@ const EditProfilePage = () => {
                         listType="picture-circle"
                         showUploadList={false}
                         multiple={true}
-                        // beforeUpload={()=> false }
                     >
                         {image ? (
                             <Tooltip title="change">
@@ -109,7 +108,7 @@ const EditProfilePage = () => {
                             </Tooltip>
                         ) : (
                             <button style={{ border: 0, background: 'none' }} type="button">
-                                <div style={{ marginTop: 8 }}>Upload</div>
+                                <div style={{ marginTop: "8rem" }}>Upload</div>
                             </button>
                         )}
                     </Upload>

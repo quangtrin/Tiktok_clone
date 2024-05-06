@@ -56,7 +56,7 @@ function CreateVideoPage() {
                     'color-picker': null,
                 }}
                 style={{
-                    maxWidth: 600,
+                    maxWidth: "600rem",
                     margin: 'auto',
                 }}
             >

@@ -7,13 +7,14 @@ import { FaShare } from 'react-icons/fa6';
 import { BsThreeDots } from 'react-icons/bs';
 import TabbarCustomAntd from '~/components/TabbarCustomAntd/TabbarCustomAntd';
 import './Library.scss';
-import VideoUploaded from './VideoUploaded/VideoUploaded';
+import VideoUploaded from './ListVideoCard/ListVideoCard';
 import { useParams } from 'react-router-dom';
 import { getFollowerUser, getFollowingUser, getUserById } from '~/services/API/userService';
-import { getListVideosByCreatorId } from '~/services/API/videoService';
+import { getListVideos, getListVideosByCreatorId } from '~/services/API/videoService';
 import { FaEdit } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import ButtonFollow from '~/components/Button/ButtonFollow';
+import { useSelector } from 'react-redux';
 
 const cx = classNames.bind(styles);
 
@@ -22,13 +23,14 @@ function ProfilePage() {
     const [isFollow, setIsFollow] = useState(true);
     const [user, setUser] = useState();
     const { id } = useParams();
-    const userCurrentId = localStorage.getItem('userId');
+    const userCurrentId = useSelector((state) => state.user_current.information?.id);
+    const isSelf = userCurrentId?.toString() === id.toString();
 
     useEffect(() => {
         const getUser = async () => {
             let userProfile = await getUserById(id);
             const follower = await getFollowerUser(userProfile.id);
-    
+
             setIsFollow(
                 follower.findIndex((user) => {
                     return user.id?.toString() === userCurrentId?.toString();
@@ -36,13 +38,18 @@ function ProfilePage() {
             );
             const following = await getFollowingUser(userProfile.id);
             const videoCreated = await getListVideosByCreatorId(userProfile.id);
+            const allVideos = await getListVideos();
+            const videoLiked = allVideos.filter(
+                (video) => video.Likes.findIndex((like) => like.user_id === userProfile.id) !== -1,
+            );
             userProfile = {
                 ...userProfile,
                 follower,
                 following,
                 videoCreated,
+                videoLiked,
             };
-    
+
             setUser(userProfile);
         };
 
@@ -52,19 +59,19 @@ function ProfilePage() {
         {
             key: 'video',
             label: 'Video',
-            children: user ? <VideoUploaded videos={user.videoCreated} /> : null,
+            children: user ? <VideoUploaded videos={user.videoCreated} isSelf={isSelf}/> : null,
         },
         {
             key: 'video liked',
             label: 'Video liked',
-            children: <>hello</>,
+            children: user ? <VideoUploaded videos={user.videoLiked} /> : null,
         },
     ];
     return (
         user && (
             <div className={cx('profile-layout')} id="#Profile">
                 <div className={cx('avatar-name-layout')}>
-                    <Avatar style={{ borderColor: 'var(--border-color)' }} size={100} src={user.avatar} />
+                    <Avatar style={{ borderColor: 'var(--border-color)', height: "10rem", width: "10rem"}} src={user.avatar} />
                     <div style={{ marginLeft: '2rem' }}>
                         <div className={cx('name')}>{user.user_name}</div>
                         <div className={cx('nickname')}>
@@ -72,7 +79,7 @@ function ProfilePage() {
                             {user.name_id}
                         </div>
                         <div>
-                            {userCurrentId == id ? (
+                            {isSelf ? (
                                 <Button
                                     className={cx('unfollow-btn')}
                                     leftIcon={<FaEdit />}
@@ -84,7 +91,7 @@ function ProfilePage() {
                                     Edit profile
                                 </Button>
                             ) : (
-                                <ButtonFollow isFollow={isFollow} user={user} setIsFollow={setIsFollow}/>
+                                <ButtonFollow isFollow={isFollow} user={user} setIsFollow={setIsFollow} />
                             )}
                         </div>
                     </div>
@@ -111,12 +118,10 @@ function ProfilePage() {
                         <div className={cx('normal-text')}>Like</div>
                     </div>
                 </div>
-                <Tooltip title={user.description} placement='bottom' overlayInnerStyle={{width: '50rem'}}>
-                    <div className={cx('description-profile')}>
-                        {user.description}
-                    </div>
+                <Tooltip title={user.description} placement="bottom" overlayInnerStyle={{ width: '50rem' }}>
+                    <div className={cx('description-profile')}>{user.description}</div>
                 </Tooltip>
-                <TabbarCustomAntd items={itemsTabbar} size={'large'} />
+                <TabbarCustomAntd items={itemsTabbar} size={'large'}/>
             </div>
         )
     );

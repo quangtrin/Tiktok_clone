@@ -51,7 +51,8 @@ html {
 .container {
   position: relative;
   height: 61rem;
-  width: 37.5rem;
+  width: 100%;
+  max-width: 37.5rem;
   border-radius: 2.5rem;
   overflow: scroll;
   scroll-snap-type: y mandatory;

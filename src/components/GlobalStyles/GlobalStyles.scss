@@ -13,6 +13,8 @@
     --default-layout-header-height: 6rem;
     --default-layout-width: 90%;
     --default-layout-horizontal-spacer: 2.4rem;
+    --width-container-video: calc(var(--heigth-container-video) * 0.55);
+    --heigth-container-video: 85vh;
 }
 
 * {
@@ -22,7 +24,7 @@
 }
 
 html {
-    font-size: 62.5%;
+    font-size: 1.4vh;
     height: 100vh;
 }
 

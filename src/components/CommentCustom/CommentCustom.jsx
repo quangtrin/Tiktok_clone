@@ -80,7 +80,7 @@ const CommentCustom = ({ children, comment }) => {
         const queryParams = new URLSearchParams(location.search);
         const commentId = queryParams.get('comment');
         if (`${comment.id}` === `${commentId}`) {
-            commentRef.current.scrollIntoView();
+            commentRef.current.scrollIntoView({ block: "nearest"});
             queryParams.delete('comment');
             navigation({
                 search: queryParams.toString(),
@@ -127,7 +127,7 @@ const CommentCustom = ({ children, comment }) => {
                             <Button
                                 primary
                                 onClick={handleSubmitComment}
-                                style={{ marginLeft: '1em', minWidth: '5rem' }}
+                                style={{ marginLeft: '1rem', minWidth: '5rem' }}
                             >
                                 Enter
                             </Button>

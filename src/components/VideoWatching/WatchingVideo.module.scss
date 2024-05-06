@@ -1,3 +1,4 @@
+@use '../../components/GlobalStyles/GlobalStyles.scss' as *;
 .comment-layout {
     margin-left: 2rem;
     border: none 0.1rem black;
@@ -9,7 +10,25 @@
     max-height: 61rem;
 }
 
-.content{
+.layout {
+    position: relative;
+    height: var(--heigth-container-video);
+    width: var(--width-container-video);
+    border-radius: 2.5rem;
+    overflow: scroll;
+    scroll-snap-type: y mandatory;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    @include mobile {
+        width: 100%;
+    }
+}
+
+.content {
     max-height: 50rem;
     overflow-y: scroll;
     padding-right: 1rem;

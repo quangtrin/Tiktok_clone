@@ -1,4 +1,5 @@
-import { LoadingOutlined } from "@ant-design/icons"
+import { LoadingOutlined } from '@ant-design/icons';
+import { useState } from 'react';
 export const UploadIcon = ({ width = '3.2rem', height = '3.2rem', className }) => (
     <svg
         className={className}
@@ -15,6 +16,57 @@ export const UploadIcon = ({ width = '3.2rem', height = '3.2rem', className }) =
         ></path>
     </svg>
 );
+
+export const RemoveIcon = ({
+    width = '2.5rem',
+    height = '2.5rem',
+    className,
+    backgroundColor = 'white',
+    color = 'black',
+    backgroundColorHover = 'black',
+    colorHover = 'white',
+}) => {
+    const [isHover, setIsHover] = useState(false);
+    return (
+        <svg
+            className={className}
+            fill="currentColor"
+            width={width}
+            height={height}
+            color={isHover ? backgroundColorHover : backgroundColor}
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            onMouseEnter={() => {
+                setIsHover(true);
+            }}
+            onMouseLeave={() => {
+                setIsHover(false);
+            }}
+        >
+            <g
+                id="SVGRepo_bgCarrier"
+                stroke-width="0"
+                transform="translate(2.3999999999999986,2.3999999999999986), scale(0.8)"
+            >
+                <rect
+                    x="0"
+                    y="0"
+                    width="24.00"
+                    height="24.00"
+                    rx="12"
+                    fill={isHover ? colorHover : color}
+                    strokewidth="0"
+                />
+            </g>
+
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+
+            <g id="SVGRepo_iconCarrier">
+                <path d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm3.707,12.293a1,1,0,1,1-1.414,1.414L12,13.414,9.707,15.707a1,1,0,0,1-1.414-1.414L10.586,12,8.293,9.707A1,1,0,0,1,9.707,8.293L12,10.586l2.293-2.293a1,1,0,0,1,1.414,1.414L13.414,12Z" />
+            </g>
+        </svg>
+    );
+};
 
 export const MessageIcon = ({ width = '2.6rem', height = '2.6rem', className }) => (
     <svg
@@ -178,6 +230,6 @@ export const LiveActiveIcon = ({ width = '3.2rem', height = '3.2rem', className 
     </svg>
 );
 
-export const LoadingIcon = ({size = 16, color = "white"}) => {
-    return <LoadingOutlined style={{ fontSize: size, color }} />
-}
+export const LoadingIcon = ({ size = "16rem", color = 'white' }) => {
+    return <LoadingOutlined style={{ fontSize: size, color }} />;
+};

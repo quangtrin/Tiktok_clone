@@ -14,13 +14,14 @@ import { like, unLike } from '~/services/API/likeService';
 import { addFollow } from '~/redux/userCurrentSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { Avatar } from 'antd';
 
 function FooterRight({ profilePic, video, setOpenComment, openComment }) {
     const userCurrentId = localStorage.getItem('userId');
     const dispatch = useDispatch();
     const navigation = useNavigate();
     const listFollowingUser = useSelector((state) => state.user_current.listFollowingUser);
-    const listCommentCurrent = useSelector((state) => state.comment.listCommentCurrent)
+    const listCommentCurrent = useSelector((state) => state.comment.listCommentCurrent);
     const socket = useSelector((state) => state.socket.socket);
     const currentUser = useSelector((state) => state.user_current.information);
     const [liked, setLiked] = useState(
@@ -60,7 +61,7 @@ function FooterRight({ profilePic, video, setOpenComment, openComment }) {
         return count;
     };
     const likeAction = async () => {
-        await like(video.id);
+        await like(video.id, socket);
     };
     const unLikeAction = async () => {
         unLike(video.id);
@@ -99,13 +100,22 @@ function FooterRight({ profilePic, video, setOpenComment, openComment }) {
             <div className="sidebar-icon">
                 {profilePic ? (
                     // Displaying the user profile picture
-                    <img
+                    // <img
+                    //     onClick={() => {
+                    //         navigation(`/user/@${video.creator_id}`);
+                    //     }}
+                    //     src={profilePic}
+                    //     className="userprofile"
+                    //     alt="Profile"
+                    //     style={{ width: '4.5rem', height: '4.5rem', color: '#616161' }}
+                    // />
+                    <Avatar
                         onClick={() => {
                             navigation(`/user/@${video.creator_id}`);
                         }}
+                        alt="Profile"
                         src={profilePic}
                         className="userprofile"
-                        alt="Profile"
                         style={{ width: '4.5rem', height: '4.5rem', color: '#616161' }}
                     />
                 ) : null}

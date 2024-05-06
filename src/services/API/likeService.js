@@ -1,7 +1,8 @@
 import axios from 'axios';
 import config from '~/config';
+import { likeVideoNotification } from './notificationService';
 
-const like = async (videoId) => {
+const like = async (videoId, socket) => {
     const tokenSession = localStorage.getItem('token');
     try {
         await axios.post(
@@ -13,6 +14,7 @@ const like = async (videoId) => {
                 },
             },
         );
+        await likeVideoNotification(videoId, socket);
     } catch (error) {
         console.log(error);
     }
