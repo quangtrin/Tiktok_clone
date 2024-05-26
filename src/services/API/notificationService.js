@@ -8,7 +8,7 @@ const followNotification = async (followedId, status, socket) => {
             `${config.baseUrl}/api/notification/create/follow`,
             {
                 receiverId: followedId,
-                type: status === 200 ? config.typeNoti.follow : config.typeNoti.becomeFriend, 
+                type: status === 200 ? config.typeNoti.follow : config.typeNoti.becomeFriend,
             },
             {
                 headers: {
@@ -25,7 +25,6 @@ const followNotification = async (followedId, status, socket) => {
         console.log(error);
     }
 };
-
 
 const commentNotification = async (commentParentId, videoId, commentId, socket) => {
     const tokenSession = localStorage.getItem('token');
@@ -92,7 +91,7 @@ const getNotificationUser = async () => {
     return res.data.notification;
 };
 
-const updateNotificationUser = async (notification) => {
+const updateReadNotificationUser = async (notification) => {
     const tokenSession = localStorage.getItem('token');
     try {
         await axios.put(
@@ -112,4 +111,58 @@ const updateNotificationUser = async (notification) => {
     }
 };
 
-export { followNotification, getNotificationUser, updateNotificationUser, commentNotification, likeVideoNotification };
+const updateHasActionNotificationUser = async (notification) => {
+    const tokenSession = localStorage.getItem('token');
+    try {
+        await axios.put(
+            `${config.baseUrl}/api/notification/update`,
+            {
+                ...notification,
+                read: true,
+                hasAction: false,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${tokenSession}`,
+                },
+            },
+        );
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+const requestAddFriendNotification = async (userId, socket) => {
+    const tokenSession = localStorage.getItem('token');
+    try {
+        const newNotifi = await axios.post(
+            `${config.baseUrl}/api/notification/create/requestFriend`,
+            {
+                receiverId: userId,
+                type: config.typeNoti.requestFriend,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${tokenSession}`,
+                },
+            },
+        );
+        if (newNotifi.status === 200) {
+            await socket?.emit('new-notification', {
+                notification: newNotifi.data.newNotification,
+            });
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export {
+    followNotification,
+    getNotificationUser,
+    updateReadNotificationUser,
+    commentNotification,
+    likeVideoNotification,
+    requestAddFriendNotification,
+    updateHasActionNotificationUser,
+};

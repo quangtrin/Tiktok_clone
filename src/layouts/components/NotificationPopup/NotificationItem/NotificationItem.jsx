@@ -1,22 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './NotificationItem.module.scss';
 import { Avatar } from 'antd';
 import Button from '~/components/Button/Button';
 import { timeAgoOrDateTime } from '~/utils/function';
-import { updateNotificationUser } from '~/services/API/notificationService';
+import { updateHasActionNotificationUser, updateReadNotificationUser } from '~/services/API/notificationService';
 import { typeNoti } from '~/config/typeNoti';
+import { addFriend } from '~/services/API/friendService';
 
 const cx = classNames.bind(styles);
 
 const NotificationItem = ({ notification }) => {
+    const [hasActiton, setHasAction] = useState(notification.has_action);
+    const [read, setRead] = useState(notification.read);
     const handleReadNotifi = async () => {
-        await updateNotificationUser(notification);
+        await updateReadNotificationUser(notification);
+        setRead(true);
         switch (notification.type) {
             case typeNoti.follow:
                 window.location.href = `/user/@${notification.sender.id}`;
                 break;
             case typeNoti.becomeFriend:
+                window.location.href = `/user/@${notification.sender.id}`;
+                break;
+            case typeNoti.requestFriend:
                 window.location.href = `/user/@${notification.sender.id}`;
                 break;
             case typeNoti.comment:
@@ -29,6 +36,22 @@ const NotificationItem = ({ notification }) => {
                 break;
         }
     };
+
+    const handleAccept = async (e) => {
+        e.stopPropagation();
+        await updateHasActionNotificationUser(notification);
+        setHasAction(false);
+        setRead(true);
+        await addFriend(notification.sender.id);
+        if (window.location.pathname === `/user/@${notification.sender.id}`) window.location.reload();
+    };
+
+    const handleReject = async (e) => {
+        e.stopPropagation();
+        await updateHasActionNotificationUser(notification);
+        setHasAction(false);
+        setRead(true);
+    };
     return (
         <div className={cx('layout')} onClick={handleReadNotifi}>
             <Avatar
@@ -37,18 +60,19 @@ const NotificationItem = ({ notification }) => {
                 src={notification.sender.avatar}
             />
             <div>
-                <div
-                    className={cx('content')}
-                    style={{ color: notification.read ? 'var(--text-tab-color)' : 'var(--text-color)' }}
-                >
+                <div className={cx('content')} style={{ color: read ? 'var(--text-tab-color)' : 'var(--text-color)' }}>
                     <b>{notification.sender.user_name} </b>
                     {notification.content}
                 </div>
                 <div className={cx('time')}>{timeAgoOrDateTime(notification.createdAt)}</div>
-                {notification.has_action && (
+                {hasActiton && (
                     <div style={{ display: 'flex', marginTop: '1rem' }}>
-                        <Button primary>Accept</Button>
-                        <Button outline>Reject</Button>
+                        <Button primary onClick={handleAccept}>
+                            Accept
+                        </Button>
+                        <Button outline onClick={handleReject}>
+                            Reject
+                        </Button>
                     </div>
                 )}
             </div>

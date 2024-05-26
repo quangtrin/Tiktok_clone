@@ -285,8 +285,13 @@ export const AddFriendIcon = ({
     className,
     color = 'var(--text-color)',
     twoColor = 'var(--primary)',
+    onClick,
 }) => (
-    <div style={{ fontSize: width, position: 'relative', color: color, height: 'fix-content' }} className={className}>
+    <div
+        style={{ fontSize: width, position: 'relative', color: color, height: 'fix-content' }}
+        className={className}
+        onClick={onClick}
+    >
         <FaRegUser />
         <div style={{ fontSize: `calc(${width}/2)`, position: 'absolute', top: -3, right: -3, color: twoColor }}>
             <FaCirclePlus />

@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { updateReadChat } from '~/services/API/chatService';
 
 const initialState = {
     chatingCurrentUserId: null,
