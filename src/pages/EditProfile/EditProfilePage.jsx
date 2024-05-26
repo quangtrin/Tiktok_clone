@@ -11,7 +11,7 @@ import { getCurrentUser, updateCurrentUser } from '~/services/API/userService';
 import dayjs from 'dayjs';
 import { ErrorAlertDialog, SuccessAlertDialog } from '~/components/AlertDialog/AlertDialog';
 import { LoadingOutlined } from '@ant-design/icons';
-import "./EditProfileLibrary.scss"
+import './EditProfileLibrary.scss';
 const { TextArea } = Input;
 
 const cx = classNames.bind(styles);
@@ -34,7 +34,6 @@ const EditProfilePage = () => {
         setImage(URL.createObjectURL(file));
     };
 
-
     const onFinish = async (values) => {
         setLoadingButton(true);
         const userName = form.getFieldValue('name');
@@ -44,9 +43,9 @@ const EditProfilePage = () => {
         const avatar = form.getFieldValue('avatar');
         const status = await updateCurrentUser(userName, gender, description, birthday, avatar);
         if (status === 200) {
-            SuccessAlertDialog("Updated", () => window.location.reload());
+            SuccessAlertDialog('Updated', 'Updated', () => window.location.reload());
         } else {
-           ErrorAlertDialog("Error", "Failed");
+            ErrorAlertDialog('Error', 'Failed');
         }
         setLoadingButton(false);
     };
@@ -61,7 +60,7 @@ const EditProfilePage = () => {
             form.setFieldValue('description', currentUser.description);
             form.setFieldValue('gender', currentUser.gender);
             form.setFieldValue('id', currentUser.name_id);
-            if(currentUser.birthday){
+            if (currentUser.birthday) {
                 const birthdayConvert = dayjs(currentUser.birthday).format('DD/MM/YYYY');
                 form.setFieldValue('birthday', dayjs(birthdayConvert, 'DD/MM/YYYY'));
             }
@@ -84,7 +83,7 @@ const EditProfilePage = () => {
                 }}
                 layout="horizontal"
                 style={{
-                    maxWidth: "600rem",
+                    maxWidth: '600rem',
                     margin: 'auto',
                 }}
                 onSubmit={(e) => {
@@ -92,6 +91,7 @@ const EditProfilePage = () => {
                 }}
                 onFinish={onFinish}
                 form={form}
+                className={cx('form')}
             >
                 <Form.Item label="Avatar" valuePropName="fileList" getValueFromEvent={normFile} name={'avatar'}>
                     <Upload
@@ -108,7 +108,7 @@ const EditProfilePage = () => {
                             </Tooltip>
                         ) : (
                             <button style={{ border: 0, background: 'none' }} type="button">
-                                <div style={{ marginTop: "8rem" }}>Upload</div>
+                                <div style={{ marginTop: '8rem' }}>Upload</div>
                             </button>
                         )}
                     </Upload>
@@ -137,7 +137,15 @@ const EditProfilePage = () => {
                     }}
                 >
                     <Button primary>
-                        {loadingButton ? <Spin indicator={<LoadingOutlined style={{ fontSize: "1.8rem", color: "var(--white)" }} spin />} /> : "Save"}
+                        {loadingButton ? (
+                            <Spin
+                                indicator={
+                                    <LoadingOutlined style={{ fontSize: '1.8rem', color: 'var(--white)' }} spin />
+                                }
+                            />
+                        ) : (
+                            'Save'
+                        )}
                     </Button>
                 </Form.Item>
             </Form>

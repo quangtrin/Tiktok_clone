@@ -1,0 +1,46 @@
+.container {
+    width: 75%;
+    border-radius: 0 0.5rem 0.5rem 0;
+    border: 1px solid var(--border-color);
+    padding-bottom: 0;
+    height: 100%;
+    display: flex;
+    padding: 1rem;
+    padding-bottom: 0;
+    flex-direction: column;
+    position: relative;
+}
+.layout-inner{
+    display: flex;
+    height: calc(100vh - var(--default-layout-header-height));
+    width: var(--default-layout-width);
+    padding: 1rem 5rem;
+}
+.layout-outter{
+    display: flex;
+    justify-content: center;
+    padding: 0 var(--default-layout-horizontal-spacer);
+}
+.message{
+    padding: 1rem;
+    padding-bottom: 0;
+    overflow-y: scroll;
+    max-height: calc(100% - 5rem);
+}
+.input-layout{
+    display: flex;
+    align-items: center;
+    position: absolute;
+    width: 95%;
+    bottom: 1rem;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+.input{
+    padding: 0.5rem;
+}
+.send-icon{
+    font-size: 2rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}

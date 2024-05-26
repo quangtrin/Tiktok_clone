@@ -1,23 +1,32 @@
-@use "../../components/GlobalStyles/GlobalStyles.scss" as *;
-.profile-layout{
+@use '../../components/GlobalStyles/GlobalStyles.scss' as *;
+.profile-layout {
     padding: 2rem 0 2rem 4rem;
     text-align: start;
+    @include mobile {
+        padding: 0;
+    }
+    @include tablet {
+        padding: 0;
+    }
+    @include big-tablet {
+        padding: 0;
+    }
 }
-.avatar-name-layout{
+.avatar-name-layout {
     display: flex;
     width: 100%;
     align-content: flex-start;
     flex-wrap: wrap;
 }
-.name{
+.name {
     font-size: 2.4rem;
     font-weight: 800;
 }
-.nickname{
+.nickname {
     font-size: 1.8rem;
     margin-bottom: 0.5rem;
 }
-.icons-layout{
+.icons-layout {
     display: flex;
     margin-left: 15%;
     @include mobile {
@@ -26,23 +35,23 @@
     @include tablet {
         margin-left: 0;
     }
-
-    
 }
-.follow-profile-layout{
+.follow-profile-layout {
     display: flex;
     margin-top: 1.5rem;
 }
-.text-layout{
+.text-layout {
     display: flex;
     font-size: 1.6rem;
     margin-right: 1.5rem;
+    height: fit-content;
+    align-items: center;
 }
-.bold-text{
+.bold-text {
     font-weight: bold;
     margin-right: 0.5rem;
 }
-.description-profile{
+.description-profile {
     margin-top: 1rem;
     font-size: 1.6rem;
     text-align: justify;
@@ -52,10 +61,14 @@
     text-overflow: ellipsis;
     -webkit-line-clamp: 3;
 }
-.tabbar-layout{
+.tabbar-layout {
     margin-top: 1rem;
 }
 
-.unfollow-btn{
+.unfollow-btn {
     color: var(--black);
+}
+
+.friend-icon {
+    margin-left: 20%;
 }

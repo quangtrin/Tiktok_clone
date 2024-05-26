@@ -1,0 +1,41 @@
+.layout{
+    display: flex;
+    width: 40%;
+}
+
+.avatar{
+    width: 4rem;
+    height: 4rem;
+}
+
+.myself{
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0.7rem;
+    & .content{
+        background-color: var(--primary);
+        color: var(--on-primary);
+    }
+}
+
+.yourself{
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 0.7rem;
+    & .content{
+        background-color: #efeff0;
+    }
+}
+
+.content{
+    border-radius: 0.5rem;
+    text-align: left;
+    font-size: 1.4rem;
+    width: 85%;
+    border-radius: 0.5rem;
+    padding: 1rem 1.5rem;
+    height: fit-content;
+}
+
+
+

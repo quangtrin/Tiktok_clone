@@ -28,6 +28,9 @@ import { useEffect, useState } from 'react';
 import { Popover } from 'antd';
 import NotificationPopup from '../NotificationPopup/NotificationPopup';
 import { getNotificationUser } from '~/services/API/notificationService';
+import ChatPopup from '../ChatPopup/ChatPopup';
+import { getListChatUserCurrent } from '~/services/API/chatService';
+import { updateListChatCard } from '~/redux/chatSlice';
 
 const cx = classNames.bind(styles);
 const MENU_ITEM = [
@@ -64,9 +67,11 @@ const MENU_ITEM = [
 function Header() {
     const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.user_current.information);
+    const listChat = useSelector((state) => state.chat.listChatCard);
     const socket = useSelector((state) => state.socket.socket);
     const [notifications, setNotifications] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [openChat, setOpenChat] = useState(false);
 
     const handleMenuChange = (menuItem) => {
         switch (menuItem.type) {
@@ -96,11 +101,7 @@ function Header() {
         },
         ...MENU_ITEM,
         {
-            icon: (
-                <FontAwesomeIcon
-                    icon={faSignOut}
-                />
-            ),
+            icon: <FontAwesomeIcon icon={faSignOut} />,
             title: 'Log out',
             to: '/authentication',
             separate: true,
@@ -113,13 +114,14 @@ function Header() {
             if (currentUser.id) {
                 const notifications = await getNotificationUser();
                 setNotifications(notifications);
+                const listChat = await getListChatUserCurrent();
+                dispatch(updateListChatCard(listChat));
             }
             setLoading(false);
         };
 
         fetchData();
-
-    }, [currentUser.id]);
+    }, [currentUser.id, dispatch]);
 
     useEffect(() => {
         const handleSocket = async () => {
@@ -156,11 +158,25 @@ function Header() {
                                         <UploadIcon />
                                     </button>
                                 </Tippy>
-                                <Tippy delay={[0, 50]} content="Message" placement="bottom">
-                                    <button className={cx('action-btn')}>
+                                <Popover
+                                    open={openChat}
+                                    content={<ChatPopup listChat={listChat} setOpenChat={setOpenChat} />}
+                                    onOpenChange={(visible) => setOpenChat(visible)}
+                                    trigger={"click"}
+                                >
+                                    <button className={cx('action-btn')} onClick={() => setOpenChat(true)}>
                                         <MessageIcon />
+                                        <span className={cx('badge')} style={{ top: '-0.7rem', right: '-0.4rem' }}>
+                                            {
+                                                listChat.filter(
+                                                    (chatUser) =>
+                                                        !chatUser.read &&
+                                                        currentUser?.id.toString() !== chatUser.creator_id.toString(),
+                                                ).length
+                                            }
+                                        </span>
                                     </button>
-                                </Tippy>
+                                </Popover>
                                 <Popover
                                     content={<NotificationPopup notifications={notifications} />}
                                     trigger={'click'}

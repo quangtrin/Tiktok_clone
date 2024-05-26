@@ -1,3 +1,15 @@
-.edit-profile-layout{
-    
+@use '../../components/GlobalStyles/GlobalStyles.scss' as *;
+.edit-profile-layout {
+}
+
+.form {
+    @include mobile {
+        width: 80%;
+    }
+    @include tablet {
+        width: 80%;
+    }
+    @include desktop {
+        width: 80%;
+    }
 }

@@ -9,12 +9,11 @@ import classNames from 'classnames/bind';
 import styles from './WatchingVideo.module.scss';
 import { updateVideoCurrentId } from '~/redux/videoCurrentSlice';
 import CommentSidebar from './CommentSidebar/CommentSidebar';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 const WatchingVideo = ({ videos }) => {
     const dispatch = useDispatch();
-    const navigation = useNavigate();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const { videoId, commentId } = { videoId: queryParams.get('video'), commentId: queryParams.get('comment') };
@@ -69,7 +68,7 @@ const WatchingVideo = ({ videos }) => {
 
     return (
         <>
-            <div className={cx("layout")}>
+            <div className={cx('layout')}>
                 <TopNavbar className="top-navbar" />
                 {videos.map((video, index) => (
                     <VideoCard
@@ -84,7 +83,7 @@ const WatchingVideo = ({ videos }) => {
                 ))}
                 <BottomNavbar className="bottom-navbar" />
             </div>
-            <CommentSidebar openComment={openComment} />
+            <CommentSidebar openComment={openComment} setOpenComment={setOpenComment}/>
         </>
     );
 };

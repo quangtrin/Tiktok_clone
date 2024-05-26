@@ -3,8 +3,7 @@ import Button from '~/components/Button/Button';
 import styles from './Profile.module.scss';
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
-import { FaShare } from 'react-icons/fa6';
-import { BsThreeDots } from 'react-icons/bs';
+import { FaRegShareFromSquare } from "react-icons/fa6";
 import TabbarCustomAntd from '~/components/TabbarCustomAntd/TabbarCustomAntd';
 import './Library.scss';
 import VideoUploaded from './ListVideoCard/ListVideoCard';
@@ -15,6 +14,7 @@ import { FaEdit } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import ButtonFollow from '~/components/Button/ButtonFollow';
 import { useSelector } from 'react-redux';
+import { AddFriendIcon, FriendIcon } from '~/components/Icons/Icons';
 
 const cx = classNames.bind(styles);
 
@@ -59,7 +59,7 @@ function ProfilePage() {
         {
             key: 'video',
             label: 'Video',
-            children: user ? <VideoUploaded videos={user.videoCreated} isSelf={isSelf}/> : null,
+            children: user ? <VideoUploaded videos={user.videoCreated} isSelf={isSelf} /> : null,
         },
         {
             key: 'video liked',
@@ -71,7 +71,10 @@ function ProfilePage() {
         user && (
             <div className={cx('profile-layout')} id="#Profile">
                 <div className={cx('avatar-name-layout')}>
-                    <Avatar style={{ borderColor: 'var(--border-color)', height: "10rem", width: "10rem"}} src={user.avatar} />
+                    <Avatar
+                        style={{ borderColor: 'var(--border-color)', height: '10rem', width: '10rem' }}
+                        src={user.avatar}
+                    />
                     <div style={{ marginLeft: '2rem' }}>
                         <div className={cx('name')}>{user.user_name}</div>
                         <div className={cx('nickname')}>
@@ -97,11 +100,10 @@ function ProfilePage() {
                     </div>
                     <div className={cx('icons-layout')}>
                         <div>
-                            <FaShare style={{ fontSize: '2.5rem' }} />
+                            <FaRegShareFromSquare style={{ fontSize: '2.5rem' }} />
                         </div>
-                        <div style={{ fontSize: '2.5rem', marginLeft: '50%' }}>
-                            <BsThreeDots />
-                        </div>
+                        <FriendIcon width='2.5rem' className={cx("friend-icon")}/>
+                        <AddFriendIcon width='2.5rem' className={cx("friend-icon")}/>
                     </div>
                 </div>
                 <div className={cx('follow-profile-layout')}>
@@ -121,7 +123,7 @@ function ProfilePage() {
                 <Tooltip title={user.description} placement="bottom" overlayInnerStyle={{ width: '50rem' }}>
                     <div className={cx('description-profile')}>{user.description}</div>
                 </Tooltip>
-                <TabbarCustomAntd items={itemsTabbar} size={'large'}/>
+                <TabbarCustomAntd items={itemsTabbar} size={'large'} />
             </div>
         )
     );

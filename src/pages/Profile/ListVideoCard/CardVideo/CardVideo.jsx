@@ -3,7 +3,7 @@ import styles from './CardVideo.module.scss';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RemoveIcon } from '~/components/Icons/Icons';
-import { ConfirmDeleteAlertDialog, SuccessAlertDialog,  ErrorAlertDialog } from '~/components/AlertDialog/AlertDialog';
+import { ConfirmDeleteAlertDialog, SuccessAlertDialog, ErrorAlertDialog } from '~/components/AlertDialog/AlertDialog';
 import { deleteVideo } from '~/services/API/videoService';
 
 const cx = classNames.bind(styles);
@@ -18,13 +18,12 @@ const CardVideo = ({ video, isSelf }) => {
         videoRef.current.currentTime = 0;
     };
 
-
     const handleDelete = (e) => {
         e.stopPropagation();
         const handleOk = async () => {
             const status = await deleteVideo(video.id);
             if (status === 200) {
-                SuccessAlertDialog('Delete video successfully', () => {
+                SuccessAlertDialog('Deleted', 'Delete video successfully', () => {
                     navigation(0);
                 });
             } else {

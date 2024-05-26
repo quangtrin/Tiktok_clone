@@ -9,9 +9,11 @@ import {
     UserGroupIcon,
     LiveActiveIcon,
     LiveIcon,
+    FollowingUserIcon,
+    FollowingUserActiveIcon,
 } from '~/components/Icons/Icons';
 import SuggestedAccounts from '../SuggestedAccounts/SuggestedAccounts';
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
 
 const cx = classNames.bind(styles);
 
@@ -29,6 +31,12 @@ function Sidebar() {
                 <MenuItem
                     title="Following"
                     to={config.routes.following}
+                    icon={<FollowingUserIcon />}
+                    activeIcon={<FollowingUserActiveIcon />}
+                ></MenuItem>
+                <MenuItem
+                    title="Friends"
+                    to={config.routes.listFriends}
                     icon={<UserGroupIcon />}
                     activeIcon={<UserGroupActiveIcon />}
                 ></MenuItem>
@@ -40,7 +48,7 @@ function Sidebar() {
                 ></MenuItem>
             </Menu>
 
-           { currentUser.id ? <SuggestedAccounts label="Following accounts" /> : null}
+            {currentUser.id ? <SuggestedAccounts label="Following accounts" /> : null}
         </aside>
     );
 }

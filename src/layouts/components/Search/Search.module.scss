@@ -1,7 +1,21 @@
+@use '../../../components/GlobalStyles/GlobalStyles.scss' as *;
 .search,
 .search-result {
     width: 50rem;
     margin-left: 30%;
+}
+
+.layout-search {
+    width: 65%;
+    display: flex;
+    justify-content: flex-end;
+    @include mobile {
+        display: none;
+    }
+
+    @include tablet {
+        display: none;
+    }
 }
 
 .search {

@@ -1,14 +1,14 @@
 import axios from 'axios';
 import config from '~/config';
 
-const followNotification = async (followedId, socket) => {
+const followNotification = async (followedId, status, socket) => {
     const tokenSession = localStorage.getItem('token');
     try {
         const newNotifi = await axios.post(
             `${config.baseUrl}/api/notification/create/follow`,
             {
                 receiverId: followedId,
-                type: config.typeNoti.follow,
+                type: status === 200 ? config.typeNoti.follow : config.typeNoti.becomeFriend, 
             },
             {
                 headers: {
@@ -25,6 +25,7 @@ const followNotification = async (followedId, socket) => {
         console.log(error);
     }
 };
+
 
 const commentNotification = async (commentParentId, videoId, commentId, socket) => {
     const tokenSession = localStorage.getItem('token');

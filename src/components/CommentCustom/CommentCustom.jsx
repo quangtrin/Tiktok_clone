@@ -12,6 +12,8 @@ import { postComments } from '~/services/API/commentService';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import styles from './styles.module.scss';
 import classNames from 'classnames/bind';
+import { faPaperPlane as faPaperPlaneTop } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const cx = classNames.bind(styles);
 const CommentCustom = ({ children, comment }) => {
@@ -80,7 +82,7 @@ const CommentCustom = ({ children, comment }) => {
         const queryParams = new URLSearchParams(location.search);
         const commentId = queryParams.get('comment');
         if (`${comment.id}` === `${commentId}`) {
-            commentRef.current.scrollIntoView({ block: "nearest"});
+            commentRef.current.scrollIntoView({ block: 'nearest' });
             queryParams.delete('comment');
             navigation({
                 search: queryParams.toString(),
@@ -91,11 +93,7 @@ const CommentCustom = ({ children, comment }) => {
     }, [isCommentFocus, commentRef, navigation, location.search, comment.id]);
 
     return (
-        <div
-            id="comment"
-            ref={commentRef}
-            className={isCommentFocus ? cx('comment-focus', 'content') : cx('content')}
-        >
+        <div id="comment" ref={commentRef} className={isCommentFocus ? cx('comment-focus', 'content') : cx('content')}>
             <Comment
                 actions={actions}
                 author={
@@ -121,16 +119,19 @@ const CommentCustom = ({ children, comment }) => {
             >
                 {children}
                 {replyCurrentId?.toString() === comment.id?.toString() && (
-                    <div style={{ display: 'flex', marginBottom: '1rem', justifyContent: 'space-between' }}>
+                    <div
+                        style={{
+                            display: 'flex',
+                            marginBottom: '1rem',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                        }}
+                    >
                         <Input onChange={handleOnChangeComment} value={content} onPressEnter={handleSubmitComment} />
                         <div style={{ textAlign: 'right' }}>
-                            <Button
-                                primary
-                                onClick={handleSubmitComment}
-                                style={{ marginLeft: '1rem', minWidth: '5rem' }}
-                            >
-                                Enter
-                            </Button>
+                            <span onClick={handleSubmitComment} style={{ color: 'var(--primary)', cursor: 'pointer' }}>
+                                <FontAwesomeIcon icon={faPaperPlaneTop} className={cx('send-icon')} />
+                            </span>
                         </div>
                     </div>
                 )}

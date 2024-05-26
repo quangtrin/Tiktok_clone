@@ -5,13 +5,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { postComments } from '~/services/API/commentService';
 import { addComment, updateListCommentCurrent } from '~/redux/commentSlice';
 import { Avatar, Input, Form } from 'antd';
-import Button from '~/components/Button/Button';
 import CommentCustom from '~/components/CommentCustom/CommentCustom';
 import { getCommentsByVideoId } from '~/services/API/commentService';
+import { FaCircleXmark } from 'react-icons/fa6';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperPlane as faPaperPlaneTop } from '@fortawesome/free-solid-svg-icons';
 import './CommentSidebarLibrary.scss';
 
 const cx = classNames.bind(styles);
-const CommentSidebar = ({ openComment }) => {
+const CommentSidebar = ({ openComment, setOpenComment }) => {
     const dispatch = useDispatch();
     const firstContentRef = useRef(null);
     const [form] = Form.useForm();
@@ -43,7 +45,12 @@ const CommentSidebar = ({ openComment }) => {
 
     return (
         <div className={cx('comment-layout')} style={!openComment ? { display: 'none' } : {}} id="CommentSidebar">
-            <div style={{ display: 'flex', marginBottom: '1rem', justifyContent: 'space-between' }}>
+            <div className={cx('close-icon')} onClick={() => setOpenComment(false)}>
+                <FaCircleXmark />
+            </div>
+            <div
+                style={{ display: 'flex', marginBottom: '1rem', justifyContent: 'space-between', alignItems: 'center' }}
+            >
                 <div style={{ width: '15%' }}>
                     <Avatar src={currentUser.avatar} alt="Han Solo" />
                 </div>
@@ -53,9 +60,9 @@ const CommentSidebar = ({ openComment }) => {
                     </Form.Item>
                 </Form>
                 <div style={{ textAlign: 'right' }}>
-                    <Button primary onClick={handleSubmitComment} style={{ marginLeft: '1rem', minWidth: '5rem' }}>
-                        Enter
-                    </Button>
+                    <span onClick={handleSubmitComment} style={{ color: 'var(--primary)', cursor: 'pointer' }}>
+                        <FontAwesomeIcon icon={faPaperPlaneTop} className={cx('send-icon')} />
+                    </span>
                 </div>
             </div>
             <div className={cx('content')}>
@@ -70,12 +77,7 @@ const CommentSidebar = ({ openComment }) => {
                                     comment.comment_child &&
                                     [...comment.comment_child]
                                         .reverse()
-                                        .map((child) => (
-                                            <CommentCustom
-                                                key={child.id}
-                                                comment={child}
-                                            />
-                                        ))
+                                        .map((child) => <CommentCustom key={child.id} comment={child} />)
                                 }
                             />
                         );

@@ -1,17 +1,13 @@
 export function formatDateTime(datetime) {
-    var hours = datetime.getHours();
-    var minutes = datetime.getMinutes();
     var day = datetime.getDate();
     var month = datetime.getMonth() + 1;
     var year = datetime.getFullYear();
 
     // Add leading zeros if necessary
-    var formattedHours = (hours < 10 ? "0" : "") + hours;
-    var formattedMinutes = (minutes < 10 ? "0" : "") + minutes;
-    var formattedDay = (day < 10 ? "0" : "") + day;
-    var formattedMonth = (month < 10 ? "0" : "") + month;
+    var formattedDay = (day < 10 ? '0' : '') + day;
+    var formattedMonth = (month < 10 ? '0' : '') + month;
 
-    return formattedHours + ":" + formattedMinutes + " " + formattedDay + "-" + formattedMonth + "-" + year;
+    return formattedDay + '-' + formattedMonth + '-' + year;
 }
 
 export function timeAgoOrDateTime(datetimeString) {
@@ -25,13 +21,16 @@ export function timeAgoOrDateTime(datetimeString) {
     var hours = Math.floor(minutes / 60);
     var days = Math.floor(hours / 24);
 
-    if (days > 0) {
+    if (days > 7) {
         return formatDateTime(datetime);
+    }
+    if (days > 0) {
+        return days + ' day' + (days > 1 ? 's' : '') + ' ago';
     } else if (hours > 0) {
-        return hours + " hour" + (hours > 1 ? "s" : "") + " ago";
+        return hours + ' hour' + (hours > 1 ? 's' : '') + ' ago';
     } else if (minutes > 0) {
-        return minutes + " minute" + (minutes > 1 ? "s" : "") + " ago";
+        return minutes + ' minute' + (minutes > 1 ? 's' : '') + ' ago';
     } else {
-        return "Just ago";
+        return 'Just ago';
     }
 }

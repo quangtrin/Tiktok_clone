@@ -1,7 +1,7 @@
 import Swal from 'sweetalert2';
-const SuccessAlertDialog = (text, okCallBack = () => {}, cancelCallBack = () => {}) =>
+const SuccessAlertDialog = ( title, text, okCallBack = () => {}, cancelCallBack = () => {}) =>
     Swal.fire({
-        title: text,
+        title: title,
         text: text,
         icon: 'success',
     }).then((result) => {

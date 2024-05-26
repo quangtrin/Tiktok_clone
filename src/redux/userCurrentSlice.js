@@ -4,6 +4,7 @@ const initialState = {
     information: {},
     listFollowingUser: [],
     listFollowedUser: [],
+    listFriend: [],
 };
 
 export const userCurrentSlice = createSlice({
@@ -24,6 +25,11 @@ export const userCurrentSlice = createSlice({
         updateListFollowedUser: (state, action) => {
             if (action.payload) {
                 state.listFollowedUser = action.payload;
+            }
+        },
+        updateListFriend: (state, action) => {
+            if (action.payload) {
+                state.listFriend = action.payload;
             }
         },
         addFollow: (state, action) => {
@@ -48,6 +54,7 @@ export const {
     updateTokenSession,
     updateListFollowingUser,
     updateListFollowedUser,
+    updateListFriend,
     addFollow,
     removeFollow,
     updateInformation,

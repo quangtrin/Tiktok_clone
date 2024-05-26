@@ -15,6 +15,7 @@ import { addFollow } from '~/redux/userCurrentSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Avatar } from 'antd';
+import { SuccessAlertDialog } from '~/components/AlertDialog/AlertDialog';
 
 function FooterRight({ profilePic, video, setOpenComment, openComment }) {
     const userCurrentId = localStorage.getItem('userId');
@@ -37,7 +38,10 @@ function FooterRight({ profilePic, video, setOpenComment, openComment }) {
     const [userAddIcon, setUserAddIcon] = useState(faCircleCheck);
 
     const handleUserAddClick = async () => {
-        await follow(video.creator_id, socket);
+        const status = await follow(video.creator_id, socket);
+        if (status === 201) {
+            SuccessAlertDialog('The two of you followed each other and became friends', '');
+        }
         dispatch(addFollow(video.Creator));
         setUserAddIcon(faCircleCheck);
     };

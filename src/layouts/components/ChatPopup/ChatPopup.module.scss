@@ -1,0 +1,16 @@
+@use '../../../components/GlobalStyles/GlobalStyles.scss' as *;
+.layout {
+    width: 40rem;
+    border-radius: 0.5rem 0 0 0.5rem;
+    max-height: 70vh;
+    overflow-y: scroll;
+    @include mobile {
+        width: 100%;
+    }
+    @include tablet {
+        width: 100%;
+    }
+    @include big-tablet {
+        width: 100%;
+    }
+}

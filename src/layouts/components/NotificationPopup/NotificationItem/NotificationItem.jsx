@@ -16,6 +16,9 @@ const NotificationItem = ({ notification }) => {
             case typeNoti.follow:
                 window.location.href = `/user/@${notification.sender.id}`;
                 break;
+            case typeNoti.becomeFriend:
+                window.location.href = `/user/@${notification.sender.id}`;
+                break;
             case typeNoti.comment:
                 window.location.href = `/notification?video=${notification.video_id}&comment=${notification.comment_id}`;
                 break;
@@ -28,7 +31,11 @@ const NotificationItem = ({ notification }) => {
     };
     return (
         <div className={cx('layout')} onClick={handleReadNotifi}>
-            <Avatar style={{height: "5.5rem", width: "5.5rem"}} className={cx('avatar')} src={notification.sender.avatar} />
+            <Avatar
+                style={{ height: '5.5rem', width: '5.5rem' }}
+                className={cx('avatar')}
+                src={notification.sender.avatar}
+            />
             <div>
                 <div
                     className={cx('content')}

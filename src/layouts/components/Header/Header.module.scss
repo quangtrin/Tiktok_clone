@@ -15,14 +15,6 @@
     display: flex;
     background-color: white;
     justify-content: center;
-
-    @include mobile {
-        display: none;
-    }
-
-    @include tablet {
-        display: none;
-    }
 }
 
 .inner {

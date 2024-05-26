@@ -4,4 +4,7 @@ export const typeNoti = {
     likeVideo: "like_video",
     chat: "chat",
     likeComment: "like_comment",
+    becomeFriend: "become_friend",
+    requestFriend: "request_friend",
+    acceptFriend: "accept_friend",
 }

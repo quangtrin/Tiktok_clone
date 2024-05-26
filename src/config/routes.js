@@ -9,7 +9,9 @@ const routes = {
     create: '/create',
     authentication: '/authentication',
     editProfile: "/edit_profile",
-    notifiInfo: "/notification"
+    notifiInfo: "/notification",
+    listFriends: "/friends",
+    chat: "/chat",
 };
 
 export default routes;

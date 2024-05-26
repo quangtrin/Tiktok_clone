@@ -1,16 +1,63 @@
+@use '../../../components/GlobalStyles/GlobalStyles.scss' as *;
 .comment-layout {
+    position: relative;
     margin-left: 2rem;
     border: none 0.1rem black;
     border-radius: 2.5rem;
     box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.75);
+    background-color: white;
     width: 50%;
     text-align: left;
     padding: 2rem;
     max-height: 61rem;
+
+    @include mobile {
+        position: fixed;
+        left: 0;
+        top: calc(var(--default-layout-header-height) + 2rem);
+        margin: 0 5%;
+        z-index: 1000;
+        width: 90%;
+        height: 100%;
+    }
+    @include tablet {
+        position: fixed;
+        left: 0;
+        top: calc(var(--default-layout-header-height) + 2rem);
+        margin: 0 5%;
+        z-index: 1000;
+        width: 90%;
+        height: 100%;
+    }
+    @include big-tablet {
+        position: fixed;
+        left: 0;
+        top: calc(var(--default-layout-header-height) + 2rem);
+        margin: 0 5%;
+        z-index: 1000;
+        width: 90%;
+        height: 100%;
+    }
 }
 
-.content{
+.content {
     max-height: 50rem;
     overflow-y: scroll;
     padding-right: 1rem;
+}
+
+.send-icon {
+    font-size: 2rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.close-icon {
+    position: absolute;
+    top: -1.5rem;
+    right: -1.5rem;
+    font-size: 2rem;
+    @include desktop {
+        display: none;
+    }
 }

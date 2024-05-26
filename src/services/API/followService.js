@@ -1,6 +1,6 @@
 import axios from 'axios';
 import config from '~/config';
-import { followNotification } from './notificationService';
+import { becomeFriendNotification, followNotification } from './notificationService';
 
 const unFollow = async (followingUserId) => {
     const tokenSession = localStorage.getItem('token');
@@ -18,7 +18,7 @@ const unFollow = async (followingUserId) => {
 const follow = async (followingUserId, socket) => {
     const tokenSession = localStorage.getItem('token');
     try {
-        await axios.post(
+        const res = await axios.post(
             `${config.baseUrl}/api/follow/${followingUserId}`,
             {},
             {
@@ -27,7 +27,9 @@ const follow = async (followingUserId, socket) => {
                 },
             },
         );
-        await followNotification(followingUserId, socket);
+        const status = res.status;
+        await followNotification(followingUserId, status, socket);
+        return status;
     } catch (error) {
         console.log(error);
     }

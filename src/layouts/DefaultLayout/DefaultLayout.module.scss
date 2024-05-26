@@ -11,15 +11,6 @@
     width: var(--default-layout-width);
     display: flex;
     padding: 0 var(--default-layout-horizontal-spacer);
-    @include mobile {
-        margin-top: 0;
-        padding: 0;
-    }
-
-    @include tablet {
-        margin-top: 0;
-        padding: 0;
-    }
 
     @include big-tablet {
         width: 100%;

@@ -56,7 +56,7 @@ function Search() {
     };
 
     return (
-        <div style={{width: "65%", display: "flex", justifyContent: "end"}}>
+        <div className={cx('layout-search')}>
             <HeadlessTippy
                 visible={showResult && searchResult.length > 0}
                 offset={[12, 8]}

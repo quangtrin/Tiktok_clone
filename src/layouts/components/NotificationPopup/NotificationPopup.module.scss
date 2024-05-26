@@ -1,4 +1,15 @@
-.layout{
+@use '../../../components/GlobalStyles/GlobalStyles.scss' as *;
+.layout {
     width: 40rem;
     opacity: 0.9;
+
+    @include mobile {
+        width: 100%;
+    }
+    @include tablet {
+        width: 100%;
+    }
+    @include big-tablet {
+        width: 100%;
+    }
 }

@@ -12,6 +12,8 @@ import LivePage from '~/pages/Live';
 import CreatePage from '~/pages/Create/CreateVideoPage';
 import EditProfilePage from '~/pages/EditProfile/EditProfilePage';
 import AuthPage from '~/pages/Login/AuthPage';
+import ListFriendsPage from '~/pages/ListFriends/ListFriendsPage';
+import ChatPage from '~/pages/ChatPage/ChatPage';
 
 const publicRoutes = [
     { path: Config.routes.home, component: HomePage },
@@ -24,7 +26,9 @@ const publicRoutes = [
     { path: Config.routes.create, component: CreatePage},
     { path: Config.routes.authentication, component: AuthPage},
     { path: Config.routes.editProfile, component: EditProfilePage },
-    { path: Config.routes.notifiInfo, component: HomePage}
+    { path: Config.routes.notifiInfo, component: HomePage},
+    { path: Config.routes.listFriends, component: ListFriendsPage},
+    { path: Config.routes.chat, component: ChatPage, layout: HeaderOnly},
 ];
 
 const privateRoutes = [];

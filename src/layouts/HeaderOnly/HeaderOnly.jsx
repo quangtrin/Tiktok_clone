@@ -4,9 +4,7 @@ function HeaderOnly({ children }) {
     return (
         <div>
             <Header />
-            <div className="container">
-                <div className="content">{children}</div>
-            </div>
+            <div style={{ marginTop: 'var(--default-layout-header-height)' }}>{children}</div>
         </div>
     );
 }
