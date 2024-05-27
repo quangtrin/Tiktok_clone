@@ -8,6 +8,7 @@ import { deleteVideo } from '~/services/API/videoService';
 
 const cx = classNames.bind(styles);
 const CardVideo = ({ video, isSelf }) => {
+    console.log(video);
     const navigation = useNavigate();
     const videoRef = useRef(null);
     const handleMouseEnter = () => {

@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Avatar } from 'antd';
 import { SuccessAlertDialog } from '~/components/AlertDialog/AlertDialog';
+import { saveVideo, unSaveVideo } from '~/services/API/videoSavedService';
 
 function FooterRight({ profilePic, video, setOpenComment, openComment }) {
     const userCurrentId = localStorage.getItem('userId');
@@ -34,6 +35,7 @@ function FooterRight({ profilePic, video, setOpenComment, openComment }) {
     );
     const [countLike, setCountLike] = useState(0);
     const [saved, setSaved] = useState(false);
+    const [videoSavedCount, setVideoSavedCount] = useState(video.VideoSaveds.length);
 
     const [userAddIcon, setUserAddIcon] = useState(faCircleCheck);
 
@@ -46,7 +48,6 @@ function FooterRight({ profilePic, video, setOpenComment, openComment }) {
         setUserAddIcon(faCircleCheck);
     };
 
-    // Function to convert likes count to a number
     const parseLikesCount = (count) => {
         if (typeof count === 'string') {
             if (count.endsWith('K')) {
@@ -57,7 +58,6 @@ function FooterRight({ profilePic, video, setOpenComment, openComment }) {
         return count;
     };
 
-    // Function to format likes count
     const formatLikesCount = (count) => {
         if (count >= 10000) {
             return (count / 1000).toFixed(1) + 'K';
@@ -70,7 +70,7 @@ function FooterRight({ profilePic, video, setOpenComment, openComment }) {
     const unLikeAction = async () => {
         unLike(video.id);
     };
-    // NEED REFACTER
+
     const handleLikeClick = async () => {
         const isLikedBefore =
             video.Likes.filter((value) => value.user_id == userCurrentId && value.video_id == video.id).length !== 0;
@@ -80,6 +80,21 @@ function FooterRight({ profilePic, video, setOpenComment, openComment }) {
         else setCountLike(0);
         (await liked) ? unLikeAction() : likeAction();
         setLiked((prevLiked) => !prevLiked);
+    };
+
+    const save = async () => {
+        setSaved(true);
+        setVideoSavedCount(videoSavedCount + 1);
+        await saveVideo(video.id, socket);
+    };
+    const unSave = async () => {
+        setSaved(false);
+        setVideoSavedCount(videoSavedCount - 1);
+        await unSaveVideo(video.id);
+    };
+
+    const handleSaveClick = () => {
+        saved ? unSave() : save();
     };
 
     const handleCommentIconClick = () => {
@@ -99,20 +114,22 @@ function FooterRight({ profilePic, video, setOpenComment, openComment }) {
         );
     }, [listFollowingUser, currentUser.id, video.creator_id]);
 
+    useEffect(() => {
+        const fetchSavedVideos = () => {
+            if (currentUser.id) {
+                const isSaved = video.VideoSaveds.find((videoSaved) => {
+                    return videoSaved.user_id.toString() === currentUser.id.toString();
+                });
+                setSaved(isSaved);
+            }
+        };
+        fetchSavedVideos();
+    }, [currentUser.id, video.VideoSaveds]);
+
     return (
         <div className="footer-right">
             <div className="sidebar-icon">
                 {profilePic ? (
-                    // Displaying the user profile picture
-                    // <img
-                    //     onClick={() => {
-                    //         navigation(`/user/@${video.creator_id}`);
-                    //     }}
-                    //     src={profilePic}
-                    //     className="userprofile"
-                    //     alt="Profile"
-                    //     style={{ width: '4.5rem', height: '4.5rem', color: '#616161' }}
-                    // />
                     <Avatar
                         onClick={() => {
                             navigation(`/user/@${video.creator_id}`);
@@ -131,52 +148,42 @@ function FooterRight({ profilePic, video, setOpenComment, openComment }) {
                 />
             </div>
             <div className="sidebar-icon">
-                {/* The heart icon for liking */}
                 <FontAwesomeIcon
                     icon={faHeart}
                     style={{ width: '3.5rem', height: '3.5rem', color: liked ? '#FF0000' : 'white' }}
                     onClick={handleLikeClick}
                 />
-                {/* Displaying the formatted likes count */}
                 <p>{formatLikesCount(parseLikesCount(video.Likes.length) + countLike)}</p>
             </div>
             <div className="sidebar-icon">
-                {/* The comment icon */}
                 <FontAwesomeIcon
                     icon={faCommentDots}
                     style={{ width: '3.5rem', height: '3.5rem', color: 'white' }}
                     onClick={handleCommentIconClick}
                 />
-                {/* Displaying the number of comments */}
                 <p>{listCommentCurrent.length}</p>
             </div>
             <div className="sidebar-icon">
                 {saved ? (
-                    // Displaying the bookmark icon when saved
                     <FontAwesomeIcon
                         icon={faBookmark}
                         style={{ width: '3.5rem', height: '3.5rem', color: '#ffc107' }}
-                        onClick={() => setSaved(false)}
+                        onClick={handleSaveClick}
                     />
                 ) : (
-                    // Displaying the bookmark icon when not saved
                     <FontAwesomeIcon
                         icon={faBookmark}
                         style={{ width: '3.5rem', height: '3.5rem', color: 'white' }}
-                        onClick={() => setSaved(true)}
+                        onClick={handleSaveClick}
                     />
                 )}
-                {/* Displaying the number of saves */}
-                <p>{saved ? 23 + 1 : 23}</p>
+                <p>{videoSavedCount}</p>
             </div>
             <div className="sidebar-icon">
-                {/* The share icon */}
                 <FontAwesomeIcon icon={faShare} style={{ width: '3.5rem', height: '3.5rem', color: 'white' }} />
-                {/* Displaying the number of shares */}
                 <p>{2}</p>
             </div>
             <div className="sidebar-icon record">
-                {/* Displaying the record icon */}
                 <img src="https://static.thenounproject.com/png/934821-200.png" alt="Record Icon" />
             </div>
         </div>

@@ -60,12 +60,17 @@ function ProfilePage() {
             const videoLiked = allVideos.filter(
                 (video) => video.Likes.findIndex((like) => like.user_id === userProfile.id) !== -1,
             );
+            const videoSaved = allVideos.filter(
+                (video) => video.VideoSaveds.findIndex((videoSaved) => videoSaved.user_id === userProfile.id) !== -1,
+            );
+
             userProfile = {
                 ...userProfile,
                 follower,
                 following,
                 videoCreated,
                 videoLiked,
+                videoSaved,
             };
 
             setUser(userProfile);
@@ -83,6 +88,11 @@ function ProfilePage() {
             key: 'video liked',
             label: 'Video liked',
             children: user ? <VideoUploaded videos={user.videoLiked} /> : null,
+        },
+        {
+            key: 'video saved',
+            label: 'Video saved',
+            children: user ? <VideoUploaded videos={user.videoSaved} /> : null,
         },
     ];
     return (
