@@ -12,6 +12,7 @@ const routes = {
     notifiInfo: "/notification",
     listFriends: "/friends",
     chat: "/chat",
+    admin: "/admin"
 };
 
 export default routes;

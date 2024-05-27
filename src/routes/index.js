@@ -14,6 +14,8 @@ import EditProfilePage from '~/pages/EditProfile/EditProfilePage';
 import AuthPage from '~/pages/Login/AuthPage';
 import ListFriendsPage from '~/pages/ListFriends/ListFriendsPage';
 import ChatPage from '~/pages/ChatPage/ChatPage';
+import AdminPage from '~/pages/AdminPage/AdminPage';
+import LayoutAdmin from '~/layouts/LayoutAdmin/LayoutAdmin';
 
 const publicRoutes = [
     { path: Config.routes.home, component: HomePage },
@@ -29,6 +31,7 @@ const publicRoutes = [
     { path: Config.routes.notifiInfo, component: HomePage},
     { path: Config.routes.listFriends, component: ListFriendsPage},
     { path: Config.routes.chat, component: ChatPage, layout: HeaderOnly},
+    { path: Config.routes.admin, component: AdminPage, layout: LayoutAdmin}
 ];
 
 const privateRoutes = [];
