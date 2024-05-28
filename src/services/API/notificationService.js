@@ -81,6 +81,32 @@ const likeVideoNotification = async (videoId, socket) => {
     }
 };
 
+const acceptFriendNotification = async (receiverId, socket) => {
+    const tokenSession = localStorage.getItem('token');
+    try {
+        if (receiverId) {
+            const newNotifi = await axios.post(
+                `${config.baseUrl}/api/notification/create/acceptFriend`,
+                {
+                    receiverId,
+                    type: config.typeNoti.acceptFriend,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${tokenSession}`,
+                    },
+                },
+            );
+            if (newNotifi.status === 200)
+                await socket?.emit('new-notification', {
+                    notification: newNotifi.data.newNotification,
+                });
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 const getNotificationUser = async () => {
     const tokenSession = localStorage.getItem('token');
     const res = await axios.get(`${config.baseUrl}/api/notification/user`, {
@@ -165,4 +191,5 @@ export {
     likeVideoNotification,
     requestAddFriendNotification,
     updateHasActionNotificationUser,
+    acceptFriendNotification,
 };

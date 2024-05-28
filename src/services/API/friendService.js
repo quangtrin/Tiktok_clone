@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from '~/config';
+import { acceptFriendNotification } from './notificationService';
 
 const getFriendsUserCurrent = async () => {
     const tokenSession = localStorage.getItem('token');
@@ -15,7 +16,7 @@ const getFriendsUserCurrent = async () => {
     }
 };
 
-const addFriend = async (friendId) => {
+const addFriend = async (friendId, socket) => {
     const tokenSession = localStorage.getItem('token');
     try {
         const response = await axios.post(
@@ -29,6 +30,7 @@ const addFriend = async (friendId) => {
                 },
             },
         );
+        await acceptFriendNotification(friendId, socket);
         return response.status;
     } catch (error) {
         console.log(error);

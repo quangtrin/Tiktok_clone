@@ -7,10 +7,12 @@ import { timeAgoOrDateTime } from '~/utils/function';
 import { updateHasActionNotificationUser, updateReadNotificationUser } from '~/services/API/notificationService';
 import { typeNoti } from '~/config/typeNoti';
 import { addFriend } from '~/services/API/friendService';
+import { useSelector } from 'react-redux';
 
 const cx = classNames.bind(styles);
 
 const NotificationItem = ({ notification }) => {
+    const socket = useSelector((state) => state.socket.socket);
     const [hasActiton, setHasAction] = useState(notification.has_action);
     const [read, setRead] = useState(notification.read);
     const handleReadNotifi = async () => {
@@ -24,6 +26,9 @@ const NotificationItem = ({ notification }) => {
                 window.location.href = `/user/@${notification.sender.id}`;
                 break;
             case typeNoti.requestFriend:
+                window.location.href = `/user/@${notification.sender.id}`;
+                break;
+            case typeNoti.acceptFriend:
                 window.location.href = `/user/@${notification.sender.id}`;
                 break;
             case typeNoti.comment:
@@ -42,7 +47,7 @@ const NotificationItem = ({ notification }) => {
         await updateHasActionNotificationUser(notification);
         setHasAction(false);
         setRead(true);
-        await addFriend(notification.sender.id);
+        await addFriend(notification.sender.id, socket);
         if (window.location.pathname === `/user/@${notification.sender.id}`) window.location.reload();
     };
 
