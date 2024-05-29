@@ -33,4 +33,18 @@ const postComments = async (videoId, content, socket, commentParentId) => {
     }
 };
 
-export { getCommentsByVideoId, postComments };
+const deleteComment = async (commentId) => {
+    const tokenSession = localStorage.getItem('token');
+    try {
+        const res = await axios.delete(`${config.baseUrl}/api/comment/${commentId}`, {
+            headers: {
+                Authorization: `Bearer ${tokenSession}`,
+            },
+        });
+        return res.status;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export { getCommentsByVideoId, postComments, deleteComment };

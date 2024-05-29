@@ -1,6 +1,5 @@
 import { DislikeFilled, DislikeOutlined, LikeFilled, LikeOutlined } from '@ant-design/icons';
 import { Avatar, Tooltip, Input } from 'antd';
-import Button from '../../components/Button/Button';
 import { Comment } from '@ant-design/compatible';
 import React, { createElement, useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
@@ -14,12 +13,14 @@ import styles from './styles.module.scss';
 import classNames from 'classnames/bind';
 import { faPaperPlane as faPaperPlaneTop } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { deleteComment } from '~/services/API/commentService';
+import { deleteComment as deleteCommentRedux } from '~/redux/commentSlice';
+import { ConfirmDeleteAlertDialog, ErrorAlertDialog } from '../AlertDialog/AlertDialog';
 
 const cx = classNames.bind(styles);
 const CommentCustom = ({ children, comment }) => {
     const dispatch = useDispatch();
     const navigation = useNavigate();
-    // const { commentId } = useParams();
     const location = useLocation();
     const commentRef = useRef(null);
     const [likes, setLikes] = useState(0);
@@ -29,6 +30,7 @@ const CommentCustom = ({ children, comment }) => {
     const [isCommentFocus, setIsCommentFocus] = useState(false);
     const replyCurrentId = useSelector((state) => state.comment.replyCurrentId);
     const socket = useSelector((state) => state.socket.socket);
+    const userCurrentId = useSelector((state) => state.user_current.information?.id);
 
     const like = () => {
         setLikes(1);
@@ -43,6 +45,17 @@ const CommentCustom = ({ children, comment }) => {
 
     const handleReply = () => {
         dispatch(changeReplyCurrent(comment.comment_parent_id || comment.id));
+    };
+
+    const handleDelete = async () => {
+        ConfirmDeleteAlertDialog('Delete comment', 'Are you sure you want to delete this comment?', async () => {
+            try {
+                await deleteComment(comment.id);
+                dispatch(deleteCommentRedux(comment.id));
+            } catch (error) {
+                ErrorAlertDialog('Error', 'An error occurred while deleting the comment');
+            }
+        });
     };
 
     const actions = [
@@ -61,6 +74,11 @@ const CommentCustom = ({ children, comment }) => {
         <span key="comment-basic-reply-to" onClick={handleReply}>
             Reply to
         </span>,
+        userCurrentId?.toString() === comment.User.id?.toString() ? (
+            <span key="comment-basic-delete" onClick={handleDelete}>
+                Delete
+            </span>
+        ) : null,
     ];
 
     const handleOnChangeComment = (event) => {
