@@ -10,6 +10,15 @@ const getListVideos = async () => {
     }
 };
 
+const getVideoById = async (videoId) => {
+    try {
+        const response = await axios.get(`${config.baseUrl}/api/video/${videoId}`);
+        return response.data.video;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 const getListVideosByCreatorId = async (creatorId) => {
     try {
         const response = await axios.get(`${config.baseUrl}/api/video/creator/${creatorId}`);
@@ -19,13 +28,14 @@ const getListVideosByCreatorId = async (creatorId) => {
     }
 };
 
-const createVideo = async (video, description, song) => {
+const createVideo = async (video, description, hashtag, song) => {
     const tokenSession = localStorage.getItem('token');
     try {
         const formData = new FormData();
         formData.append('video', video);
         formData.append('description', description);
         formData.append('song', song);
+        formData.append('hashtag', hashtag);
         const res = await axios.post(`${config.baseUrl}/api/video/upload`, formData, {
             headers: {
                 Authorization: `Bearer ${tokenSession}`,
@@ -51,4 +61,26 @@ const deleteVideo = async (videoId) => {
     }
 };
 
-export { getListVideos, createVideo, getListVideosByCreatorId, deleteVideo };
+const updateVideo = async (videoId, description, hashtag, song) => {
+    const tokenSession = localStorage.getItem('token');
+    try {
+        const res = await axios.put(
+            `${config.baseUrl}/api/video/${videoId}`,
+            {
+                description,
+                hashtag,
+                song,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${tokenSession}`,
+                },
+            },
+        );
+        return res.status;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export { getListVideos, createVideo, getListVideosByCreatorId, deleteVideo, updateVideo, getVideoById };

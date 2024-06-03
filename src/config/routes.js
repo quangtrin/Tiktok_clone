@@ -7,6 +7,7 @@ const routes = {
     search: '/search',
     live: '/live',
     create: '/create',
+    editVideo: '/video/edit/@:id',
     authentication: '/authentication',
     editProfile: "/edit_profile",
     notifiInfo: "/notification",

@@ -29,6 +29,7 @@ const publicRoutes = [
     { path: Config.routes.notifiInfo, component: HomePage},
     { path: Config.routes.listFriends, component: ListFriendsPage},
     { path: Config.routes.chat, component: ChatPage, layout: HeaderOnly},
+    { path: Config.routes.editVideo, component: CreatePage},
 ];
 
 const privateRoutes = [];

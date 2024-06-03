@@ -2,9 +2,10 @@ import classNames from 'classnames/bind';
 import styles from './CardVideo.module.scss';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { RemoveIcon } from '~/components/Icons/Icons';
+import { EditIcon, RemoveIcon } from '~/components/Icons/Icons';
 import { ConfirmDeleteAlertDialog, SuccessAlertDialog, ErrorAlertDialog } from '~/components/AlertDialog/AlertDialog';
 import { deleteVideo } from '~/services/API/videoService';
+import { MdOutlineEdit } from 'react-icons/md';
 
 const cx = classNames.bind(styles);
 const CardVideo = ({ video, isSelf }) => {
@@ -38,6 +39,11 @@ const CardVideo = ({ video, isSelf }) => {
         );
     };
 
+    const handleEdit = (e) => {
+        e.stopPropagation();
+        navigation(`/video/edit/@${video.id}`);
+    };
+
     return (
         <div
             className={cx('card-video-profile')}
@@ -46,12 +52,21 @@ const CardVideo = ({ video, isSelf }) => {
             onClick={() => (window.location.href = `/user/@${video.creator_id}/video?video=${video.id}`)}
         >
             {isSelf && (
-                <div onClick={handleDelete}>
-                    <RemoveIcon
-                        className={cx('icon-delete')}
-                        colorHover="white"
-                        backgroundColorHover="var(--primary)"
-                    />
+                <div className={cx('icon-layout')}>
+                    <div onClick={handleEdit}>
+                        <EditIcon
+                            className={cx('icon-edit')}
+                            colorHover="var(--primary)"
+                            backgroundColorHover="white"
+                        />
+                    </div>
+                    <div onClick={handleDelete}>
+                        <RemoveIcon
+                            className={cx('icon-delete')}
+                            colorHover="white"
+                            backgroundColorHover="var(--primary)"
+                        />
+                    </div>
                 </div>
             )}
             <video

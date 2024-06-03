@@ -50,6 +50,7 @@ const VideoCard = (props) => {
                             username={video.Creator.user_name}
                             description={video.description}
                             song={video.song}
+                            hashtag={video.hashtag}
                         />
                     </div>
                     <div className="footer-right">
