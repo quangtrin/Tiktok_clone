@@ -1,7 +1,4 @@
 #SidebarAdmin{
-    :where(.css-dev-only-do-not-override-1hcz1v).ant-menu-inline.ant-menu-root .ant-menu-item, :where(.css-dev-only-do-not-override-1hcz1v).ant-menu-inline.ant-menu-root .ant-menu-submenu-title{
-        justify-content: center;
-    }
     :where(.css-dev-only-do-not-override-1hcz1v).ant-menu-light .ant-menu-item-selected, :where(.css-dev-only-do-not-override-1hcz1v).ant-menu-light>.ant-menu .ant-menu-item-selected{
         background: none;
     }
@@ -9,7 +6,10 @@
         padding-inline: 0;
         margin-inline: 0;
         width: 100%;
-        padding-left: 0 !important;
+        position: relative;
+        padding-left: 30% !important;
+        // left: 50%;
+        // transform: translateX(-50%);
     }
     :where(.css-dev-only-do-not-override-1hcz1v).ant-menu-inline.ant-menu-root .ant-menu-item >.ant-menu-title-content, :where(.css-dev-only-do-not-override-1hcz1v).ant-menu-inline.ant-menu-root .ant-menu-submenu-title >.ant-menu-title-content{
         flex: none;

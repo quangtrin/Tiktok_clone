@@ -4,6 +4,7 @@ import classNames from 'classnames/bind'
 import { Link } from 'react-router-dom'
 import images from '~/assets/images';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { MdPersonalVideo, MdOutlineSettings } from "react-icons/md";
 import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
 import "./SidebarAdminLibrary.scss"
 
@@ -11,14 +12,23 @@ const cx = classNames.bind(styles)
 const { Sider } = Layout; 
 const SidebarAdmin = () => {
 
-  const items2 = [UserOutlined, LaptopOutlined, NotificationOutlined].map((icon, index) => {
-    const key = String(index + 1);
-    return {
-      key: `sub${key}`,
-      icon: React.createElement(icon),
-      label: `subnav ${key}`,
-    };
-  });
+  const items2 = [
+    {
+      key: `user`,
+      icon: <UserOutlined/>,
+      label: `User`,
+    },
+    {
+      key: `video`,
+      icon: <MdPersonalVideo/>,
+      label: `Video`,
+    },
+    {
+      key: `setting`,
+      icon: <MdOutlineSettings/>,
+      label: `Setting`,
+    }
+  ];
 
   return (
     <div className={cx("layout")} id='SidebarAdmin'>

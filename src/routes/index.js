@@ -14,8 +14,9 @@ import EditProfilePage from '~/pages/EditProfile/EditProfilePage';
 import AuthPage from '~/pages/Login/AuthPage';
 import ListFriendsPage from '~/pages/ListFriends/ListFriendsPage';
 import ChatPage from '~/pages/ChatPage/ChatPage';
-import AdminPage from '~/pages/AdminPage/AdminPage';
+import AdminUserPage from '~/pages/AdminUserPage/AdminUserPage';
 import LayoutAdmin from '~/layouts/LayoutAdmin/LayoutAdmin';
+import AdminVideoPage from '~/pages/AdminVideoPage/AdminVideoPage';
 
 const publicRoutes = [
     { path: Config.routes.home, component: HomePage },
@@ -31,7 +32,9 @@ const publicRoutes = [
     { path: Config.routes.notifiInfo, component: HomePage},
     { path: Config.routes.listFriends, component: ListFriendsPage},
     { path: Config.routes.chat, component: ChatPage, layout: HeaderOnly},
-    { path: Config.routes.admin, component: AdminPage, layout: LayoutAdmin}
+    { path: Config.routes.admin, component: AdminUserPage, layout: LayoutAdmin},
+    { path: Config.routes.adminUser, component: AdminUserPage, layout: LayoutAdmin},
+    { path: Config.routes.adminVideo, component: AdminVideoPage, layout: LayoutAdmin}
 ];
 
 const privateRoutes = [];
