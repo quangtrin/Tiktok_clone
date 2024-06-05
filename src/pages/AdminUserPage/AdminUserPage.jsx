@@ -38,7 +38,7 @@ const columns = [
     {
         title: 'Status',
         key: 'status',
-        width: "15%",
+        width: "10%",
         render: (record) => (
             <div style={{padding: "0.5rem 0"}}>
 
@@ -76,13 +76,7 @@ const data = [
 const AdminUserPage = () => {
     return (
         <div id="AdminUserPage">
-            <div className={cx('header-layout')} >
-                <h1>User information</h1>
-                <div>
-                    <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s" />
-                </div>
-            </div>
-            <div style={{ marginTop: '3rem' }}>
+            <div>
                 <Form
                     name="basic"
                     wrapperCol={{

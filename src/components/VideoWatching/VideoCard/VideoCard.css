@@ -34,3 +34,7 @@
   align-items: flex-end;
   height: 100%;
 }
+
+.modal {
+  background-color: none;
+}

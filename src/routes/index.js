@@ -32,9 +32,9 @@ const publicRoutes = [
     { path: Config.routes.notifiInfo, component: HomePage},
     { path: Config.routes.listFriends, component: ListFriendsPage},
     { path: Config.routes.chat, component: ChatPage, layout: HeaderOnly},
-    { path: Config.routes.admin, component: AdminUserPage, layout: LayoutAdmin},
-    { path: Config.routes.adminUser, component: AdminUserPage, layout: LayoutAdmin},
-    { path: Config.routes.adminVideo, component: AdminVideoPage, layout: LayoutAdmin}
+    { path: Config.routes.admin, component: AdminUserPage, layout: LayoutAdmin, options: {headerTitle: "User information"}},
+    { path: Config.routes.adminUser, component: AdminUserPage, layout: LayoutAdmin, options: {headerTitle: "User information"}},
+    { path: Config.routes.adminVideo, component: AdminVideoPage, layout: LayoutAdmin, options: {headerTitle: "Video information"}}, 
 ];
 
 const privateRoutes = [];
