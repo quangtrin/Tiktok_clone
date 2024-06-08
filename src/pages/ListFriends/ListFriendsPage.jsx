@@ -13,7 +13,7 @@ const ListFriendsPage = () => {
     const dispatch = useDispatch();
     const listFriend = useSelector((state) => state.user_current.listFriend);
     const currentUser = useSelector((state) => state.user_current.information);
-    
+
     useEffect(() => {
         const getDataFriendUser = async () => {
             try {
@@ -28,17 +28,20 @@ const ListFriendsPage = () => {
         getDataFriendUser();
     }, [dispatch, currentUser]);
 
-
     return (
         <div className={cx('layout')}>
             <Row gutter={16} style={{ justifyContent: 'center' }}>
-                {listFriend.map((user) => {
-                    return (
-                        <Col key={user.id}>
-                            <CardFriend user={user} />
-                        </Col>
-                    );
-                })}
+                {listFriend.length === 0 ? (
+                    <h2>Not have any friend</h2>
+                ) : (
+                    listFriend.map((user) => {
+                        return (
+                            <Col key={user.id}>
+                                <CardFriend user={user} />
+                            </Col>
+                        );
+                    })
+                )}
             </Row>
         </div>
     );

@@ -12,7 +12,7 @@ function FollowingPage() {
     const dispatch = useDispatch();
     const listFollowingUser = useSelector((state) => state.user_current.listFollowingUser);
     const currentUser = useSelector((state) => state.user_current.information);
-    
+
     useEffect(() => {
         const getDataFollowingUser = async () => {
             try {
@@ -28,14 +28,18 @@ function FollowingPage() {
 
     return (
         <div className={cx('follow_layout')}>
-            <Row gutter={16} style={{justifyContent: "center"}}>
-                {listFollowingUser.map((user) => {
-                    return (
-                        <Col key={user.id}>
-                            <CardFollow user={user} />
-                        </Col>
-                    );
-                })}
+            <Row gutter={16} style={{ justifyContent: 'center' }}>
+                {listFollowingUser.length === 0 ? (
+                    <h2>Not following anyone</h2>
+                ) : (
+                    listFollowingUser.map((user) => {
+                        return (
+                            <Col key={user.id}>
+                                <CardFollow user={user} />
+                            </Col>
+                        );
+                    })
+                )}
             </Row>
         </div>
     );
