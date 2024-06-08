@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import './CreateVideoLibrary.scss';
 import Button from '~/components/Button/Button';
 import Hashtag from '~/components/Hashtag/Hashtag';
+import { useSelector } from 'react-redux';
 const formItemLayout = {
     labelCol: {
         span: 6,
@@ -25,6 +26,7 @@ const normFile = (e) => {
 function CreateVideoPage() {
     const navigate = useNavigate();
     const [form] = Form.useForm();
+    const socket = useSelector((state) => state.socket.socket);
     const [tags, setTags] = useState([]);
     const [loading, setLoading] = useState(false);
     const [videoUrl, setVideoUrl] = useState('');
@@ -33,7 +35,7 @@ function CreateVideoPage() {
     const handleCreateVideoForm = async (values) => {
         setLoading(true);
         const tagsString = tags.join(' ');
-        const status = await createVideo(values.video.pop().originFileObj, values.description, tagsString, 'default');
+        const status = await createVideo(values.video.pop().originFileObj, values.description, tagsString, 'default', socket);
         if (status === 200) {
             Swal.fire({
                 title: 'Upload successfully!',

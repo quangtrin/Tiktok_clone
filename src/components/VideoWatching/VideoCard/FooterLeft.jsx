@@ -5,7 +5,6 @@ import './FooterLeft.css';
 
 export default function FooterLeft(props) {
     const { username, description, song, hashtag } = props;
-    console.log(hashtag);
     const hashtags = hashtag?.split(' ');
     return (
         <div className="footer-container">

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from '~/config';
+import { newVideoNotification } from './notificationService';
 
 const getListVideos = async () => {
     try {
@@ -28,7 +29,7 @@ const getListVideosByCreatorId = async (creatorId) => {
     }
 };
 
-const createVideo = async (video, description, hashtag, song) => {
+const createVideo = async (video, description, hashtag, song, socket) => {
     const tokenSession = localStorage.getItem('token');
     try {
         const formData = new FormData();
@@ -41,7 +42,11 @@ const createVideo = async (video, description, hashtag, song) => {
                 Authorization: `Bearer ${tokenSession}`,
             },
         });
-        return res.status;
+        const status = res.status; 
+        if (status === 200) {
+            await newVideoNotification(res.data.newVideo.id, socket);
+        }
+        return status;
     } catch (error) {
         console.log(error);
     }

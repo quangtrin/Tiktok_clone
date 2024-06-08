@@ -34,7 +34,13 @@ const NotificationItem = ({ notification }) => {
             case typeNoti.comment:
                 window.location.href = `/notification?video=${notification.video_id}&comment=${notification.comment_id}`;
                 break;
+            case typeNoti.reply:
+                window.location.href = `/notification?video=${notification.video_id}&comment=${notification.comment_id}`;
+                break;
             case typeNoti.likeVideo:
+                window.location.href = `/notification?video=${notification.video_id}`;
+                break;
+            case typeNoti.newVideo:
                 window.location.href = `/notification?video=${notification.video_id}`;
                 break;
             default:
