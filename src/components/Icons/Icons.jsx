@@ -70,6 +70,43 @@ export const RemoveIcon = ({
     );
 };
 
+export const EditIcon = ({
+    width = '2.1rem',
+    height = '2.1rem',
+    className,
+    backgroundColor = 'white',
+    color = 'white',
+    backgroundColorHover = 'black',
+    colorHover = 'white',
+}) => {
+    const [isHover, setIsHover] = useState(false);
+    return (
+        <svg
+            className={className}
+            fill="currentColor"
+            width={width}
+            height={height}
+            color={isHover ? backgroundColorHover : backgroundColor}
+            viewBox="0 0 40 40"
+            xmlns="http://www.w3.org/2000/svg"
+            onMouseEnter={() => {
+                setIsHover(true);
+            }}
+            onMouseLeave={() => {
+                setIsHover(false);
+            }}
+        >
+            <g id="SVGRepo_bgCarrier" stroke-width="0">
+                <rect x="0" y="0" width="40.00" height="40.00" rx="20" fill={isHover ? colorHover : color} strokewidth="0"></rect>
+            </g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+                <path class="st0" d="M12 25l3 3 15-15-3-3-15 15zM11 26l3 3-4 1z"></path>
+            </g>
+        </svg>
+    );
+};
+
 export const MessageIcon = ({ width = '2.6rem', height = '2.6rem', className }) => (
     <svg
         className={className}

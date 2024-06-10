@@ -7,10 +7,12 @@ import { timeAgoOrDateTime } from '~/utils/function';
 import { updateHasActionNotificationUser, updateReadNotificationUser } from '~/services/API/notificationService';
 import { typeNoti } from '~/config/typeNoti';
 import { addFriend } from '~/services/API/friendService';
+import { useSelector } from 'react-redux';
 
 const cx = classNames.bind(styles);
 
 const NotificationItem = ({ notification }) => {
+    const socket = useSelector((state) => state.socket.socket);
     const [hasActiton, setHasAction] = useState(notification.has_action);
     const [read, setRead] = useState(notification.read);
     const handleReadNotifi = async () => {
@@ -26,10 +28,19 @@ const NotificationItem = ({ notification }) => {
             case typeNoti.requestFriend:
                 window.location.href = `/user/@${notification.sender.id}`;
                 break;
+            case typeNoti.acceptFriend:
+                window.location.href = `/user/@${notification.sender.id}`;
+                break;
             case typeNoti.comment:
                 window.location.href = `/notification?video=${notification.video_id}&comment=${notification.comment_id}`;
                 break;
+            case typeNoti.reply:
+                window.location.href = `/notification?video=${notification.video_id}&comment=${notification.comment_id}`;
+                break;
             case typeNoti.likeVideo:
+                window.location.href = `/notification?video=${notification.video_id}`;
+                break;
+            case typeNoti.newVideo:
                 window.location.href = `/notification?video=${notification.video_id}`;
                 break;
             default:
@@ -42,7 +53,7 @@ const NotificationItem = ({ notification }) => {
         await updateHasActionNotificationUser(notification);
         setHasAction(false);
         setRead(true);
-        await addFriend(notification.sender.id);
+        await addFriend(notification.sender.id, socket);
         if (window.location.pathname === `/user/@${notification.sender.id}`) window.location.reload();
     };
 

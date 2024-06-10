@@ -35,6 +35,7 @@ const publicRoutes = [
     { path: Config.routes.admin, component: AdminUserPage, layout: LayoutAdmin, options: {headerTitle: "User information"}},
     { path: Config.routes.adminUser, component: AdminUserPage, layout: LayoutAdmin, options: {headerTitle: "User information"}},
     { path: Config.routes.adminVideo, component: AdminVideoPage, layout: LayoutAdmin, options: {headerTitle: "Video information"}}, 
+    { path: Config.routes.editVideo, component: CreatePage},
 ];
 
 const privateRoutes = [];

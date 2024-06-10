@@ -24,9 +24,7 @@ const register = async (email, username, password, isAdmin) => {
             password: password,
             isAdmin: isAdmin,
         });
-        if (response.statusText === 'Created') {
-            return 200;
-        }
+        return response.status;
     } catch (error) {
         Swal.fire({
             title: 'Sign up failed!',

@@ -6,4 +6,16 @@
     :where(.css-dev-only-do-not-override-1hcz1v).ant-row {
         justify-content: center;
     }
+
+    :where(.css-dev-only-do-not-override-1hcz1v).ant-upload-wrapper .ant-upload-drag {
+        height: calc(var(--heigth-container-video) * 0.7);
+        & .ant-upload {
+            padding: 0;
+        }
+    }
+
+    :where(.css-dev-only-do-not-override-1hcz1v).ant-upload-wrapper {
+        display: flex;
+        justify-content: center;
+    }
 }

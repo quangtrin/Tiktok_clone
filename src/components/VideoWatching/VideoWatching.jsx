@@ -70,7 +70,7 @@ const WatchingVideo = ({ videos }) => {
         <>
             <div className={cx('layout')}>
                 <TopNavbar className="top-navbar" />
-                {videos.map((video, index) => (
+                {videos?.map((video, index) => (
                     <VideoCard
                         key={index}
                         video={video}

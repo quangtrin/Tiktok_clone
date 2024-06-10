@@ -1,6 +1,6 @@
 import axios from 'axios';
 import config from '~/config';
-import { commentNotification } from './notificationService';
+import { replyNotification, commentNotification } from './notificationService';
 
 const getCommentsByVideoId = async (videoId) => {
     const res = await axios.get(`${config.baseUrl}/api/comment/video/${videoId}`);
@@ -25,12 +25,27 @@ const postComments = async (videoId, content, socket, commentParentId) => {
         );
 
         const newComment = response.data.newComment;
-
-        await commentNotification(commentParentId, newComment.video_id, newComment.id, socket);
+        if (commentParentId) {
+            await replyNotification(commentParentId, newComment.video_id, newComment.id, socket);
+        } else await commentNotification(newComment.video_id, newComment.id, socket);
         return newComment;
     } catch (error) {
         console.log(error);
     }
 };
 
-export { getCommentsByVideoId, postComments };
+const deleteComment = async (commentId) => {
+    const tokenSession = localStorage.getItem('token');
+    try {
+        const res = await axios.delete(`${config.baseUrl}/api/comment/${commentId}`, {
+            headers: {
+                Authorization: `Bearer ${tokenSession}`,
+            },
+        });
+        return res.status;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export { getCommentsByVideoId, postComments, deleteComment };

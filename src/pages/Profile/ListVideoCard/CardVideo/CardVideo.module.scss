@@ -8,16 +8,30 @@
 }
 
 .icon-delete {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
     color: white;
     font-size: 2rem;
-    z-index: 1;
     cursor: pointer;
     &:hover {
         color: var(--primary);
     }
+}
+
+.icon-edit {
+    color: black;
+    font-size: 2rem;
+    cursor: pointer;
+    &:hover {
+        color: white;
+    }
+}
+
+.icon-layout{
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 1;
+    display: flex;
+    align-items: center;
 }
 
 .player {

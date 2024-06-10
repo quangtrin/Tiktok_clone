@@ -21,4 +21,11 @@
     flex: 1;
     justify-content: center;
     padding-top: 2rem;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: 90vh;
+
+    &::-webkit-scrollbar{
+        display: none;
+    }
 }

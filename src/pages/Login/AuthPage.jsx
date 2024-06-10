@@ -125,7 +125,6 @@ const RegisterComponent = ({ setIsLoginScreen }) => {
         }
         if (email !== '' && username !== '' && password !== '' && confirmPassword !== '') event.preventDefault();
         const status = await register(email, username, password, false);
-
         if (status === 200) {
             Swal.fire({
                 title: 'Sign up Successfully!',

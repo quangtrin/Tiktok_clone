@@ -1,6 +1,6 @@
 import axios from 'axios';
 import config from '~/config';
-import { becomeFriendNotification, followNotification } from './notificationService';
+import { followNotification } from './notificationService';
 
 const unFollow = async (followingUserId) => {
     const tokenSession = localStorage.getItem('token');

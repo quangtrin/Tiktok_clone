@@ -164,7 +164,7 @@ function Header() {
                                     onOpenChange={(visible) => setOpenChat(visible)}
                                     trigger={"click"}
                                 >
-                                    <button className={cx('action-btn')} onClick={() => setOpenChat(true)}>
+                                    <button className={cx('action-btn')} onClick={() => setOpenChat(!openChat)}>
                                         <MessageIcon />
                                         <span className={cx('badge')} style={{ top: '-0.7rem', right: '-0.4rem' }}>
                                             {
