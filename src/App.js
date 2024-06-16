@@ -59,9 +59,15 @@ function App() {
                                 key={index}
                                 path={route.path}
                                 element={
-                                    <Layout>
-                                        <Page />
-                                    </Layout>
+                                    route.layout ? (
+                                        <Layout options={route.options}>
+                                            <Page />
+                                        </Layout>
+                                    ) : (
+                                        <Layout>
+                                            <Page />
+                                        </Layout>
+                                    )
                                 }
                             />
                         );

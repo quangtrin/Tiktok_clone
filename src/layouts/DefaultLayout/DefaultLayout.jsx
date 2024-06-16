@@ -7,7 +7,7 @@ import Sidebar from '../../components/Slidebar/Slidebar';
 
 const cx = classNames.bind(styles);
 
-function DefaultLayout({ children }) {
+function DefaultLayout({ children, options }) {
     return (
         <div className={cx('wrapper')}>
             <Header />
