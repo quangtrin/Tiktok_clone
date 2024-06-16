@@ -1,15 +1,13 @@
 import classNames from 'classnames/bind';
 import styles from './CardVideo.module.scss';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { EditIcon, RemoveIcon } from '~/components/Icons/Icons';
 import { ConfirmDeleteAlertDialog, SuccessAlertDialog, ErrorAlertDialog } from '~/components/AlertDialog/AlertDialog';
 import { deleteVideo } from '~/services/API/videoService';
-import { MdOutlineEdit } from 'react-icons/md';
 
 const cx = classNames.bind(styles);
 const CardVideo = ({ video, isSelf }) => {
-    console.log(video);
     const navigation = useNavigate();
     const videoRef = useRef(null);
     const handleMouseEnter = () => {

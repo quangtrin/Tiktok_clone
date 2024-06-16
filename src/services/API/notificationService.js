@@ -239,6 +239,16 @@ const requestAddFriendNotification = async (userId, socket) => {
     }
 };
 
+const getRequestFriend = async () => {
+    const tokenSession = localStorage.getItem('token');
+    const res = await axios.get(`${config.baseUrl}/api/notification/requestFriend`, {
+        headers: {
+            Authorization: `Bearer ${tokenSession}`,
+        },
+    });
+    return res.data.notification;
+};
+
 export {
     followNotification,
     getNotificationUser,
@@ -250,4 +260,5 @@ export {
     acceptFriendNotification,
     commentNotification,
     newVideoNotification,
+    getRequestFriend,
 };

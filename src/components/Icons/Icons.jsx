@@ -2,6 +2,8 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { FaCircleCheck, FaCirclePlus } from 'react-icons/fa6';
 import { FaRegUser } from 'react-icons/fa';
+import { HiDotsCircleHorizontal } from 'react-icons/hi';
+import { Tooltip } from 'antd';
 export const UploadIcon = ({ width = '3.2rem', height = '3.2rem', className }) => (
     <svg
         className={className}
@@ -97,7 +99,15 @@ export const EditIcon = ({
             }}
         >
             <g id="SVGRepo_bgCarrier" stroke-width="0">
-                <rect x="0" y="0" width="40.00" height="40.00" rx="20" fill={isHover ? colorHover : color} strokewidth="0"></rect>
+                <rect
+                    x="0"
+                    y="0"
+                    width="40.00"
+                    height="40.00"
+                    rx="20"
+                    fill={isHover ? colorHover : color}
+                    strokewidth="0"
+                ></rect>
             </g>
             <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
             <g id="SVGRepo_iconCarrier">
@@ -310,10 +320,12 @@ export const FriendIcon = ({
     twoColor = 'var(--primary)',
 }) => (
     <div style={{ fontSize: width, position: 'relative', color: color, height: 'fix-content' }} className={className}>
-        <FaRegUser />
-        <div style={{ fontSize: `calc(${width}/2)`, position: 'absolute', top: -3, right: -3, color: twoColor }}>
-            <FaCircleCheck />
-        </div>
+        <Tooltip title="Friend" placement="bottom">
+            <FaRegUser />
+            <div style={{ fontSize: `calc(${width}/2)`, position: 'absolute', top: -3, right: -3, color: twoColor }}>
+                <FaCircleCheck />
+            </div>
+        </Tooltip>
     </div>
 );
 
@@ -329,9 +341,32 @@ export const AddFriendIcon = ({
         className={className}
         onClick={onClick}
     >
-        <FaRegUser />
-        <div style={{ fontSize: `calc(${width}/2)`, position: 'absolute', top: -3, right: -3, color: twoColor }}>
-            <FaCirclePlus />
-        </div>
+        <Tooltip title="Add friend" placement="bottom">
+            <FaRegUser />
+            <div style={{ fontSize: `calc(${width}/2)`, position: 'absolute', top: -3, right: -3, color: twoColor }}>
+                <FaCirclePlus />
+            </div>
+        </Tooltip>
+    </div>
+);
+
+export const WaitingFriendIcon = ({
+    width = '3.2rem',
+    className,
+    color = 'var(--text-color)',
+    twoColor = 'var(--primary)',
+    onClick,
+}) => (
+    <div
+        style={{ fontSize: width, position: 'relative', color: color, height: 'fix-content' }}
+        className={className}
+        onClick={onClick}
+    >
+        <Tooltip title="Waiting for accept" placement="bottom">
+            <FaRegUser />
+            <div style={{ fontSize: `calc(${width}/2)`, position: 'absolute', top: -3, right: -3, color: twoColor }}>
+                <HiDotsCircleHorizontal />
+            </div>
+        </Tooltip>
     </div>
 );

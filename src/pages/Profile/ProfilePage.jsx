@@ -14,9 +14,9 @@ import { FaEdit } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import ButtonFollow from '~/components/Button/ButtonFollow';
 import { useSelector } from 'react-redux';
-import { AddFriendIcon, FriendIcon } from '~/components/Icons/Icons';
+import { AddFriendIcon, FriendIcon, WaitingFriendIcon } from '~/components/Icons/Icons';
 import { getFriendsUserCurrent } from '~/services/API/friendService';
-import { requestAddFriendNotification } from '~/services/API/notificationService';
+import { getRequestFriend, requestAddFriendNotification } from '~/services/API/notificationService';
 
 const cx = classNames.bind(styles);
 
@@ -24,6 +24,7 @@ function ProfilePage() {
     const navigate = useNavigate();
     const [isFollow, setIsFollow] = useState(true);
     const [isFriend, setIsFriend] = useState(false);
+    const [hasRequestFriend, setHasRequestFriend] = useState(false);
     const [user, setUser] = useState();
     const { id } = useParams();
     const userCurrentId = useSelector((state) => state.user_current.information?.id);
@@ -32,6 +33,7 @@ function ProfilePage() {
 
     const requestAddFriend = async () => {
         try {
+            setHasRequestFriend(true);
             await requestAddFriendNotification(id, socket);
         } catch (error) {
             console.log('error', error);
@@ -43,7 +45,11 @@ function ProfilePage() {
             let userProfile = await getUserById(id);
             const follower = await getFollowerUser(userProfile.id);
             const friendUserCurrent = await getFriendsUserCurrent();
-
+            const requestRequestFriend = await getRequestFriend();
+            const hasRequestFriend =
+                requestRequestFriend.findIndex((user) => user.receiver_id.toString() === userProfile.id.toString()) !==
+                -1;
+            setHasRequestFriend(hasRequestFriend);
             setIsFollow(
                 follower.findIndex((user) => {
                     return user.id?.toString() === userCurrentId?.toString();
@@ -131,10 +137,24 @@ function ProfilePage() {
                             <FaRegShareFromSquare style={{ fontSize: '2.5rem' }} />
                         </div>
 
-                        {isFriend ? (
-                            !isSelf && <FriendIcon width="2.5rem" className={cx('friend-icon')} />
+                        {hasRequestFriend ? (
+                                <WaitingFriendIcon width="2.5rem" className={cx('friend-icon')} />
+                        ) : isFriend ? (
+                            !isSelf && (
+                                <Tooltip title="Friend" placement="bottom">
+                                    <FriendIcon width="2.5rem" className={cx('friend-icon')} />
+                                </Tooltip>
+                            )
                         ) : (
-                            !isSelf && <AddFriendIcon width="2.5rem" className={cx('friend-icon')} onClick={requestAddFriend}/>
+                            !isSelf && (
+                                <Tooltip title="Add friend" placement="bottom">
+                                    <AddFriendIcon
+                                        width="2.5rem"
+                                        className={cx('friend-icon')}
+                                        onClick={requestAddFriend}
+                                    />
+                                </Tooltip>
+                            )
                         )}
                     </div>
                 </div>
