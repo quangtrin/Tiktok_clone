@@ -4,10 +4,52 @@ import { Avatar, Form, Input, Button, DatePicker, Tag, Space, Table, Select } fr
 import './AdminUserPageLibrary.scss';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { getAllUsers } from '~/services/API/userService';
+import { getAllUsers, unblockUser } from '~/services/API/userService';
 import { LoadingIcon } from '~/components/Icons/Icons';
 import { dayjsToDateTime, formatDateTime } from '~/utils/function';
+import { MessageSuccess } from '~/components/Message/Message';
+import { blockUser } from '~/services/API/userService';
+import { ConfirmDeleteAlertDialog } from '~/components/AlertDialog/AlertDialog';
 const cx = classNames.bind(styles);
+
+const SelectStatus = ({ user }) => {
+    const [status, setStatus] = useState(user.status);
+    const selectValue = [
+        { value: 'blocked', label: 'Blocked' },
+        { value: 'active', label: 'Active' },
+    ];
+
+    const blockAction = async () => {
+        ConfirmDeleteAlertDialog('Block user', 'Are you sure you want to block this user?', async () => {
+            const status = await blockUser(user.id);
+            if (status === 200) {
+                MessageSuccess('Block user successfully');
+                setStatus('blocked');
+            }
+        });
+    };
+
+    const unblockAction = async () => {
+        const status = await unblockUser(user.id);
+        if (status === 200) {
+            MessageSuccess('Unblock user successfully');
+            setStatus('active');
+        }
+    };
+
+    const handleChangeStatus = async (value) => {
+        if (value === 'blocked') {
+            blockAction();
+        } else {
+            unblockAction();
+        }
+    };
+    return (
+        <div style={{ padding: '0.5rem 0' }}>
+            <Select style={{ width: '100%' }} options={selectValue} value={status} onChange={handleChangeStatus} />
+        </div>
+    );
+};
 
 const columns = [
     {
@@ -45,20 +87,9 @@ const columns = [
     {
         title: 'Status',
         key: 'status',
-        dataIndex: 'status',
+        dataIndex: 'user',
         width: '10%',
-        render: (status) => {
-            const selectValue = [
-                { value: 'blocked', label: 'Blocked' },
-                { value: 'active', label: 'Active' },
-            ];
-            console.log(status);
-            return (
-                <div style={{ padding: '0.5rem 0' }}>
-                    <Select style={{ width: '100%' }} options={selectValue} value={status} />
-                </div>
-            );
-        },
+        render: (_, user) => <SelectStatus user={user} />,
     },
 ];
 
@@ -69,7 +100,6 @@ const AdminUserPage = () => {
     const [idFilter, setIdFilter] = useState('');
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
-    // cons
 
     const filterUsers = (users, nameFilter, idFilter, startDate, endDate) => {
         return users.filter((user) => {

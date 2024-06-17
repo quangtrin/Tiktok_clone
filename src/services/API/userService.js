@@ -100,6 +100,42 @@ const getAllUsers = async () => {
     return res.data.users;
 };
 
+const blockUser = async (userId) => {
+    const tokenSession = localStorage.getItem('token');
+    try {
+        const res = await axios.put(
+            `${config.baseUrl}/api/user/${userId}`,
+            { status: 'blocked' },
+            {
+                headers: {
+                    Authorization: `Bearer ${tokenSession}`,
+                },
+            },
+        );
+        return res.status;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+const unblockUser = async (userId) => {
+    const tokenSession = localStorage.getItem('token');
+    try {
+        const res = await axios.put(
+            `${config.baseUrl}/api/user/${userId}`,
+            { status: 'active' },
+            {
+                headers: {
+                    Authorization: `Bearer ${tokenSession}`,
+                },
+            },
+        );
+        return res.status;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 export {
     getFollowerOfCurrentUser,
     getFollowingOfCurrentUser,
@@ -109,4 +145,6 @@ export {
     getCurrentUser,
     updateCurrentUser,
     getAllUsers,
+    blockUser,
+    unblockUser,
 };
