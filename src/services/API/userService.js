@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from '~/config';
+import { dayjsToDateTime, formatDateTime } from '~/utils/function';
 
 const getFollowingOfCurrentUser = async () => {
     const tokenSession = localStorage.getItem('token');
@@ -74,10 +75,10 @@ const updateCurrentUser = async (userName, gender, description, birthday, avatar
         const formData = new FormData();
         const avatarTop = avatar?.pop();
         formData.append('avatar', avatarTop?.originFileObj);
-        formData.append('description', description);
+        if (description) formData.append('description', description);
         formData.append('gender', gender);
         formData.append('userName', userName);
-        formData.append('birthday', birthday);
+        if (birthday) formData.append('birthday', birthday);
         const res = await axios.post(`${config.baseUrl}/api/user/current`, formData, {
             headers: {
                 Authorization: `Bearer ${tokenSession}`,

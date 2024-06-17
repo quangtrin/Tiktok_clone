@@ -12,6 +12,7 @@ import dayjs from 'dayjs';
 import { ErrorAlertDialog, SuccessAlertDialog } from '~/components/AlertDialog/AlertDialog';
 import { LoadingOutlined } from '@ant-design/icons';
 import './EditProfileLibrary.scss';
+import { datetimeToDayjs } from '~/utils/function';
 const { TextArea } = Input;
 
 const cx = classNames.bind(styles);
@@ -61,8 +62,7 @@ const EditProfilePage = () => {
             form.setFieldValue('gender', currentUser.gender);
             form.setFieldValue('id', currentUser.name_id);
             if (currentUser.birthday) {
-                const birthdayConvert = dayjs(currentUser.birthday).format('DD/MM/YYYY');
-                form.setFieldValue('birthday', dayjs(birthdayConvert, 'DD/MM/YYYY'));
+                form.setFieldValue('birthday', datetimeToDayjs(currentUser.birthday));
             }
             setLoading(false);
         };
@@ -129,7 +129,7 @@ const EditProfilePage = () => {
                     <TextArea />
                 </Form.Item>
                 <Form.Item label="Birthday" name={'birthday'}>
-                    <DatePicker format={'DD/MM/YYYY'} style={{ width: '100%' }} />
+                    <DatePicker format={'DD/MM/YYYY'} style={{ width: '100%' }} allowClear={false}/>
                 </Form.Item>
                 <Form.Item
                     wrapperCol={{

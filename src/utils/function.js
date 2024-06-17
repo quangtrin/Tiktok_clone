@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 export function formatDateTime(datetime) {
     var day = datetime.getDate();
     var month = datetime.getMonth() + 1;
@@ -33,4 +34,13 @@ export function timeAgoOrDateTime(datetimeString) {
     } else {
         return 'Just ago';
     }
+}
+
+export function datetimeToDayjs(datetime) {
+    const birthdayConvert = dayjs(datetime).format('DD/MM/YYYY');
+    return dayjs(birthdayConvert, 'DD/MM/YYYY');
+}
+
+export function dayjsToDateTime(dayjs) {
+    return new Date(dayjs.format('YYYY-MM-DD'));
 }
