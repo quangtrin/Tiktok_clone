@@ -30,7 +30,7 @@ const LoginComponent = ({ setIsLoginScreen }) => {
                 }).then((result) => {
                     if (result.isConfirmed) {
                         dispatch(updateInformation(user));
-                        navigate('/');
+                        user.is_admin ? navigate('/admin/user') : navigate('/');
                         window.location.reload();
                     }
                 });

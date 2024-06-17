@@ -90,6 +90,16 @@ const updateCurrentUser = async (userName, gender, description, birthday, avatar
     }
 };
 
+const getAllUsers = async () => {
+    const tokenSession = localStorage.getItem('token');
+    const res = await axios.get(`${config.baseUrl}/api/user`, {
+        headers: {
+            Authorization: `Bearer ${tokenSession}`,
+        },
+    });
+    return res.data.users;
+};
+
 export {
     getFollowerOfCurrentUser,
     getFollowingOfCurrentUser,
@@ -98,4 +108,5 @@ export {
     getUserById,
     getCurrentUser,
     updateCurrentUser,
+    getAllUsers,
 };

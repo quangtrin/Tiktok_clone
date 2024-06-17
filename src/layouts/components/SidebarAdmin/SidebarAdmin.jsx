@@ -43,7 +43,7 @@ const SidebarAdmin = () => {
     return (
         <div className={cx('layout')} id="SidebarAdmin">
             <div className={cx('logo')}>
-                <Link to={'/'} className={cx('logo-link')}>
+                <Link to={'/admin/user'} className={cx('logo-link')}>
                     <img src={images.logo} alt="Tiktok" />
                 </Link>
             </div>
