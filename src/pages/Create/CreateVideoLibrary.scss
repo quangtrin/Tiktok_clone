@@ -18,4 +18,9 @@
         display: flex;
         justify-content: center;
     }
+
+    .__remotion-player{
+        height: calc(var(--heigth-container-video) * 0.7) !important;
+        width: calc(var(--width-container-video) * 0.7) !important;
+    }
 }

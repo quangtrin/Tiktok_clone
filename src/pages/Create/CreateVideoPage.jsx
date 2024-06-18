@@ -8,6 +8,9 @@ import './CreateVideoLibrary.scss';
 import Button from '~/components/Button/Button';
 import Hashtag from '~/components/Hashtag/Hashtag';
 import { useSelector } from 'react-redux';
+import { Player } from '@remotion/player';
+import { AbsoluteFill, Video } from 'remotion';
+
 const formItemLayout = {
     labelCol: {
         span: 6,
@@ -23,6 +26,14 @@ const normFile = (e) => {
     return e?.fileList;
 };
 
+const VideoPlayer = ({ url }) => {
+    return (
+        <AbsoluteFill>
+            <Video src={url} height={"100%"} width={"100%"} style={{objectFit: "fill"}}/>
+        </AbsoluteFill>
+    );
+};
+
 function CreateVideoPage() {
     const navigate = useNavigate();
     const [form] = Form.useForm();
@@ -35,7 +46,13 @@ function CreateVideoPage() {
     const handleCreateVideoForm = async (values) => {
         setLoading(true);
         const tagsString = tags.join(' ');
-        const status = await createVideo(values.video.pop().originFileObj, values.description, tagsString, 'default', socket);
+        const status = await createVideo(
+            values.video.pop().originFileObj,
+            values.description,
+            tagsString,
+            'default',
+            socket,
+        );
         if (status === 200) {
             Swal.fire({
                 title: 'Upload successfully!',
@@ -147,16 +164,27 @@ function CreateVideoPage() {
                             }
                         >
                             {videoUrl ? (
-                                <video
-                                    height="100%"
-                                    width="100%"
-                                    loop
-                                    style={{ objectFit: 'fill' }}
-                                    src={videoUrl}
-                                    muted={false}
-                                    autoPlay
+                                // <video
+                                //     height="100%"
+                                //     width="100%"
+                                //     loop
+                                //     style={{ objectFit: 'fill' }}
+                                //     src={videoUrl}
+                                //     muted={false}
+                                //     autoPlay
+                                //     controls
+                                // ></video>
+                                <Player
+                                    component={VideoPlayer}
+                                    durationInFrames={600}
+                                    compositionWidth={315}
+                                    compositionHeight={575}
+                                    fps={60}
                                     controls
-                                ></video>
+                                    autoPlay
+                                    loop
+                                    inputProps={{ url: videoUrl }}
+                                />
                             ) : (
                                 <div>
                                     <p className="ant-upload-drag-icon">
