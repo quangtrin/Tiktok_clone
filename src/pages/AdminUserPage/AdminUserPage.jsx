@@ -125,18 +125,18 @@ const AdminUserPage = () => {
     };
 
     const handleStartDateChange = (date) => {
-        setStartDate(dayjsToDateTime(date));
+        setStartDate(date ? dayjsToDateTime(date) : null);
     };
 
     const handleEndDateChange = (date) => {
-        setEndDate(dayjsToDateTime(date));
+        setEndDate(date ? dayjsToDateTime(date) : null);
     };
     useEffect(() => {
         const fetchUsers = async () => {
             setLoading(true);
             try {
                 const users = await getAllUsers();
-                setUsers(users);
+                setUsers(users ?? []);
             } catch (error) {
                 console.log(error);
             }

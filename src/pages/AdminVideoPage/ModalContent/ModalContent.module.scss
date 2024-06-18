@@ -1,14 +1,11 @@
-.label-search {
-    text-align: start;
-    margin-bottom: 1rem;
-}
-
 .video {
     position: relative;
-    width: 100%;
-    height: 100%;
+    width: var(--width-container-video);
+    height: var(--heigth-container-video);
     text-shadow: 0 0 0.4rem rgba(0, 0, 0, 0.5);
     scroll-snap-align: start;
+    overflow: hidden;
+    border-radius: 1.6rem;
 }
 
 .video::before {
@@ -40,12 +37,6 @@
     height: 100%;
 }
 
-.description{
-    text-align: justify;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 3;
-    padding-inline-end: 4rem;
+.modal {
+    background-color: none;
 }

@@ -3,8 +3,13 @@ import config from '~/config';
 import { newVideoNotification } from './notificationService';
 
 const getListVideos = async () => {
+    const tokenSession = localStorage.getItem('token');
     try {
-        const response = await axios.get(`${config.baseUrl}/api/video`);
+        const response = await axios.get(`${config.baseUrl}/api/video`, {
+            headers: {
+                Authorization: `Bearer ${tokenSession}`,
+            },
+        });
         return response.data.videos;
     } catch (error) {
         console.log(error);
@@ -42,7 +47,7 @@ const createVideo = async (video, description, hashtag, song, socket) => {
                 Authorization: `Bearer ${tokenSession}`,
             },
         });
-        const status = res.status; 
+        const status = res.status;
         if (status === 200) {
             await newVideoNotification(res.data.newVideo.id, socket);
         }

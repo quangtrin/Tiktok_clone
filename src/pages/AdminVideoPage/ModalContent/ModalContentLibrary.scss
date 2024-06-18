@@ -1,0 +1,12 @@
+.modal-video {
+    :where(.css-dev-only-do-not-override-1hcz1v).ant-modal{
+        top: 3rem;
+    }
+    :where(.css-dev-only-do-not-override-1hcz1v).ant-modal .ant-modal-footer{
+        text-align: center;
+    }
+    :where(.css-dev-only-do-not-override-1hcz1v).ant-modal .ant-modal-body{
+        justify-content: center;
+        display: flex;
+    }
+}
