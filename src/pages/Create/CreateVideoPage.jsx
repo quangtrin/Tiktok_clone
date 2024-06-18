@@ -10,6 +10,7 @@ import Hashtag from '~/components/Hashtag/Hashtag';
 import { useSelector } from 'react-redux';
 import { Player } from '@remotion/player';
 import { AbsoluteFill, Video } from 'remotion';
+import { vhStringToPixel } from '~/utils/function';
 
 const formItemLayout = {
     labelCol: {
@@ -29,7 +30,7 @@ const normFile = (e) => {
 const VideoPlayer = ({ url }) => {
     return (
         <AbsoluteFill>
-            <Video src={url} height={"100%"} width={"100%"} style={{objectFit: "fill"}}/>
+            <Video src={url} height={'100%'} width={'100%'} style={{ objectFit: 'fill' }} />
         </AbsoluteFill>
     );
 };
@@ -41,6 +42,8 @@ function CreateVideoPage() {
     const [tags, setTags] = useState([]);
     const [loading, setLoading] = useState(false);
     const [videoUrl, setVideoUrl] = useState('');
+    const [heightPlayer, setHeightPlayer] = useState(300);
+    const [widthPlayer, setWidthPlayer] = useState(575);
     const { id } = useParams();
 
     const handleCreateVideoForm = async (values) => {
@@ -109,6 +112,13 @@ function CreateVideoPage() {
             fetchVideo();
         }
     }, [id, form]);
+
+    useEffect(() => {
+        const containerHeightVh = getComputedStyle(document.documentElement).getPropertyValue('--heigth-container-video');
+        const containerHeight = vhStringToPixel(containerHeightVh) * 0.7;
+        setHeightPlayer(parseInt(containerHeight));
+        setWidthPlayer(parseInt(containerHeight * 0.55));
+    }, []);
     return (
         <div id="Create-video">
             <Form
@@ -177,8 +187,8 @@ function CreateVideoPage() {
                                 <Player
                                     component={VideoPlayer}
                                     durationInFrames={600}
-                                    compositionWidth={315}
-                                    compositionHeight={575}
+                                    compositionWidth={widthPlayer}
+                                    compositionHeight={heightPlayer}
                                     fps={60}
                                     controls
                                     autoPlay

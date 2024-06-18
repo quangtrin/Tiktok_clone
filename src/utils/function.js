@@ -44,3 +44,7 @@ export function datetimeToDayjs(datetime) {
 export function dayjsToDateTime(dayjs) {
     return new Date(dayjs.format('YYYY-MM-DD'));
 }
+
+export function vhStringToPixel(vh) {
+    return window.innerHeight * (parseFloat(vh) / 100);
+}
