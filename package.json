@@ -16,6 +16,7 @@
         "@testing-library/react": "^13.4.0",
         "@testing-library/user-event": "^13.5.0",
         "@tippyjs/react": "^4.2.6",
+        "@xzdarcy/react-timeline-editor": "^0.1.9",
         "antd": "^5.11.5",
         "axios": "^1.2.1",
         "classnames": "^2.3.2",

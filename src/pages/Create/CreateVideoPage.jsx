@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux';
 import { Player } from '@remotion/player';
 import { AbsoluteFill, Video } from 'remotion';
 import { vhStringToPixel } from '~/utils/function';
+import { Timeline } from '@xzdarcy/react-timeline-editor';
 
 const formItemLayout = {
     labelCol: {
@@ -44,6 +45,29 @@ function CreateVideoPage() {
     const [videoUrl, setVideoUrl] = useState('');
     const [heightPlayer, setHeightPlayer] = useState(300);
     const [widthPlayer, setWidthPlayer] = useState(575);
+    const [duration, setDuration] = useState(1);
+    const [mockData, setMockData] = useState([
+        {
+            id: 0,
+            actions: [
+                {
+                    id: 'action0',
+                    start: 0,
+                    end: 0,
+                    effectId: 'effects0',
+                    maxEnd: 180,
+                },
+            ],
+        },
+    ]);
+    const [start, setStart] = useState(0);
+    const [end, setEnd] = useState(0);
+    const [mockEffect, setMockEffect] = useState({
+        effects0: {
+            id: 'effects0',
+            name: 'effects0',
+        },
+    });
     const { id } = useParams();
 
     const handleCreateVideoForm = async (values) => {
@@ -92,7 +116,26 @@ function CreateVideoPage() {
     };
 
     const handleVideoChange = async (value) => {
-        setVideoUrl(await URL.createObjectURL(value.file.originFileObj));
+        const newUrlVideo = await URL.createObjectURL(value.file.originFileObj);
+        setVideoUrl(newUrlVideo);
+        const newVideo = document.createElement('video');
+        newVideo.src = newUrlVideo;
+        newVideo.onloadedmetadata = () => {
+            const duration = newVideo.duration;
+            setDuration(duration);
+            setMockData((prev) => [{ ...prev[0], actions: [{ ...prev[0].actions[0], end: duration }] }]);
+        };
+    };
+
+    const handleTimelineChange = (editorData) => {
+        const maxEnd =
+            editorData[0].actions[0].start + 180 > duration ? duration : editorData[0].actions[0].start + 180;
+        setMockData([
+            {
+                ...editorData[0],
+                actions: [{ ...editorData[0].actions[0], maxEnd: maxEnd }],
+            },
+        ]);
     };
 
     useEffect(() => {
@@ -106,7 +149,6 @@ function CreateVideoPage() {
             form.setFieldsValue({
                 description: video.description,
             });
-            console.log(video);
         };
         if (id) {
             fetchVideo();
@@ -165,6 +207,9 @@ function CreateVideoPage() {
                             onChange={handleVideoChange}
                             showUploadList={false}
                             multiple={false}
+                            customRequest={({ onSuccess }) => {
+                                onSuccess('ok', null);
+                            }}
                             style={
                                 videoUrl && {
                                     width: 'calc(var(--width-container-video)*0.7)',
@@ -174,19 +219,10 @@ function CreateVideoPage() {
                             }
                         >
                             {videoUrl ? (
-                                // <video
-                                //     height="100%"
-                                //     width="100%"
-                                //     loop
-                                //     style={{ objectFit: 'fill' }}
-                                //     src={videoUrl}
-                                //     muted={false}
-                                //     autoPlay
-                                //     controls
-                                // ></video>
                                 <Player
                                     component={VideoPlayer}
-                                    durationInFrames={600}
+                                    durationInFrames={parseInt(duration * 60)}
+                                    inFrame={parseInt(mockData[0].actions[0].start * 60)}
                                     compositionWidth={widthPlayer}
                                     compositionHeight={heightPlayer}
                                     fps={60}
@@ -205,6 +241,21 @@ function CreateVideoPage() {
                                 </div>
                             )}
                         </Upload.Dragger>
+                        <Timeline
+                            onChange={handleTimelineChange}
+                            onCursorDrag={(time) => console.log(time)}
+                            editorData={mockData}
+                            effects={mockEffect}
+                            autoScroll={false}
+                            dragLine={true}
+                            getActionRender={(action, row) => {
+                                return <div>Max 180s</div>;
+                            }}
+                            scale={parseInt(duration / 12)}
+                            scaleWidth={40}
+                            rowHeight={50}
+                            style={{ height: '100px', width: '100%' }}
+                        />
                     </Form.Item>
                 </Form.Item>
                 <Form.Item label="Description" name="description">
