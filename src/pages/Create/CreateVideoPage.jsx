@@ -12,7 +12,11 @@ import { Player } from '@remotion/player';
 import { AbsoluteFill, Video } from 'remotion';
 import { vhStringToPixel } from '~/utils/function';
 import { Timeline } from '@xzdarcy/react-timeline-editor';
+import { RemoveIcon } from '~/components/Icons/Icons';
+import styles from './CreateVideoPage.module.scss';
+import classNames from 'classnames/bind';
 
+const cx = classNames.bind(styles);
 const formItemLayout = {
     labelCol: {
         span: 6,
@@ -28,12 +32,40 @@ const normFile = (e) => {
     return e?.fileList;
 };
 
-const VideoPlayer = ({ url }) => {
+const VideoPlayer = ({ url, setVideoUrl, setMockData }) => {
+    const handleClearVideo = () => {
+        setVideoUrl('');
+        setMockData([
+            {
+                id: 0,
+                actions: [
+                    {
+                        id: 'action0',
+                        start: 0,
+                        end: 0,
+                        maxEnd: 180,
+                        effectId: 'effects0',
+                    },
+                ],
+            },
+        ]);
+    };
     return (
-        <AbsoluteFill>
-            <Video src={url} height={'100%'} width={'100%'} style={{ objectFit: 'fill' }} />
-        </AbsoluteFill>
+        <div>
+            <div style={{ position: 'absolute', zIndex: 1, top: 0, right: 0 }} onClick={handleClearVideo}>
+                <RemoveIcon className={cx('icon-delete')} colorHover="white" backgroundColorHover="var(--primary)" />
+            </div>
+            <AbsoluteFill>
+                <Video src={url} height={'100%'} width={'100%'} style={{ objectFit: 'fill' }} />
+            </AbsoluteFill>
+        </div>
     );
+};
+
+const CustomScale = ({ scale }) => {
+    const min = parseInt(scale / 60 + '');
+    const second = ((scale % 60) + '').padStart(2, '0');
+    return <>{`${min}:${second}`}</>;
 };
 
 function CreateVideoPage() {
@@ -45,7 +77,7 @@ function CreateVideoPage() {
     const [videoUrl, setVideoUrl] = useState('');
     const [heightPlayer, setHeightPlayer] = useState(300);
     const [widthPlayer, setWidthPlayer] = useState(575);
-    const [duration, setDuration] = useState(1);
+    const [duration, setDuration] = useState(54000); // duration = 15p
     const [mockData, setMockData] = useState([
         {
             id: 0,
@@ -54,8 +86,8 @@ function CreateVideoPage() {
                     id: 'action0',
                     start: 0,
                     end: 0,
-                    effectId: 'effects0',
                     maxEnd: 180,
+                    effectId: 'effects0',
                 },
             ],
         },
@@ -117,19 +149,22 @@ function CreateVideoPage() {
 
     const handleVideoChange = async (value) => {
         const newUrlVideo = await URL.createObjectURL(value.file.originFileObj);
-        setVideoUrl(newUrlVideo);
         const newVideo = document.createElement('video');
         newVideo.src = newUrlVideo;
         newVideo.onloadedmetadata = () => {
             const duration = newVideo.duration;
-            setDuration(duration);
-            setMockData((prev) => [{ ...prev[0], actions: [{ ...prev[0].actions[0], end: duration }] }]);
+            setVideoUrl(newUrlVideo);
+            setDuration(duration + 1);
+            const maxEnd = duration < 180 ? duration : 180;
+            setMockData((prev) => [
+                { ...prev[0], actions: [{ ...prev[0].actions[0], end: duration, maxEnd: maxEnd }] },
+            ]);
         };
     };
 
     const handleTimelineChange = (editorData) => {
         const maxEnd =
-            editorData[0].actions[0].start + 180 > duration ? duration : editorData[0].actions[0].start + 180;
+            editorData[0].actions[0].start + 180 > duration ? duration - 1 : editorData[0].actions[0].start + 180;
         setMockData([
             {
                 ...editorData[0],
@@ -156,7 +191,9 @@ function CreateVideoPage() {
     }, [id, form]);
 
     useEffect(() => {
-        const containerHeightVh = getComputedStyle(document.documentElement).getPropertyValue('--heigth-container-video');
+        const containerHeightVh = getComputedStyle(document.documentElement).getPropertyValue(
+            '--heigth-container-video',
+        );
         const containerHeight = vhStringToPixel(containerHeightVh) * 0.7;
         setHeightPlayer(parseInt(containerHeight));
         setWidthPlayer(parseInt(containerHeight * 0.55));
@@ -201,37 +238,25 @@ function CreateVideoPage() {
                             },
                         ]}
                     >
-                        <Upload.Dragger
-                            disabled={id}
-                            name="files"
-                            onChange={handleVideoChange}
-                            showUploadList={false}
-                            multiple={false}
-                            customRequest={({ onSuccess }) => {
-                                onSuccess('ok', null);
-                            }}
-                            style={
-                                videoUrl && {
-                                    width: 'calc(var(--width-container-video)*0.7)',
-                                    height: 'calc(var(--heigth-container-video)*0.7)',
-                                    overflow: 'hidden',
+                        {!videoUrl ? (
+                            <Upload.Dragger
+                                disabled={id}
+                                name="files"
+                                onChange={handleVideoChange}
+                                showUploadList={false}
+                                multiple={false}
+                                customRequest={({ onSuccess }) => {
+                                    onSuccess('ok', null);
+                                }}
+                                style={
+                                    videoUrl && {
+                                        width: 'calc(var(--width-container-video)*0.7)',
+                                        height: 'calc(var(--heigth-container-video)*0.7)',
+                                        overflow: 'hidden',
+                                        display: 'none',
+                                    }
                                 }
-                            }
-                        >
-                            {videoUrl ? (
-                                <Player
-                                    component={VideoPlayer}
-                                    durationInFrames={parseInt(duration * 60)}
-                                    inFrame={parseInt(mockData[0].actions[0].start * 60)}
-                                    compositionWidth={widthPlayer}
-                                    compositionHeight={heightPlayer}
-                                    fps={60}
-                                    controls
-                                    autoPlay
-                                    loop
-                                    inputProps={{ url: videoUrl }}
-                                />
-                            ) : (
+                            >
                                 <div>
                                     <p className="ant-upload-drag-icon">
                                         <InboxOutlined />
@@ -239,23 +264,42 @@ function CreateVideoPage() {
                                     <p className="ant-upload-text">Click or drag video to this area to upload</p>
                                     <p className="ant-upload-hint">Support for a single or bulk upload.</p>
                                 </div>
-                            )}
-                        </Upload.Dragger>
-                        <Timeline
-                            onChange={handleTimelineChange}
-                            onCursorDrag={(time) => console.log(time)}
-                            editorData={mockData}
-                            effects={mockEffect}
-                            autoScroll={false}
-                            dragLine={true}
-                            getActionRender={(action, row) => {
-                                return <div>Max 180s</div>;
-                            }}
-                            scale={parseInt(duration / 12)}
-                            scaleWidth={40}
-                            rowHeight={50}
-                            style={{ height: '100px', width: '100%' }}
-                        />
+                            </Upload.Dragger>
+                        ) : (
+                            <div>
+                                <Player
+                                    component={VideoPlayer}
+                                    durationInFrames={parseInt(duration * 60)}
+                                    inFrame={parseInt(mockData[0].actions[0].start * 60)}
+                                    outFrame={parseInt(mockData[0].actions[0].end * 60)}
+                                    compositionWidth={widthPlayer}
+                                    compositionHeight={heightPlayer}
+                                    fps={60}
+                                    controls
+                                    autoPlay
+                                    loop
+                                    style={{ borderRadius: '0.5rem', margin: 'auto' }}
+                                    inputProps={{ url: videoUrl, setVideoUrl, setMockData }}
+                                />
+                                <Timeline
+                                    onChange={handleTimelineChange}
+                                    onCursorDrag={(time) => console.log(time)}
+                                    editorData={mockData}
+                                    effects={mockEffect}
+                                    autoScroll={false}
+                                    dragLine={true}
+                                    getActionRender={(action, row) => {
+                                        return <div>Max 180s</div>;
+                                    }}
+                                    getScaleRender={(scale) => <CustomScale scale={scale} />}
+                                    scale={parseInt(duration / 12)}
+                                    scaleWidth={40}
+                                    rowHeight={50}
+                                    hideCursor
+                                    style={{ height: '10rem', width: '100%', marginTop: '0.5rem' }}
+                                />
+                            </div>
+                        )}
                     </Form.Item>
                 </Form.Item>
                 <Form.Item label="Description" name="description">
