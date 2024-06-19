@@ -88,10 +88,14 @@ function CreateVideoPage() {
         setLoading(false);
     };
     const onFinish = async (values) => {
+        if (form.validateFields().errorFields?.length > 0) return;
         id ? handleUpdateVideoForm(values) : handleCreateVideoForm(values);
     };
 
     const handleVideoChange = async (value) => {
+        if (!value.file.originFileObj.type.includes('video')) {
+            return;
+        }
         setVideoUrl(await URL.createObjectURL(value.file.originFileObj));
     };
 
@@ -114,7 +118,9 @@ function CreateVideoPage() {
     }, [id, form]);
 
     useEffect(() => {
-        const containerHeightVh = getComputedStyle(document.documentElement).getPropertyValue('--heigth-container-video');
+        const containerHeightVh = getComputedStyle(document.documentElement).getPropertyValue(
+            '--heigth-container-video',
+        );
         const containerHeight = vhStringToPixel(containerHeightVh) * 0.7;
         setHeightPlayer(parseInt(containerHeight));
         setWidthPlayer(parseInt(containerHeight * 0.55));
@@ -157,6 +163,15 @@ function CreateVideoPage() {
                                 required: !id,
                                 message: 'Please choose your video!',
                             },
+                            ({ getFieldValue }) => ({
+                                validator(_, value) {
+                                    const lastFile = value[value.length - 1];
+                                    if (lastFile && lastFile.type.split('/')[0] !== 'video') {
+                                        return Promise.reject(new Error('Please choose video file!'));
+                                    }
+                                    return Promise.resolve();
+                                },
+                            }),
                         ]}
                     >
                         <Upload.Dragger
