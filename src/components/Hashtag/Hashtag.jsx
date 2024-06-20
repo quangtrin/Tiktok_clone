@@ -29,7 +29,6 @@ const Hashtag = ({tags, setTags}) => {
     }, [editInputValue]);
     const handleClose = (removedTag) => {
         const newTags = tags.filter((tag) => tag !== removedTag);
-        console.log(newTags);
         setTags(newTags);
     };
     const showInput = () => {
@@ -62,7 +61,7 @@ const Hashtag = ({tags, setTags}) => {
     return (
         <div id='HashTag'>
             <Flex gap="4px 0" wrap>
-                {tags.map((tag, index) => {
+                {tags?.map((tag, index) => {
                     if (editInputIndex === index) {
                         return (
                             <Input

@@ -14,7 +14,7 @@ export default function FooterLeft(props) {
                     <p className="description">
                         {description}{' '}
                         {hashtags?.map((hashtag) => (
-                            <span>#{hashtag} </span>
+                            <span key={hashtag}>#{hashtag} </span>
                         ))}
                     </p>
                     <div className="ticker">

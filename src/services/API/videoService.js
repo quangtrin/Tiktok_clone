@@ -34,14 +34,16 @@ const getListVideosByCreatorId = async (creatorId) => {
     }
 };
 
-const createVideo = async (video, description, hashtag, song, socket) => {
+const createVideo = async (video, description, hashtag, song, startTime, endTime, socket) => {
     const tokenSession = localStorage.getItem('token');
     try {
         const formData = new FormData();
         formData.append('video', video);
-        formData.append('description', description);
-        formData.append('song', song);
-        formData.append('hashtag', hashtag);
+        if (description) formData.append('description', description);
+        if (song) formData.append('song', song);
+        if (hashtag) formData.append('hashtag', hashtag);
+        if (startTime) formData.append('startTime', startTime);
+        if (endTime) formData.append('endTime', endTime);
         const res = await axios.post(`${config.baseUrl}/api/video/upload`, formData, {
             headers: {
                 Authorization: `Bearer ${tokenSession}`,

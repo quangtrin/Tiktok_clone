@@ -32,7 +32,7 @@ const normFile = (e) => {
     return e?.fileList;
 };
 
-const VideoPlayer = ({ url, setVideoUrl, setMockData }) => {
+const VideoPlayer = ({ url, setVideoUrl, setMockData, allowDelete }) => {
     const handleClearVideo = () => {
         setVideoUrl('');
         setMockData([
@@ -52,9 +52,15 @@ const VideoPlayer = ({ url, setVideoUrl, setMockData }) => {
     };
     return (
         <div>
-            <div style={{ position: 'absolute', zIndex: 1, top: 0, right: 0 }} onClick={handleClearVideo}>
-                <RemoveIcon className={cx('icon-delete')} colorHover="white" backgroundColorHover="var(--primary)" />
-            </div>
+            {allowDelete && (
+                <div style={{ position: 'absolute', zIndex: 1, top: 0, right: 0 }} onClick={handleClearVideo}>
+                    <RemoveIcon
+                        className={cx('icon-delete')}
+                        colorHover="white"
+                        backgroundColorHover="var(--primary)"
+                    />
+                </div>
+            )}
             <AbsoluteFill>
                 <Video src={url} height={'100%'} width={'100%'} style={{ objectFit: 'fill' }} />
             </AbsoluteFill>
@@ -92,8 +98,6 @@ function CreateVideoPage() {
             ],
         },
     ]);
-    const [start, setStart] = useState(0);
-    const [end, setEnd] = useState(0);
     const [mockEffect, setMockEffect] = useState({
         effects0: {
             id: 'effects0',
@@ -110,6 +114,8 @@ function CreateVideoPage() {
             values.description,
             tagsString,
             'default',
+            mockData[0].actions[0].start,
+            mockData[0].actions[0].end,
             socket,
         );
         if (status === 200) {
@@ -183,8 +189,19 @@ function CreateVideoPage() {
             if (!video) {
                 return;
             }
-            setVideoUrl(video.url);
-            setTags(video.hashtag.split(' '));
+            const videoUrl = video.url;
+            const newVideo = document.createElement('video');
+            newVideo.src = videoUrl;
+            newVideo.onloadedmetadata = () => {
+                const duration = newVideo.duration;
+                setVideoUrl(videoUrl);
+                setDuration(duration + 1);
+                const maxEnd = duration < 180 ? duration : 180;
+                setMockData((prev) => [
+                    { ...prev[0], actions: [{ ...prev[0].actions[0], end: duration, maxEnd: maxEnd }] },
+                ]);
+            };
+            setTags(video.hashtag?.split(' '));
             form.setFieldsValue({
                 description: video.description,
             });
@@ -237,11 +254,12 @@ function CreateVideoPage() {
                         noStyle
                         rules={[
                             {
-                                required: !id,
+                                required: !id && !videoUrl,
                                 message: 'Please choose your video!',
                             },
                             ({ getFieldValue }) => ({
                                 validator(_, value) {
+                                    if(id) return Promise.resolve();
                                     const lastFile = value[value.length - 1];
                                     if (lastFile && lastFile.type.split('/')[0] !== 'video') {
                                         return Promise.reject(new Error('Please choose video file!'));
@@ -263,9 +281,6 @@ function CreateVideoPage() {
                                 }}
                                 style={
                                     videoUrl && {
-                                        width: 'calc(var(--width-container-video)*0.7)',
-                                        height: 'calc(var(--heigth-container-video)*0.7)',
-                                        overflow: 'hidden',
                                         display: 'none',
                                     }
                                 }
@@ -292,25 +307,29 @@ function CreateVideoPage() {
                                     autoPlay
                                     loop
                                     style={{ borderRadius: '0.5rem', margin: 'auto' }}
-                                    inputProps={{ url: videoUrl, setVideoUrl, setMockData }}
+                                    inputProps={{ url: videoUrl, setVideoUrl, setMockData, allowDelete: !id }}
                                 />
-                                <Timeline
-                                    onChange={handleTimelineChange}
-                                    onCursorDrag={(time) => console.log(time)}
-                                    editorData={mockData}
-                                    effects={mockEffect}
-                                    autoScroll={false}
-                                    dragLine={true}
-                                    getActionRender={(action, row) => {
-                                        return <div style={{ height: '100%', alignContent: 'center' }}>Max 180s</div>;
-                                    }}
-                                    getScaleRender={(scale) => <CustomScale scale={scale} />}
-                                    scale={parseInt(duration / 12)}
-                                    scaleWidth={40}
-                                    rowHeight={50}
-                                    hideCursor
-                                    style={{ height: '10rem', width: '100%', marginTop: '0.5rem' }}
-                                />
+                                {!id && (
+                                    <Timeline
+                                        onChange={handleTimelineChange}
+                                        onCursorDrag={(time) => console.log(time)}
+                                        editorData={mockData}
+                                        effects={mockEffect}
+                                        autoScroll={false}
+                                        dragLine={true}
+                                        getActionRender={(action, row) => {
+                                            return (
+                                                <div style={{ height: '100%', alignContent: 'center' }}>Max 180s</div>
+                                            );
+                                        }}
+                                        getScaleRender={(scale) => <CustomScale scale={scale} />}
+                                        scale={parseInt(duration / 12)}
+                                        scaleWidth={40}
+                                        rowHeight={50}
+                                        hideCursor
+                                        style={{ height: '10rem', width: '100%', marginTop: '0.5rem' }}
+                                    />
+                                )}
                             </div>
                         )}
                     </Form.Item>
