@@ -24,8 +24,18 @@
         .timeline-editor-action-left-stretch::after {
             border-left-color: var(--primary);
         }
-        .timeline-editor-action-right-stretch::after{
+        .timeline-editor-action-right-stretch::after {
             border-right-color: var(--primary);
+        }
+    }
+
+    .timeline-editor {
+        ::-webkit-scrollbar-thumb {
+            background-color: var(--primary);
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: var(--on-primary);
         }
     }
 }

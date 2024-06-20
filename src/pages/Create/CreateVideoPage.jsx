@@ -144,10 +144,14 @@ function CreateVideoPage() {
         setLoading(false);
     };
     const onFinish = async (values) => {
+        if (form.validateFields().errorFields?.length > 0) return;
         id ? handleUpdateVideoForm(values) : handleCreateVideoForm(values);
     };
 
     const handleVideoChange = async (value) => {
+        if (!value.file.originFileObj.type.includes('video')) {
+            return;
+        }
         const newUrlVideo = await URL.createObjectURL(value.file.originFileObj);
         const newVideo = document.createElement('video');
         newVideo.src = newUrlVideo;
@@ -225,7 +229,7 @@ function CreateVideoPage() {
                     margin: 'auto',
                 }}
             >
-                <Form.Item label="Dragger">
+                <Form.Item label="Video">
                     <Form.Item
                         name="video"
                         valuePropName="fileList"
@@ -236,6 +240,15 @@ function CreateVideoPage() {
                                 required: !id,
                                 message: 'Please choose your video!',
                             },
+                            ({ getFieldValue }) => ({
+                                validator(_, value) {
+                                    const lastFile = value[value.length - 1];
+                                    if (lastFile && lastFile.type.split('/')[0] !== 'video') {
+                                        return Promise.reject(new Error('Please choose video file!'));
+                                    }
+                                    return Promise.resolve();
+                                },
+                            }),
                         ]}
                     >
                         {!videoUrl ? (
@@ -289,7 +302,7 @@ function CreateVideoPage() {
                                     autoScroll={false}
                                     dragLine={true}
                                     getActionRender={(action, row) => {
-                                        return <div>Max 180s</div>;
+                                        return <div style={{ height: '100%', alignContent: 'center' }}>Max 180s</div>;
                                     }}
                                     getScaleRender={(scale) => <CustomScale scale={scale} />}
                                     scale={parseInt(duration / 12)}
