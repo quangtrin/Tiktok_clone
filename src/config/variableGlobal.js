@@ -1,3 +1,3 @@
-const baseUrl = "http://localhost:8002"
+const baseUrl = process.env.REACT_APP_BASE_URL;
 
 export default baseUrl;
