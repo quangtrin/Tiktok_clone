@@ -1,10 +1,13 @@
 import axios from 'axios';
 import config from '~/config';
-import { dayjsToDateTime, formatDateTime } from '~/utils/function';
+import { MessageLogin } from '~/components/Message/Message';
 
 const getFollowingOfCurrentUser = async () => {
     const tokenSession = localStorage.getItem('token');
-
+    if (!tokenSession) {
+        MessageLogin();
+        return;
+    }
     const res = await axios.get(`${config.baseUrl}/api/follow/following/current`, {
         headers: {
             Authorization: `Bearer ${tokenSession}`,
@@ -15,7 +18,10 @@ const getFollowingOfCurrentUser = async () => {
 
 const getFollowerOfCurrentUser = async () => {
     const tokenSession = localStorage.getItem('token');
-
+    if (!tokenSession) {
+        MessageLogin();
+        return;
+    }
     const res = await axios.get(`${config.baseUrl}/api/follow/follower/current`, {
         headers: {
             Authorization: `Bearer ${tokenSession}`,
@@ -57,6 +63,10 @@ const getUserById = async (userId) => {
 
 const getCurrentUser = async () => {
     const tokenSession = localStorage.getItem('token');
+    if (!tokenSession) {
+        MessageLogin();
+        return;
+    }
     try {
         const res = await axios.get(`${config.baseUrl}/api/user/current`, {
             headers: {
@@ -71,6 +81,10 @@ const getCurrentUser = async () => {
 
 const updateCurrentUser = async (userName, gender, description, birthday, avatar) => {
     const tokenSession = localStorage.getItem('token');
+    if (!tokenSession) {
+        MessageLogin();
+        return;
+    }
     try {
         const formData = new FormData();
         const avatarTop = avatar?.pop();
@@ -92,6 +106,10 @@ const updateCurrentUser = async (userName, gender, description, birthday, avatar
 
 const getAllUsers = async () => {
     const tokenSession = localStorage.getItem('token');
+    if (!tokenSession) {
+        MessageLogin();
+        return;
+    }
     const res = await axios.get(`${config.baseUrl}/api/user`, {
         headers: {
             Authorization: `Bearer ${tokenSession}`,
@@ -102,6 +120,10 @@ const getAllUsers = async () => {
 
 const blockUser = async (userId) => {
     const tokenSession = localStorage.getItem('token');
+    if (!tokenSession) {
+        MessageLogin();
+        return;
+    }
     try {
         const res = await axios.put(
             `${config.baseUrl}/api/user/${userId}`,
@@ -120,6 +142,10 @@ const blockUser = async (userId) => {
 
 const unblockUser = async (userId) => {
     const tokenSession = localStorage.getItem('token');
+    if (!tokenSession) {
+        MessageLogin();
+        return;
+    }
     try {
         const res = await axios.put(
             `${config.baseUrl}/api/user/${userId}`,

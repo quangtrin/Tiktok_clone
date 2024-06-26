@@ -11,6 +11,7 @@ import { FaCircleXmark } from 'react-icons/fa6';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane as faPaperPlaneTop } from '@fortawesome/free-solid-svg-icons';
 import './CommentSidebarLibrary.scss';
+import { LoginAlertDialog } from '~/components/AlertDialog/AlertDialog';
 
 const cx = classNames.bind(styles);
 const CommentSidebar = ({ openComment, setOpenComment }) => {
@@ -27,9 +28,11 @@ const CommentSidebar = ({ openComment, setOpenComment }) => {
         if (videoCurrentId && content && content !== '') {
             try {
                 const newComment = await postComments(videoCurrentId, content, socket);
-                dispatch(addComment(newComment));
-                form.setFieldValue('comment', '');
-                firstContentRef.current.scrollIntoView();
+                if (newComment) {
+                    dispatch(addComment(newComment));
+                    form.setFieldValue('comment', '');
+                    firstContentRef.current.scrollIntoView();
+                }
             } catch (error) {}
         }
     };

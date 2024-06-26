@@ -15,7 +15,7 @@ import { faPaperPlane as faPaperPlaneTop } from '@fortawesome/free-solid-svg-ico
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { deleteComment } from '~/services/API/commentService';
 import { deleteComment as deleteCommentRedux } from '~/redux/commentSlice';
-import { ConfirmDeleteAlertDialog, ErrorAlertDialog } from '../AlertDialog/AlertDialog';
+import { ConfirmDeleteAlertDialog, ErrorAlertDialog, LoginAlertDialog } from '../AlertDialog/AlertDialog';
 
 const cx = classNames.bind(styles);
 const CommentCustom = ({ children, comment }) => {
@@ -86,12 +86,20 @@ const CommentCustom = ({ children, comment }) => {
     };
 
     const handleSubmitComment = async () => {
+        console.log(userCurrentId);
+        if (!userCurrentId) {
+            LoginAlertDialog();
+            console.log(123);
+            return;
+        }
         if (comment) {
             try {
                 const commentParentId = comment.comment_parent_id || comment.id;
                 const newComment = await postComments(comment.video_id, content, socket, commentParentId);
-                dispatch(addCommentChild(newComment));
-                setContent('');
+                if (newComment) {
+                    dispatch(addCommentChild(newComment));
+                    setContent('');
+                }
             } catch (error) {}
         }
     };

@@ -1,8 +1,13 @@
 import axios from 'axios';
+import { MessageLogin } from '~/components/Message/Message';
 import config from '~/config';
 
 const followNotification = async (followedId, status, socket) => {
     const tokenSession = localStorage.getItem('token');
+    if (!tokenSession) {
+        MessageLogin();
+        return;
+    }
     try {
         const newNotifi = await axios.post(
             `${config.baseUrl}/api/notification/create/follow`,
@@ -28,6 +33,10 @@ const followNotification = async (followedId, status, socket) => {
 
 const replyNotification = async (commentParentId, videoId, commentId, socket) => {
     const tokenSession = localStorage.getItem('token');
+    if (!tokenSession) {
+        MessageLogin();
+        return;
+    }
     try {
         if (commentParentId) {
             const newNotifi = await axios.post(
@@ -57,6 +66,10 @@ const replyNotification = async (commentParentId, videoId, commentId, socket) =>
 
 const commentNotification = async (videoId, commentId, socket) => {
     const tokenSession = localStorage.getItem('token');
+    if (!tokenSession) {
+        MessageLogin();
+        return;
+    }
     try {
         const newNotifi = await axios.post(
             `${config.baseUrl}/api/notification/create/comment`,
@@ -83,6 +96,10 @@ const commentNotification = async (videoId, commentId, socket) => {
 
 const likeVideoNotification = async (videoId, socket) => {
     const tokenSession = localStorage.getItem('token');
+    if (!tokenSession) {
+        MessageLogin();
+        return;
+    }
     try {
         if (videoId) {
             const newNotifi = await axios.post(
@@ -109,6 +126,10 @@ const likeVideoNotification = async (videoId, socket) => {
 
 const newVideoNotification = async (videoId, socket) => {
     const tokenSession = localStorage.getItem('token');
+    if (!tokenSession) {
+        MessageLogin();
+        return;
+    }
     try {
         if (videoId) {
             const newNotifi = await axios.post(
@@ -139,6 +160,10 @@ const newVideoNotification = async (videoId, socket) => {
 
 const acceptFriendNotification = async (receiverId, socket) => {
     const tokenSession = localStorage.getItem('token');
+    if (!tokenSession) {
+        MessageLogin();
+        return;
+    }
     try {
         if (receiverId) {
             const newNotifi = await axios.post(
@@ -165,6 +190,10 @@ const acceptFriendNotification = async (receiverId, socket) => {
 
 const getNotificationUser = async () => {
     const tokenSession = localStorage.getItem('token');
+    if (!tokenSession) {
+        MessageLogin();
+        return;
+    }
     const res = await axios.get(`${config.baseUrl}/api/notification/user`, {
         headers: {
             Authorization: `Bearer ${tokenSession}`,
@@ -175,6 +204,10 @@ const getNotificationUser = async () => {
 
 const updateReadNotificationUser = async (notification) => {
     const tokenSession = localStorage.getItem('token');
+    if (!tokenSession) {
+        MessageLogin();
+        return;
+    }
     try {
         await axios.put(
             `${config.baseUrl}/api/notification/update`,
@@ -195,6 +228,10 @@ const updateReadNotificationUser = async (notification) => {
 
 const updateHasActionNotificationUser = async (notification) => {
     const tokenSession = localStorage.getItem('token');
+    if (!tokenSession) {
+        MessageLogin();
+        return;
+    }
     try {
         await axios.put(
             `${config.baseUrl}/api/notification/update`,
@@ -216,6 +253,10 @@ const updateHasActionNotificationUser = async (notification) => {
 
 const requestAddFriendNotification = async (userId, socket) => {
     const tokenSession = localStorage.getItem('token');
+    if (!tokenSession) {
+        MessageLogin();
+        return;
+    }
     try {
         const newNotifi = await axios.post(
             `${config.baseUrl}/api/notification/create/requestFriend`,
@@ -234,6 +275,7 @@ const requestAddFriendNotification = async (userId, socket) => {
                 notification: newNotifi.data.newNotification,
             });
         }
+        return newNotifi.status;
     } catch (error) {
         console.log(error);
     }
@@ -241,6 +283,10 @@ const requestAddFriendNotification = async (userId, socket) => {
 
 const getRequestFriend = async () => {
     const tokenSession = localStorage.getItem('token');
+    if (!tokenSession) {
+        MessageLogin();
+        return;
+    }
     const res = await axios.get(`${config.baseUrl}/api/notification/requestFriend`, {
         headers: {
             Authorization: `Bearer ${tokenSession}`,

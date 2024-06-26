@@ -1,6 +1,7 @@
 import axios from 'axios';
 import config from '~/config';
 import { newVideoNotification } from './notificationService';
+import { MessageLogin } from '~/components/Message/Message';
 
 const getListVideos = async () => {
     const tokenSession = localStorage.getItem('token');
@@ -36,6 +37,10 @@ const getListVideosByCreatorId = async (creatorId) => {
 
 const createVideo = async (video, description, hashtag, song, startTime, endTime, socket) => {
     const tokenSession = localStorage.getItem('token');
+    if (!tokenSession) {
+        MessageLogin();
+        return;
+    }
     try {
         const formData = new FormData();
         formData.append('video', video);
@@ -61,6 +66,10 @@ const createVideo = async (video, description, hashtag, song, startTime, endTime
 
 const deleteVideo = async (videoId) => {
     const tokenSession = localStorage.getItem('token');
+    if (!tokenSession) {
+        MessageLogin();
+        return;
+    }
     try {
         const res = await axios.delete(`${config.baseUrl}/api/video/${videoId}`, {
             headers: {
@@ -75,6 +84,10 @@ const deleteVideo = async (videoId) => {
 
 const updateVideo = async (videoId, description, hashtag, song) => {
     const tokenSession = localStorage.getItem('token');
+    if (!tokenSession) {
+        MessageLogin();
+        return;
+    }
     try {
         const res = await axios.put(
             `${config.baseUrl}/api/video/${videoId}`,

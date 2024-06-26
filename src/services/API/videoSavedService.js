@@ -1,10 +1,15 @@
 import axios from 'axios';
 import config from '~/config';
+import { MessageLogin } from '~/components/Message/Message';
 
 const saveVideo = async (videoId) => {
     const tokenSession = localStorage.getItem('token');
+    if (!tokenSession) {
+        MessageLogin();
+        return;
+    }
     try {
-        await axios.post(
+        const res = await axios.post(
             `${config.baseUrl}/api/video_saved`,
             { videoId },
             {
@@ -13,6 +18,7 @@ const saveVideo = async (videoId) => {
                 },
             },
         );
+        return res.status;
     } catch (error) {
         console.log(error);
     }
@@ -20,6 +26,10 @@ const saveVideo = async (videoId) => {
 
 const unSaveVideo = async (videoId) => {
     const tokenSession = localStorage.getItem('token');
+    if (!tokenSession) {
+        MessageLogin();
+        return;
+    }
     try {
         await axios.delete(`${config.baseUrl}/api/video_saved`, {
             headers: {
@@ -34,6 +44,10 @@ const unSaveVideo = async (videoId) => {
 
 const getSavedVideosCurrent = async () => {
     const tokenSession = localStorage.getItem('token');
+    if (!tokenSession) {
+        MessageLogin();
+        return;
+    }
     try {
         const response = await axios.get(`${config.baseUrl}/api/video_saved/current`, {
             headers: {

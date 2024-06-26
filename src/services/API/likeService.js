@@ -1,11 +1,16 @@
 import axios from 'axios';
 import config from '~/config';
 import { likeVideoNotification } from './notificationService';
+import { MessageLogin } from '~/components/Message/Message';
 
 const like = async (videoId, socket) => {
     const tokenSession = localStorage.getItem('token');
+    if (!tokenSession) {
+        MessageLogin();
+        return;
+    }
     try {
-        await axios.post(
+        const res = await axios.post(
             `${config.baseUrl}/api/like`,
             { video_id: videoId },
             {
@@ -14,7 +19,8 @@ const like = async (videoId, socket) => {
                 },
             },
         );
-        await likeVideoNotification(videoId, socket);
+        if (res.status === 200) await likeVideoNotification(videoId, socket);
+        return res.status;
     } catch (error) {
         console.log(error);
     }
@@ -22,13 +28,18 @@ const like = async (videoId, socket) => {
 
 const unLike = async (videoId) => {
     const tokenSession = localStorage.getItem('token');
+    if (!tokenSession) {
+        MessageLogin();
+        return;
+    }
     try {
-        await axios.delete(`${config.baseUrl}/api/like`, {
+        const res = await axios.delete(`${config.baseUrl}/api/like`, {
             headers: {
                 Authorization: `Bearer ${tokenSession}`,
             },
             data: { video_id: videoId },
         });
+        return res.status;
     } catch (error) {
         console.log(error);
     }

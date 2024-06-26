@@ -1,5 +1,6 @@
 import Swal from 'sweetalert2';
-const SuccessAlertDialog = ( title, text, okCallBack = () => {}, cancelCallBack = () => {}) =>
+import { useNavigate } from 'react-router-dom';
+const SuccessAlertDialog = (title, text, okCallBack = () => {}, cancelCallBack = () => {}) =>
     Swal.fire({
         title: title,
         text: text,
@@ -24,7 +25,7 @@ const ConfirmDeleteAlertDialog = (title, text, okCallBack = () => {}, cancelCall
         denyButtonColor: 'var(--text-tab-color)',
         confirmButtonText: 'Yes',
         denyButtonText: 'No',
-        reverseButtons: true
+        reverseButtons: true,
     }).then((result) => {
         if (result.isConfirmed) {
             okCallBack();
@@ -40,4 +41,19 @@ const ErrorAlertDialog = (title, text) =>
         icon: 'error',
     });
 
-export { SuccessAlertDialog, ErrorAlertDialog, ConfirmDeleteAlertDialog };
+const LoginAlertDialog = () => {
+    const navigation = useNavigate();
+    Swal.fire({
+        title: "You're not logged in",
+        text: 'Please log in to continue',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Log in',
+        cancelButtonText: 'Cancel',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            navigation('/authentication');
+        }
+    });
+};
+export { SuccessAlertDialog, ErrorAlertDialog, ConfirmDeleteAlertDialog, LoginAlertDialog };

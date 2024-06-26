@@ -16,15 +16,19 @@ const ButtonFollow = ({ isFollow, user, setIsFollow }) => {
         if (status === 201) {
             SuccessAlertDialog('The two of you followed each other and became friends', '');
         }
-        dispatch(addFollow(user));
-        setIsFollow(true);
+        if (status === 200) {
+            dispatch(addFollow(user));
+            setIsFollow(true);
+        }
     };
 
     const onClickUnfollow = async (event) => {
         event.stopPropagation();
-        await unFollow(user.id);
-        dispatch(removeFollow(user.id));
-        setIsFollow(false);
+        const status = await unFollow(user.id);
+        if (status === 200) {
+            dispatch(removeFollow(user.id));
+            setIsFollow(false);
+        }
     };
 
     return isFollow ? (

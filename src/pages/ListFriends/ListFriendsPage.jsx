@@ -18,7 +18,6 @@ const ListFriendsPage = () => {
         const getDataFriendUser = async () => {
             try {
                 const friendUsers = await getFriendsUserCurrent();
-                console.log(friendUsers);
                 dispatch(updateListFriend(friendUsers));
             } catch (error) {
                 console.log(error);

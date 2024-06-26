@@ -33,8 +33,10 @@ function ProfilePage() {
 
     const requestAddFriend = async () => {
         try {
-            setHasRequestFriend(true);
-            await requestAddFriendNotification(id, socket);
+            const status = await requestAddFriendNotification(id, socket);
+            if (status === 201) {
+                setHasRequestFriend(true);
+            }
         } catch (error) {
             console.log('error', error);
         }
@@ -46,20 +48,25 @@ function ProfilePage() {
             const follower = await getFollowerUser(userProfile.id);
             const friendUserCurrent = await getFriendsUserCurrent();
             const requestRequestFriend = await getRequestFriend();
-            const hasRequestFriend =
-                requestRequestFriend.findIndex((user) => user.receiver_id.toString() === userProfile.id.toString()) !==
-                -1;
-            setHasRequestFriend(hasRequestFriend);
+            if (requestRequestFriend) {
+                const hasRequestFriend =
+                    requestRequestFriend.findIndex(
+                        (user) => user.receiver_id.toString() === userProfile.id.toString(),
+                    ) !== -1;
+                setHasRequestFriend(hasRequestFriend);
+            }
             setIsFollow(
                 follower.findIndex((user) => {
                     return user.id?.toString() === userCurrentId?.toString();
                 }) !== -1,
             );
-            setIsFriend(
-                friendUserCurrent.findIndex((user) => {
-                    return user.id?.toString() === userProfile.id?.toString();
-                }) !== -1,
-            );
+            if (friendUserCurrent) {
+                setIsFriend(
+                    friendUserCurrent?.findIndex((user) => {
+                        return user.id?.toString() === userProfile.id?.toString();
+                    }) !== -1,
+                );
+            }
             const following = await getFollowingUser(userProfile.id);
             const videoCreated = await getListVideosByCreatorId(userProfile.id);
             const allVideos = await getListVideos();
@@ -138,7 +145,7 @@ function ProfilePage() {
                         </div>
 
                         {hasRequestFriend ? (
-                                <WaitingFriendIcon width="2.5rem" className={cx('friend-icon')} />
+                            <WaitingFriendIcon width="2.5rem" className={cx('friend-icon')} />
                         ) : isFriend ? (
                             !isSelf && (
                                 <Tooltip title="Friend" placement="bottom">

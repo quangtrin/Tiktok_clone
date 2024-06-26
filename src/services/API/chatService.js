@@ -1,8 +1,12 @@
 import axios from 'axios';
+import { LoginAlertDialog } from '~/components/AlertDialog/AlertDialog';
 import config from '~/config';
 
 const getListChatUserCurrent = async () => {
     const tokenSession = localStorage.getItem('token');
+    if (!tokenSession) {
+        LoginAlertDialog();
+    }
     try {
         const response = await axios.get(`${config.baseUrl}/api/chat/list`, {
             headers: {

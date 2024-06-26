@@ -8,7 +8,7 @@ import {
     faSignOut,
     faUser,
 } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Tippy from '@tippyjs/react';
 import classNames from 'classnames/bind';
@@ -66,6 +66,7 @@ const MENU_ITEM = [
 
 function Header() {
     const dispatch = useDispatch();
+    const navigation = useNavigate();
     const currentUser = useSelector((state) => state.user_current.information);
     const listChat = useSelector((state) => state.chat.listChatCard);
     const socket = useSelector((state) => state.socket.socket);
@@ -154,7 +155,7 @@ function Header() {
                         {currentUser.id ? (
                             <>
                                 <Tippy delay={[0, 50]} content="Upload video" placement="bottom">
-                                    <button className={cx('action-btn')}>
+                                    <button className={cx('action-btn')} onClick={() => {navigation("/create")}}>
                                         <UploadIcon />
                                     </button>
                                 </Tippy>

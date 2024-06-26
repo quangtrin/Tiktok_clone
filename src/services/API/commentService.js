@@ -1,6 +1,9 @@
 import axios from 'axios';
 import config from '~/config';
 import { replyNotification, commentNotification } from './notificationService';
+import { LoginAlertDialog } from '~/components/AlertDialog/AlertDialog';
+import Swal from 'sweetalert2';
+import { MessageLogin } from '~/components/Message/Message';
 
 const getCommentsByVideoId = async (videoId) => {
     const res = await axios.get(`${config.baseUrl}/api/comment/video/${videoId}`);
@@ -9,6 +12,9 @@ const getCommentsByVideoId = async (videoId) => {
 
 const postComments = async (videoId, content, socket, commentParentId) => {
     const tokenSession = localStorage.getItem('token');
+    if (!tokenSession) {
+        MessageLogin();
+    }
     try {
         const response = await axios.post(
             `${config.baseUrl}/api/comment`,

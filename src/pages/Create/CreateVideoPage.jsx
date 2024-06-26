@@ -110,7 +110,7 @@ function CreateVideoPage() {
         setLoading(true);
         const tagsString = tags.join(' ');
         const status = await createVideo(
-            values.video.pop().originFileObj,
+            values.video.pop()?.originFileObj,
             values.description,
             tagsString,
             'default',

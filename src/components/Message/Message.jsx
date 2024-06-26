@@ -5,4 +5,9 @@ const MessageSuccess = (content) => {
     return null;
 };
 
-export { MessageSuccess };
+const MessageLogin = () => {
+    message.error('Please login to continue');
+    return null;
+};
+
+export { MessageSuccess, MessageLogin };

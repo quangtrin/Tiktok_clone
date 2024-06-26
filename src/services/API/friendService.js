@@ -1,9 +1,14 @@
 import axios from 'axios';
 import config from '~/config';
 import { acceptFriendNotification } from './notificationService';
+import { MessageLogin } from '~/components/Message/Message';
 
 const getFriendsUserCurrent = async () => {
     const tokenSession = localStorage.getItem('token');
+    if (!tokenSession) {
+        MessageLogin();
+        return;
+    }
     try {
         const response = await axios.get(`${config.baseUrl}/api/friend/current`, {
             headers: {
@@ -18,6 +23,10 @@ const getFriendsUserCurrent = async () => {
 
 const addFriend = async (friendId, socket) => {
     const tokenSession = localStorage.getItem('token');
+    if (!tokenSession) {
+        MessageLogin();
+        return;
+    }
     try {
         const response = await axios.post(
             `${config.baseUrl}/api/friend/add`,

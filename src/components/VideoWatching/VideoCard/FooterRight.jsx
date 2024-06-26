@@ -44,8 +44,10 @@ function FooterRight({ profilePic, video, setOpenComment, openComment }) {
         if (status === 201) {
             SuccessAlertDialog('The two of you followed each other and became friends', '');
         }
-        dispatch(addFollow(video.Creator));
-        setUserAddIcon(faCircleCheck);
+        if (status === 200) {
+            dispatch(addFollow(video.Creator));
+            setUserAddIcon(faCircleCheck);
+        }
     };
 
     const parseLikesCount = (count) => {
@@ -65,27 +67,32 @@ function FooterRight({ profilePic, video, setOpenComment, openComment }) {
         return count;
     };
     const likeAction = async () => {
-        await like(video.id, socket);
+        return await like(video.id, socket);
     };
     const unLikeAction = async () => {
-        unLike(video.id);
+        return await unLike(video.id);
     };
 
     const handleLikeClick = async () => {
-        const isLikedBefore =
-            video.Likes.filter((value) => value.user_id == userCurrentId && value.video_id == video.id).length !== 0;
-        if (isLikedBefore && liked) setCountLike(-1);
-        else if (isLikedBefore && !liked) setCountLike(0);
-        else if (!liked) setCountLike(1);
-        else setCountLike(0);
-        (await liked) ? unLikeAction() : likeAction();
-        setLiked((prevLiked) => !prevLiked);
+        const status = (await liked) ? unLikeAction() : likeAction();
+        if (status === 200) {
+            setLiked((prevLiked) => !prevLiked);
+            const isLikedBefore =
+                video.Likes.filter((value) => value.user_id == userCurrentId && value.video_id == video.id).length !==
+                0;
+            if (isLikedBefore && liked) setCountLike(-1);
+            else if (isLikedBefore && !liked) setCountLike(0);
+            else if (!liked) setCountLike(1);
+            else setCountLike(0);
+        }
     };
 
     const save = async () => {
-        setSaved(true);
-        setVideoSavedCount(videoSavedCount + 1);
-        await saveVideo(video.id, socket);
+        const status = await saveVideo(video.id, socket);
+        if (status === 200) {
+            setSaved(true);
+            setVideoSavedCount(videoSavedCount + 1);
+        }
     };
     const unSave = async () => {
         setSaved(false);

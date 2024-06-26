@@ -39,6 +39,7 @@ const LoginComponent = ({ setIsLoginScreen }) => {
                     title: 'Login failed!',
                     text: 'Account or password incorrect!',
                     icon: 'error',
+                    confirmButtonText: 'Try again',
                 });
             }
         }
