@@ -34,34 +34,34 @@ import { updateListChatCard } from '~/redux/chatSlice';
 
 const cx = classNames.bind(styles);
 const MENU_ITEM = [
-    {
-        icon: <FontAwesomeIcon icon={faEarthAsia} />,
-        title: 'English',
-        children: {
-            title: 'Language',
-            data: [
-                {
-                    type: 'language',
-                    code: 'en',
-                    title: 'English',
-                },
-                {
-                    type: 'language',
-                    code: 'vi',
-                    title: 'Tiếng Việt',
-                },
-            ],
-        },
-    },
-    {
-        icon: <FontAwesomeIcon icon={faCircleQuestion} />,
-        title: 'Feedback and Help',
-        to: '/feedback',
-    },
-    {
-        icon: <FontAwesomeIcon icon={faKeyboard} />,
-        title: 'Keyboard shortcuts',
-    },
+    // {
+    //     icon: <FontAwesomeIcon icon={faEarthAsia} />,
+    //     title: 'English',
+    //     children: {
+    //         title: 'Language',
+    //         data: [
+    //             {
+    //                 type: 'language',
+    //                 code: 'en',
+    //                 title: 'English',
+    //             },
+    //             {
+    //                 type: 'language',
+    //                 code: 'vi',
+    //                 title: 'Tiếng Việt',
+    //             },
+    //         ],
+    //     },
+    // },
+    // {
+    //     icon: <FontAwesomeIcon icon={faCircleQuestion} />,
+    //     title: 'Feedback and Help',
+    //     to: '/feedback',
+    // },
+    // {
+    //     icon: <FontAwesomeIcon icon={faKeyboard} />,
+    //     title: 'Keyboard shortcuts',
+    // },
 ];
 
 function Header() {
@@ -90,16 +90,16 @@ function Header() {
             title: 'View profile',
             to: `/user/@${currentUser.id}`,
         },
-        {
-            icon: <FontAwesomeIcon icon={faCoins} />,
-            title: 'Get coins',
-            to: '/coin',
-        },
-        {
-            icon: <FontAwesomeIcon icon={faGear} />,
-            title: 'Settings',
-            to: '/settings',
-        },
+        // {
+        //     icon: <FontAwesomeIcon icon={faCoins} />,
+        //     title: 'Get coins',
+        //     to: '/coin',
+        // },
+        // {
+        //     icon: <FontAwesomeIcon icon={faGear} />,
+        //     title: 'Settings',
+        //     to: '/settings',
+        // },
         ...MENU_ITEM,
         {
             icon: <FontAwesomeIcon icon={faSignOut} />,
@@ -149,7 +149,7 @@ function Header() {
                         </Link>
                     </div>
 
-                    <Search />
+                    {/* <Search /> */}
 
                     <div className={cx('actions')}>
                         {currentUser.id ? (

@@ -74,7 +74,7 @@ function FooterRight({ profilePic, video, setOpenComment, openComment }) {
     };
 
     const handleLikeClick = async () => {
-        const status = (await liked) ? unLikeAction() : likeAction();
+        const status = (await liked) ? await unLikeAction() : await likeAction();
         if (status === 200) {
             setLiked((prevLiked) => !prevLiked);
             const isLikedBefore =

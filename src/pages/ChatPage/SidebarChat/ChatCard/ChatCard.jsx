@@ -15,14 +15,14 @@ const ChatCard = ({ data }) => {
     const dispatch = useDispatch();
     const userCurrentId = useSelector((state) => state.user_current.information?.id);
     const chatingCurrentUserId = useSelector((state) => state.chat.chatingCurrentUserId);
-    const isFocus = chatingCurrentUserId?.toString() === data.id.toString();
+    const isFocus = chatingCurrentUserId?.toString() === data.user_id.toString();
     const handleClick = async () => {
         if (!data.read) {
             await updateReadChat(data.user_id);
             dispatch(updateRead(data.user_id));
         }
         dispatch(changeChatingCurrentUserId(data.user_id));
-        navigation(`/chat?user=${data.user_id}`);
+        // navigation(`/chat?user=${data.user_id}`);
     };
 
     return (

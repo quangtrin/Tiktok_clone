@@ -11,9 +11,10 @@ import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
-const menu = () => {
+const Menu = () => {
+    const navigation = useNavigate();
     return (
-        <div className={cx("menu-item")} >
+        <div className={cx("menu-item")} onClick={() => navigation("/authentication")}>
             <FontAwesomeIcon icon={faSignOut} />
             <div>logout</div>
         </div>
@@ -37,7 +38,7 @@ const LayoutAdmin = ({ children, options }) => {
             <div className={cx('container')}>
                 <div className={cx('header-layout')}>
                     <h1>{options?.headerTitle}</h1>
-                    <Popover content={menu} trigger={"click"} overlayInnerStyle={{padding: "0"}}>
+                    <Popover content={Menu} trigger={"click"} overlayInnerStyle={{padding: "0"}}>
                         <div style={{cursor: "pointer"}}>
                             <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s" />
                         </div>

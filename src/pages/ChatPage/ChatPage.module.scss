@@ -1,3 +1,4 @@
+@use '../../components/GlobalStyles/GlobalStyles.scss' as *;
 .container {
     width: 75%;
     border-radius: 0 0.5rem 0.5rem 0;
@@ -5,29 +6,46 @@
     padding-bottom: 0;
     height: 100%;
     display: flex;
-    padding: 1rem;
     padding-bottom: 0;
     flex-direction: column;
     position: relative;
+    @include mobile {
+        width: 100%;
+    }
+
+    @include tablet {
+        width: 100%;
+    }
 }
-.layout-inner{
+
+.sidebar-layout {
+    width: 25%;
+    overflow: hidden;
+    @include mobile {
+        display: none;
+    }
+
+    @include tablet {
+        display: none;
+    }
+}
+.layout-inner {
     display: flex;
-    height: calc(100vh - var(--default-layout-header-height));
-    width: var(--default-layout-width);
-    padding: 1rem 5rem;
+    height: calc(100vh - var(--default-layout-header-height) - 10vh);
+    width: 100%;
 }
-.layout-outter{
+.layout-outter {
     display: flex;
     justify-content: center;
     padding: 0 var(--default-layout-horizontal-spacer);
 }
-.message{
+.message {
     padding: 1rem;
     padding-bottom: 0;
     overflow-y: scroll;
     max-height: calc(100% - 5rem);
 }
-.input-layout{
+.input-layout {
     display: flex;
     align-items: center;
     position: absolute;
@@ -36,10 +54,10 @@
     left: 50%;
     transform: translate(-50%, 0);
 }
-.input{
+.input {
     padding: 0.5rem;
 }
-.send-icon{
+.send-icon {
     font-size: 2rem;
     margin-left: 1rem;
     margin-right: 1rem;

@@ -84,7 +84,6 @@ const commentNotification = async (videoId, commentId, socket) => {
                 },
             },
         );
-        console.log(newNotifi.data.newNotification);
 
         await socket?.emit('new-notification', {
             notification: newNotifi.data.newNotification,

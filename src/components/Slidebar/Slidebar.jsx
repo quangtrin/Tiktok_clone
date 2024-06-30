@@ -40,12 +40,12 @@ function Sidebar() {
                     icon={<UserGroupIcon />}
                     activeIcon={<UserGroupActiveIcon />}
                 ></MenuItem>
-                <MenuItem
+                {/* <MenuItem
                     title="LIVE"
                     to={config.routes.live}
                     icon={<LiveIcon />}
                     activeIcon={<LiveActiveIcon />}
-                ></MenuItem>
+                ></MenuItem> */}
             </Menu>
 
             {currentUser.id ? <SuggestedAccounts label="Following accounts" /> : null}

@@ -86,7 +86,6 @@ const CommentCustom = ({ children, comment }) => {
     };
 
     const handleSubmitComment = async () => {
-        console.log(userCurrentId);
         if (!userCurrentId) {
             LoginAlertDialog();
             console.log(123);

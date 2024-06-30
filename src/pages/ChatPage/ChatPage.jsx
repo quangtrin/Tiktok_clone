@@ -11,18 +11,20 @@ import { useSearchParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateListMessageCurrent } from '~/redux/chatSlice';
 import { LoadingIcon } from '~/components/Icons/Icons';
+import HeaderChat from './HeaderChat/HeaderChat';
 
 const cx = classNames.bind(styles);
 const ChatPage = () => {
+    const dispatch = useDispatch();
     const [content, setContent] = React.useState('');
     const lastMessageRef = React.useRef(null);
     const inputRef = React.useRef(null);
-    const dispatch = useDispatch();
     const [hasUpdate, setHasUpdate] = React.useState(false);
     const [hasUpdateListChat, setHasUpdateListChat] = React.useState(false);
     const [loadingSend, setLoadingSend] = React.useState(false);
     const [searchParams] = useSearchParams();
-    const chatingUserId = searchParams.get('user');
+    const chatingUserId = useSelector((state) => state.chat.chatingCurrentUserId);
+    // const chatingUserId = searchParams.get('user');
     const messages = useSelector((state) => state.chat.listMessageCurrent);
     const socket = useSelector((state) => state.socket.socket);
     const onSend = async () => {
@@ -83,11 +85,12 @@ const ChatPage = () => {
     return (
         <div className={cx('layout-outter')}>
             <div className={cx('layout-inner')}>
-                <div style={{ width: '25%', overflow: "hidden" }}>
+                <div className={cx(("sidebar-layout"))}>
                     <SidebarChat hasUpdate={hasUpdateListChat} />
                 </div>
                 {chatingUserId && (
                     <div className={cx('container')}>
+                        <HeaderChat />
                         <div className={cx('message')}>
                             {messages.map((message, index) => {
                                 if (!message.is_induction) return <Message key={index} message={message} />;

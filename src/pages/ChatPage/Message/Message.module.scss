@@ -1,3 +1,4 @@
+@use '../../../components/GlobalStyles/GlobalStyles.scss' as *;
 .layout{
     display: flex;
     width: 40%;
@@ -6,6 +7,13 @@
 .avatar{
     width: 4rem;
     height: 4rem;
+    @include mobile {
+        display: none;
+    }
+
+    @include tablet {
+        display: none;
+    }
 }
 
 .myself{

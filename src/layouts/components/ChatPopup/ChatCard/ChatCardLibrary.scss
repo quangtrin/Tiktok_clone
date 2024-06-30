@@ -1,0 +1,8 @@
+.modal-chat {
+    :where(.css-dev-only-do-not-override-1hcz1v).ant-table-wrapper .ant-table-cell, :where(.css-dev-only-do-not-override-1hcz1v).ant-table-wrapper .ant-table-thead>tr>th, :where(.css-dev-only-do-not-override-1hcz1v).ant-table-wrapper .ant-table-tbody>tr>th, :where(.css-dev-only-do-not-override-1hcz1v).ant-table-wrapper .ant-table-tbody>tr>td, :where(.css-dev-only-do-not-override-1hcz1v).ant-table-wrapper tfoot>tr>th, :where(.css-dev-only-do-not-override-1hcz1v).ant-table-wrapper tfoot>tr>td{
+        padding: 1rem 0;
+    }
+    :where(.css-dev-only-do-not-override-1hcz1v).ant-modal{
+        top: 2rem;
+    }
+}
