@@ -3,6 +3,8 @@ import classNames from 'classnames/bind';
 import styles from './Message.module.scss';
 import Avatar from 'antd/es/avatar/avatar';
 import { useSelector } from 'react-redux';
+import { Image } from 'antd';
+import Linkify from '~/components/Linkify/Linkify';
 
 const cx = classNames.bind(styles);
 const Message = ({ message }) => {
@@ -18,7 +20,22 @@ const Message = ({ message }) => {
                         src={message.creator_chat.avatar}
                     />
                 )}
-                <div className={cx('content')}>{message.content || 'Hello World'}</div>
+                {!message.is_image ? (
+                    <div className={cx('content')}>
+                        <Linkify classNameLink={cx("content-link")}>{message.content || 'Hello World'}</Linkify>
+                    </div>
+                ) : (
+                    <div
+                        className={cx('content-image')}
+                        style={{
+                            position: 'relative',
+                            display: 'flex',
+                            justifyContent: myself ? 'flex-end' : 'flex-start',
+                        }}
+                    >
+                        <Image src={message.content} alt='loading...'/>
+                    </div>
+                )}
                 {myself && (
                     <Avatar style={{ marginLeft: '1rem' }} className={cx('avatar')} src={message.creator_chat.avatar} />
                 )}

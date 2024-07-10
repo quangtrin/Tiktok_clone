@@ -42,7 +42,7 @@ const ChatCard = ({ data }) => {
                     {data.is_induction
                         ? 'You two are friends, let`s chat something'
                         : `${data.creator_id.toString() === userCurrentId.toString() ? 'You' : data.user_name}: ${
-                              data.content
+                              data.is_image ? 'Sent a photo' : data.content
                           }`}
                 </div>
             </div>

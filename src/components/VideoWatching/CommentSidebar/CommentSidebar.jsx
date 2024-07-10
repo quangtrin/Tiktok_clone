@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './CommentSidebar.module.scss';
 import { useSelector, useDispatch } from 'react-redux';
@@ -21,6 +21,7 @@ const CommentSidebar = ({ openComment, setOpenComment }) => {
     const currentUser = useSelector((state) => state.user_current.information);
     const videoCurrentId = useSelector((state) => state.video_current.id);
     const listComment = useSelector((state) => state.comment.listCommentCurrent);
+    const [loading, setLoading] = useState(false);
     const socket = useSelector((state) => state.socket.socket);
 
     const handleSubmitComment = async () => {
@@ -39,8 +40,10 @@ const CommentSidebar = ({ openComment, setOpenComment }) => {
 
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true);
             const commentsVideo = await getCommentsByVideoId(videoCurrentId);
             dispatch(updateListCommentCurrent(commentsVideo));
+            setLoading(false);
         };
 
         if (videoCurrentId) fetchData();
@@ -52,7 +55,12 @@ const CommentSidebar = ({ openComment, setOpenComment }) => {
                 <FaCircleXmark />
             </div>
             <div
-                style={{ display: 'flex', marginBottom: '1rem', justifyContent: 'space-between', alignItems: 'center' }}
+                style={{
+                    display: 'flex',
+                    marginBottom: '1rem',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                }}
             >
                 <div style={{ width: '15%' }}>
                     <Avatar src={currentUser.avatar} alt="Han Solo" />
@@ -68,25 +76,27 @@ const CommentSidebar = ({ openComment, setOpenComment }) => {
                     </span>
                 </div>
             </div>
-            <div className={cx('content')}>
-                <div ref={firstContentRef} />
-                {listComment?.map((comment, index) => {
-                    if (!comment.comment_parent_id)
-                        return (
-                            <CommentCustom
-                                key={index}
-                                comment={comment}
-                                children={
-                                    comment.comment_child &&
-                                    [...comment.comment_child]
-                                        .reverse()
-                                        .map((child) => <CommentCustom key={child.id} comment={child} />)
-                                }
-                            />
-                        );
-                    else return null;
-                })}
-            </div>
+            {!loading && (
+                <div className={cx('content')}>
+                    <div ref={firstContentRef} />
+                    {listComment?.map((comment, index) => {
+                        if (!comment.comment_parent_id)
+                            return (
+                                <CommentCustom
+                                    key={index}
+                                    comment={comment}
+                                    children={
+                                        comment.comment_child &&
+                                        [...comment.comment_child]
+                                            .reverse()
+                                            .map((child) => <CommentCustom key={child.id} comment={child} />)
+                                    }
+                                />
+                            );
+                        else return null;
+                    })}
+                </div>
+            )}
         </div>
     );
 };

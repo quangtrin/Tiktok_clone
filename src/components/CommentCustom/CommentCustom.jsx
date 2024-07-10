@@ -16,6 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { deleteComment } from '~/services/API/commentService';
 import { deleteComment as deleteCommentRedux } from '~/redux/commentSlice';
 import { ConfirmDeleteAlertDialog, ErrorAlertDialog, LoginAlertDialog } from '../AlertDialog/AlertDialog';
+import Linkify from '../Linkify/Linkify';
 
 const cx = classNames.bind(styles);
 const CommentCustom = ({ children, comment }) => {
@@ -116,7 +117,6 @@ const CommentCustom = ({ children, comment }) => {
             setIsCommentFocus(true);
         }
     }, [isCommentFocus, commentRef, navigation, location.search, comment.id]);
-
     return (
         <div id="comment" ref={commentRef} className={isCommentFocus ? cx('comment-focus', 'content') : cx('content')}>
             <Comment
@@ -139,7 +139,7 @@ const CommentCustom = ({ children, comment }) => {
                         alt={comment.User.user_name}
                     />
                 }
-                content={<p>{comment.content}</p>}
+                content={<p>{comment.content && <Linkify>{comment.content}</Linkify>}</p>}
                 datetime={<span>{dayjs(comment.createdAt).format('HH:mm:ss DD-MM-YYYY')}</span>}
             >
                 {children}

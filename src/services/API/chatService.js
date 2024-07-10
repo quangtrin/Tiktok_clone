@@ -45,21 +45,20 @@ const getChatUserCurrentWithOtherUser = async (otherUserId) => {
     }
 };
 
-const addChat = async (otherUserId, content, socket) => {
+const addChat = async (otherUserId, content, socket, file) => {
     const tokenSession = localStorage.getItem('token');
     try {
-        const response = await axios.post(
-            `${config.baseUrl}/api/chat/add`,
-            {
-                receiverId: otherUserId,
-                content,
+        const formData = new FormData();
+        if (file) {
+            formData.append('image', file);
+        }
+        formData.append('receiverId', otherUserId);
+        formData.append('content', content);
+        const response = await axios.post(`${config.baseUrl}/api/chat/add`, formData, {
+            headers: {
+                Authorization: `Bearer ${tokenSession}`,
             },
-            {
-                headers: {
-                    Authorization: `Bearer ${tokenSession}`,
-                },
-            },
-        );
+        });
         await socket?.emit('new-message', {
             message: response.data,
         });
