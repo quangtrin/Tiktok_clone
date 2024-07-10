@@ -1,7 +1,7 @@
 import axios from 'axios';
 import config from '~/config';
 import { likeVideoNotification } from './notificationService';
-import { MessageLogin } from '~/components/Message/Message';
+import { MessageLogin, MessageSuccess } from '~/components/Message/Message';
 
 const like = async (videoId, socket) => {
     const tokenSession = localStorage.getItem('token');
@@ -20,6 +20,7 @@ const like = async (videoId, socket) => {
             },
         );
         if (res.status === 200) await likeVideoNotification(videoId, socket);
+        MessageSuccess('Liked');
         return res.status;
     } catch (error) {
         console.log(error);
@@ -39,6 +40,7 @@ const unLike = async (videoId) => {
             },
             data: { video_id: videoId },
         });
+        MessageSuccess('Unliked');
         return res.status;
     } catch (error) {
         console.log(error);

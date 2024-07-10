@@ -8,12 +8,11 @@ const NotificationPopup = ({ notifications }) => {
     return (
         <div className={cx('layout')}>
             <h2>Notification</h2>
+            {notifications.length === 0 && <p>No notification</p>}
             <div style={{ maxHeight: '55rem', overflowY: 'scroll' }}>
-                {
-                    notifications.map((notifi)=>{
-                        return <NotificationItem key={notifi.id} notification={notifi}/>
-                    })
-                }
+                {notifications.map((notifi) => {
+                    return <NotificationItem key={notifi.id} notification={notifi} />;
+                })}
             </div>
         </div>
     );

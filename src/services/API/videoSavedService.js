@@ -1,6 +1,6 @@
 import axios from 'axios';
 import config from '~/config';
-import { MessageLogin } from '~/components/Message/Message';
+import { MessageLogin, MessageSuccess } from '~/components/Message/Message';
 
 const saveVideo = async (videoId) => {
     const tokenSession = localStorage.getItem('token');
@@ -18,6 +18,7 @@ const saveVideo = async (videoId) => {
                 },
             },
         );
+        MessageSuccess('Saved');
         return res.status;
     } catch (error) {
         console.log(error);
@@ -37,6 +38,7 @@ const unSaveVideo = async (videoId) => {
             },
             data: { videoId },
         });
+        MessageSuccess('Unsaved');
     } catch (error) {
         console.log(error);
     }

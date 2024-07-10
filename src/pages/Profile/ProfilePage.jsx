@@ -174,10 +174,10 @@ function ProfilePage() {
                         <div className={cx('bold-text')}>{user.follower?.length || 0}</div>
                         <div className={cx('normal-text')}>Follower</div>
                     </div>
-                    <div className={cx('text-layout')}>
-                        <div className={cx('bold-text')}>67.3M</div>
+                    {/* <div className={cx('text-layout')}>
+                        <div className={cx('bold-text')}>0</div>
                         <div className={cx('normal-text')}>Like</div>
-                    </div>
+                    </div> */}
                 </div>
                 <Tooltip title={user.description} placement="bottom" overlayInnerStyle={{ width: '50rem' }}>
                     <div className={cx('description-profile')}>{user.description}</div>

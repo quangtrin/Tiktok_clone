@@ -81,10 +81,10 @@ const ChatPage = () => {
     useEffect(() => {
         const fecthData = async () => {
             if (chatingUserId) {
-                setLoadingData(true);
+                // setLoadingData(true);
                 const messages = await getChatUserCurrentWithOtherUser(chatingUserId);
                 dispatch(updateListMessageCurrent(messages));
-                setLoadingData(false);
+                // setLoadingData(false);
             }
         };
 
@@ -127,7 +127,7 @@ const ChatPage = () => {
                 {chatingUserId && (
                     <div className={cx('container')}>
                         <HeaderChat />
-                        {loadingData ? (
+                        {/* {loadingData ? (
                             <div
                                 style={{
                                     height: '100vh',
@@ -138,7 +138,7 @@ const ChatPage = () => {
                             >
                                 <LoadingIcon size={100} color="var(--primary)" />
                             </div>
-                        ) : (
+                        ) : ( */}
                             <>
                                 <div className={cx('message')}>
                                     {messages.map((message, index) => {
@@ -199,7 +199,8 @@ const ChatPage = () => {
                                     )}
                                 </div>
                             </>
-                        )}
+                        {/* ) */}
+                        {/* } */}
                     </div>
                 )}
             </div>

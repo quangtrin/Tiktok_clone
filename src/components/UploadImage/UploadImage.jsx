@@ -16,11 +16,18 @@ const ImageUpload = ({children, onChange}) => {
         return isJpgOrPng && isLt2M;
     };
 
+    const handleChange = (info) => {
+        if (!info.file.originFileObj) {
+            return;
+        }
+        onChange(info)
+    }
+
     return (
         <Upload
             showUploadList={false}
             beforeUpload={beforeUpload}
-            onChange={onChange}
+            onChange={handleChange}
             className={"customSelect"}
         >
             {children}

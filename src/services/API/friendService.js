@@ -1,7 +1,7 @@
 import axios from 'axios';
 import config from '~/config';
 import { acceptFriendNotification } from './notificationService';
-import { MessageLogin } from '~/components/Message/Message';
+import { MessageLogin, MessageSuccess } from '~/components/Message/Message';
 
 const getFriendsUserCurrent = async () => {
     const tokenSession = localStorage.getItem('token');
@@ -40,6 +40,7 @@ const addFriend = async (friendId, socket) => {
             },
         );
         await acceptFriendNotification(friendId, socket);
+        MessageSuccess('Friend request sent');
         return response.status;
     } catch (error) {
         console.log(error);

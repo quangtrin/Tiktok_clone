@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { login, register } from '~/services/API/authService';
 import { useDispatch } from 'react-redux';
 import { updateInformation, userCurrentClear } from '~/redux/userCurrentSlice';
+import images from '~/assets/images';
 
 const cx = classNames.bind(styles);
 
@@ -52,8 +53,9 @@ const LoginComponent = ({ setIsLoginScreen }) => {
         <div>
             <div className={cx('app-logo')}>
                 <img
-                    src="https://www.saigontourist.net/uploads/destination/TrongNuoc/Hochiminh/xe-hop-on.jpg"
+                    src={images.logo}
                     alt="App Logo"
+                    style={{ backgroundColor: 'var(--white)', height: '100%', width: '100%' }}
                 />
             </div>
             <div className={cx('container')} id={cx('container')}>
@@ -90,13 +92,13 @@ const LoginComponent = ({ setIsLoginScreen }) => {
                                 Register
                             </a>
                         </span>
-                        <p className={cx('font-text')}>━━━━━━━ Others ━━━━━━━</p>
+                        {/* <p className={cx('font-text')}>━━━━━━━ Others ━━━━━━━</p>
                         <div className={cx('social-container')}>
                             <button style={{ marginBottom: '1rem' }} className={cx('button')}>
                                 Log in with Facebook
                             </button>
                             <button className={cx('button')}>Log in with Google</button>
-                        </div>
+                        </div> */}
                     </form>
                 </div>
                 <div className={cx('overlay-container')}>
@@ -143,11 +145,12 @@ const RegisterComponent = ({ setIsLoginScreen }) => {
         localStorage.clear();
     }, []);
     return (
-        <>
+        <div>
             <div className={cx('app-logo')}>
                 <img
-                    src="https://www.saigontourist.net/uploads/destination/TrongNuoc/Hochiminh/xe-hop-on.jpg"
+                    src={images.logo}
                     alt="App Logo"
+                    style={{ backgroundColor: 'var(--white)', height: '100%', width: '100%' }}
                 />
             </div>
             <div className={cx('container')} id={cx('container')}>
@@ -202,7 +205,7 @@ const RegisterComponent = ({ setIsLoginScreen }) => {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 

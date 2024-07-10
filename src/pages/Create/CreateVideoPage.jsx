@@ -15,6 +15,7 @@ import { Timeline } from '@xzdarcy/react-timeline-editor';
 import { RemoveIcon } from '~/components/Icons/Icons';
 import styles from './CreateVideoPage.module.scss';
 import classNames from 'classnames/bind';
+import { message } from 'antd';
 
 const cx = classNames.bind(styles);
 const formItemLayout = {
@@ -107,6 +108,10 @@ function CreateVideoPage() {
     const { id } = useParams();
 
     const handleCreateVideoForm = async (values) => {
+        if (mockData[0].actions[0].end - mockData[0].actions[0].start > 180) {
+            message.error('Video must be less than 180s');
+            return;
+        }
         setLoading(true);
         const tagsString = tags.join(' ');
         const status = await createVideo(
@@ -155,7 +160,7 @@ function CreateVideoPage() {
     };
 
     const handleVideoChange = async (value) => {
-        if (!value.file.originFileObj.type.includes('video')) {
+        if (!value.file.originFileObj) {
             return;
         }
         const newUrlVideo = await URL.createObjectURL(value.file.originFileObj);
@@ -175,12 +180,25 @@ function CreateVideoPage() {
     const handleTimelineChange = (editorData) => {
         const maxEnd =
             editorData[0].actions[0].start + 180 > duration ? duration - 1 : editorData[0].actions[0].start + 180;
+
         setMockData([
             {
                 ...editorData[0],
                 actions: [{ ...editorData[0].actions[0], maxEnd: maxEnd }],
             },
         ]);
+    };
+
+    const beforeUpload = (file) => {
+        const isJpgOrPng = file.type === 'video/mp4';
+        if (!isJpgOrPng) {
+            message.error('You can only upload MP4 file!');
+        }
+        const isLt2M = file.size / 1024 / 1024 < 200;
+        if (!isLt2M) {
+            message.error('Video must smaller than 200MB!');
+        }
+        return isJpgOrPng && isLt2M;
     };
 
     useEffect(() => {
@@ -259,7 +277,7 @@ function CreateVideoPage() {
                             },
                             ({ getFieldValue }) => ({
                                 validator(_, value) {
-                                    if(id) return Promise.resolve();
+                                    if (id) return Promise.resolve();
                                     const lastFile = value[value.length - 1];
                                     if (lastFile && lastFile.type.split('/')[0] !== 'video') {
                                         return Promise.reject(new Error('Please choose video file!'));
@@ -274,6 +292,7 @@ function CreateVideoPage() {
                                 disabled={id}
                                 name="files"
                                 onChange={handleVideoChange}
+                                beforeUpload={beforeUpload}
                                 showUploadList={false}
                                 multiple={false}
                                 customRequest={({ onSuccess }) => {

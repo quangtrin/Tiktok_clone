@@ -1,7 +1,7 @@
 import axios from 'axios';
 import config from '~/config';
 import { followNotification } from './notificationService';
-import { MessageLogin } from '~/components/Message/Message';
+import { MessageLogin, MessageSuccess } from '~/components/Message/Message';
 
 const unFollow = async (followingUserId) => {
     const tokenSession = localStorage.getItem('token');
@@ -15,6 +15,7 @@ const unFollow = async (followingUserId) => {
                 Authorization: `Bearer ${tokenSession}`,
             },
         });
+        MessageSuccess('Unfollowed');
         return res.status;
     } catch (error) {
         console.log(error);
@@ -39,6 +40,7 @@ const follow = async (followingUserId, socket) => {
         );
         const status = res.status;
         await followNotification(followingUserId, status, socket);
+        MessageSuccess('Followed');
         return status;
     } catch (error) {
         console.log(error);
